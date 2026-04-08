@@ -1,0 +1,347 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem*{remark}{Remark}
+
+\title{Polynomial-Time Solvability of ORP\\for Fixed Catalogue Size $\kappa$}
+\date{}
+
+\begin{document}
+\maketitle
+
+\noindent This document proves that the Ordering Recovery Problem (ORP) is solvable in
+$O(N^\kappa)$ time when the noise distributions are drawn from a fixed catalogue of
+$\kappa$ distinct types, where $\kappa$ is a constant independent of $N$.  This
+generalises the $\kappa = 2$ result in the companion document.
+
+We use the notation of the companion documents: $N$ events, observed timestamps
+$\hat{t}_1, \ldots, \hat{t}_N$, spacing $\Delta > 0$, noise variables
+$\eta_i \sim F_i$ mutually independent and independent of the true permutation
+$\sigma$, and $p_{ij} = P(\sigma(i) < \sigma(j) \mid \hat{t})$ for $i < j$.
+
+\section{Setup}
+
+The $N$ events partition into $\kappa$ groups according to noise type:
+\[
+  S_1 = \{i : F_i = G_1\},\quad S_2 = \{i : F_i = G_2\},\quad \ldots,\quad
+  S_\kappa = \{i : F_i = G_\kappa\},
+\]
+with $|S_\ell| = n_\ell$ and $\sum_\ell n_\ell = N$.
+
+\section{Structural reduction}
+
+\subsection{Condition on the noise distributions}
+
+\begin{definition}[Monotone Likelihood Ratio (MLR)]
+A distribution $G$ satisfies the \emph{monotone likelihood ratio property} if for
+every $s < s'$ (integer slot indices) the ratio $G(x - s\Delta)/G(x - s'\Delta)$ is
+non-increasing in $x$ wherever it is defined.  Equivalently, $G$ is log-concave on
+its support: $G(k)^2 \ge G(k-1)\,G(k+1)$ for all integers $k$.  All standard
+unimodal noise models satisfy MLR, including Gaussian, Laplacian, logistic, uniform
+on an interval, geometric, and Poisson.
+\end{definition}
+
+\subsection{Within-group ordering is forced by timestamps}
+
+\begin{lemma}[Monotonicity for same-type pairs]\label{lem:same-type}
+Suppose $F_i = F_j = G$ where $G$ satisfies MLR\@.  Then
+\[
+  p_{ij} \ge 1/2 \iff \hat{t}_i \le \hat{t}_j.
+\]
+\end{lemma}
+
+\begin{proof}
+Group the sum $p_{ij} = P(\sigma(i) < \sigma(j)\mid\hat{t})$ over pairs of slots
+$(s, s')$ with $s < s'$:
+\[
+  \frac{p_{ij}}{1 - p_{ij}}
+  = \frac{\displaystyle\sum_{s < s'} G(\hat{t}_i - s\Delta)\,G(\hat{t}_j - s'\Delta)\,C_{ss'}}
+         {\displaystyle\sum_{s < s'} G(\hat{t}_i - s'\Delta)\,G(\hat{t}_j - s\Delta)\,C_{ss'}}
+\]
+where $C_{ss'} > 0$ is the marginal likelihood of the remaining events given that $i$
+and $j$ occupy slots $s$ and $s'$ (the same in both sums by symmetry of the remaining
+events).  It therefore suffices to show
+\[
+  G(\hat{t}_i - s\Delta)\,G(\hat{t}_j - s'\Delta)
+  \;\ge\;
+  G(\hat{t}_i - s'\Delta)\,G(\hat{t}_j - s\Delta)
+\]
+for every $s < s'$ when $\hat{t}_i \le \hat{t}_j$.  Setting $u = \hat{t}_i - s'\Delta$,
+$\delta = (s'-s)\Delta > 0$, and $\mu = \hat{t}_j - \hat{t}_i \ge 0$, the inequality
+becomes $G(u+\delta)\,G(u+\delta+\mu) \ge G(u)\,G(u+2\delta+\mu)$,... which is a
+consequence of log-concavity of $G$: for any $a \le b \le c \le d$ with $a + d = b +
+c$, log-concavity gives $G(b)G(c) \ge G(a)G(d)$.  (Here $a = u,\; b = u+\delta,\;
+c = u+\delta+\mu,\; d = u+2\delta+\mu$; the identity $a+d = b+c$ holds trivially, and
+$a \le b \le c \le d$ follows from $\delta, \mu \ge 0$.)
+\end{proof}
+
+\begin{corollary}[Within-group order is timestamp order]\label{cor:within-group}
+Assume every catalogue distribution $G_1, \ldots, G_\kappa$ satisfies MLR\@.  Then
+there exists an optimal permutation $\hat{\pi}^*$ such that for each group $\ell$:
+\[
+  i, j \in S_\ell \text{ and } \hat{t}_i < \hat{t}_j
+  \implies \hat{\pi}^*(i) < \hat{\pi}^*(j).
+\]
+\end{corollary}
+
+\begin{proof}
+Standard adjacent-swap (bubble-sort) argument: if two adjacent same-type events in
+$\hat{\pi}$ are in the wrong timestamp order, swapping them decreases the pair's cost
+by $|2p_{ij}-1| > 0$ (by Lemma~\ref{lem:same-type}) while leaving every other
+pairwise cost unchanged (since only an adjacent transposition is performed, and no
+other pair's relative order is affected).  Repeating terminates with a permutation
+satisfying the stated property and cost no greater than the original.
+\end{proof}
+
+\subsection{Reduction to interleaving}
+
+Sort each group by observed timestamp:
+\[
+  S_\ell:\quad \ell_1, \ell_2, \ldots, \ell_{n_\ell}
+  \qquad (\hat{t}_{\ell_1} \le \hat{t}_{\ell_2} \le \cdots \le \hat{t}_{\ell_{n_\ell}}).
+\]
+By Corollary~\ref{cor:within-group}, any optimal permutation preserves the internal
+order within each group.  The only remaining freedom is how to \emph{interleave}
+these $\kappa$ sorted sequences.  An interleaving is any permutation of all $N$
+events that preserves the sorted order within every group; it is uniquely described by
+the state $(i_1, i_2, \ldots, i_\kappa)$ recording how many events from each group
+have been placed.
+
+By Lemma~2 of the main document, the expected Kendall tau distance decomposes as
+\[
+  \mathbb{E}[d_{\mathrm{KT}}(\hat{\pi},\sigma)\mid\hat{t}]
+  = C_{\mathrm{same}} + C_{\mathrm{cross}}(\hat{\pi}),
+\]
+where $C_{\mathrm{same}}$ is a fixed constant (the within-group contributions do not
+depend on the interleaving once the within-group order is fixed) and
+$C_{\mathrm{cross}}(\hat{\pi})$ depends on how the groups are interleaved.  The
+optimisation reduces to minimising $C_{\mathrm{cross}}$ over all interleavings.
+
+\section{The $\kappa$-dimensional dynamic programming algorithm}
+
+\subsection{Cross-type pair costs}
+
+For each ordered pair of distinct types $(\ell, m)$ with $\ell \ne m$, and for each
+event $\ell_i \in S_\ell$ and $m_j \in S_m$, define:
+\begin{align}
+  w_{ij}^{\ell m} &= |2p_{\ell_i, m_j} - 1|, \\
+  \alpha_{ij}^{\ell m} &= w_{ij}^{\ell m} \cdot (1 - d_{ij}^{\ell m})
+    \quad \text{(cost of placing $\ell_i$ before $m_j$)}, \\
+  \beta_{ij}^{\ell m} &= w_{ij}^{\ell m} \cdot d_{ij}^{\ell m}
+    \quad \text{(cost of placing $m_j$ before $\ell_i$)},
+\end{align}
+where $d_{ij}^{\ell m} = 1$ if the most-likely ordering is ``$\ell_i$ before $m_j$''
+(i.e.\ $p_{\ell_i, m_j} \ge 1/2$), and $0$ otherwise.  Exactly one of
+$\alpha_{ij}^{\ell m}$ and $\beta_{ij}^{\ell m}$ is nonzero.
+
+\subsection{Prefix-sum tables}
+
+For each ordered pair of types $(\ell, m)$ and index $j \in \{1,\ldots, n_m\}$,
+define the column prefix sum:
+\[
+  A^{\ell m}[i][j] = \sum_{i'=1}^{i} \alpha_{i'j}^{\ell m},
+  \qquad 0 \le i \le n_\ell.
+\]
+This is the total cost incurred by type-$\ell$ events $\ell_1, \ldots, \ell_i$ being
+placed before type-$m$ event $m_j$.  Similarly, define the row prefix sum:
+\[
+  B^{\ell m}[i][j] = \sum_{j'=1}^{j} \beta_{ij'}^{\ell m},
+  \qquad 0 \le j \le n_m.
+\]
+This is the total cost incurred by type-$m$ events $m_1, \ldots, m_j$ being placed
+before type-$\ell$ event $\ell_i$.
+
+Both tables have $O(n_\ell \cdot n_m)$ entries and are filled in $O(n_\ell \cdot n_m)$
+time.  Over all $\binom{\kappa}{2}$ unordered pairs $\{\ell, m\}$ (each contributing
+two ordered pairs), the total precomputation time is $O\!\left(\sum_{\ell < m} n_\ell
+n_m\right) \le O(N^2)$.
+
+\subsection{DP state space and recurrence}
+
+The state is a $\kappa$-tuple $(i_1, i_2, \ldots, i_\kappa)$ with $0 \le i_\ell \le
+n_\ell$.  Define:
+\[
+  \mathrm{dp}[i_1][i_2]\cdots[i_\kappa]
+  = \text{minimum cross-type disagreement cost achievable by an interleaving}
+\]
+\[
+  \text{of the first $i_\ell$ events from group $\ell$, for each $\ell = 1, \ldots, \kappa$.}
+\]
+
+\smallskip
+\noindent\textbf{Base case.} $\mathrm{dp}[0][0]\cdots[0] = 0$.
+
+\smallskip
+\noindent\textbf{Boundary.} $\mathrm{dp}[i_1]\cdots[i_\kappa] = 0$ whenever at most
+one group has a nonzero index (no cross-type pairs have been resolved yet).
+
+\smallskip
+\noindent\textbf{Recurrence.} For each group $\ell$ with $i_\ell \ge 1$, the last
+event placed could have been $\ell_{i_\ell}$ (appended after all previously placed
+events from every other group).  The incremental cost of that last placement is the
+sum over all other groups $m \ne \ell$ of the cost incurred by the $i_m$ events from
+group $m$ (which are already placed) being before $\ell_{i_\ell}$:
+\begin{equation}\label{eq:increment}
+  \Delta_\ell(i_1, \ldots, i_\kappa)
+  = \sum_{m \ne \ell} B^{m\ell}[i_m][i_\ell]
+    \;-\; \sum_{m \ne \ell} B^{m\ell}[i_m][i_\ell - 1].
+\end{equation}
+Here $B^{m\ell}[i_m][i_\ell] - B^{m\ell}[i_m][i_\ell - 1] = \beta_{i_\ell, i_m}^{\ell
+m}$ is the cost of the $i_m$ type-$m$ events placed before $\ell_{i_\ell}$, summed
+over $j' = 1, \ldots, i_m$.  Using the precomputed prefix sums this is a single
+lookup per other group.  The full recurrence is:
+\begin{equation}\label{eq:recurrence}
+  \mathrm{dp}[i_1]\cdots[i_\kappa]
+  = \min_{\substack{\ell : i_\ell \ge 1}}
+    \Bigl(
+      \mathrm{dp}[i_1]\cdots[i_\ell - 1]\cdots[i_\kappa]
+      + \Delta_\ell(i_1, \ldots, i_\kappa)
+    \Bigr).
+\end{equation}
+
+\smallskip
+\noindent\textbf{Correctness.} Every interleaving corresponds to a path from
+$(0,\ldots,0)$ to $(n_1,\ldots,n_\kappa)$ in the DP DAG, where at each step we
+advance one component by 1.  The incremental cost accumulated along a path is the
+total cross-type disagreement cost: whenever $\ell_{i_\ell}$ is placed, every
+previously placed event $m_{j'}$ ($m \ne \ell$, $j' \le i_m$) incurs cost
+$\beta_{i_\ell, j'}^{\ell m}$ (if the most-likely ordering was ``$\ell_{i_\ell}$
+first'' and we placed $m_{j'}$ first).  The DP explores all such paths and takes the
+minimum.
+
+\subsection{Running time}
+
+\begin{lemma}\label{lem:time}
+For fixed $\kappa$, the DP can be evaluated in $O(N^\kappa)$ time.
+\end{lemma}
+
+\begin{proof}
+\textbf{Precompute all posteriors and weights.}  There are at most $\binom{N}{2}$
+cross-type pairs.  Each posterior $p_{\ell_i, m_j}$ is computed in $O(1)$ (assuming
+the standard remark that posteriors are available in closed form or via precomputed
+integrals; in the worst case polynomial in $N$).  Total: $O(N^2)$.
+
+\textbf{Precompute prefix sums.}  Tables $A^{\ell m}$ and $B^{\ell m}$ for all
+ordered pairs $(\ell, m)$, each of size $O(n_\ell n_m)$.  Total:
+$O\!\bigl(\sum_{\ell \ne m} n_\ell n_m\bigr) \le O(N^2)$.
+
+\textbf{Fill the DP table.}  The table has $\prod_\ell (n_\ell + 1)$ states.  By the
+AM-GM inequality, $\prod_\ell n_\ell \le (N/\kappa)^\kappa$, so the number of states
+is $O(N^\kappa)$.  Each state requires $O(\kappa)$ transitions (one per group), each
+computed in $O(\kappa)$ time using the prefix sums (one lookup per other group).
+Total DP time: $O(\kappa^2 \cdot N^\kappa) = O(N^\kappa)$ for fixed $\kappa$.
+
+\textbf{Overall:} $O(N^2 + N^\kappa) = O(N^\kappa)$ for $\kappa \ge 2$.
+\end{proof}
+
+\section{Main result}
+
+\begin{theorem}[Polynomial-time solvability for fixed $\kappa$]\label{thm:main}
+Let $\kappa \ge 1$ be a fixed constant.  Suppose all $\kappa$ catalogue distributions
+satisfy MLR\@.  Then ORP can be solved in $O(N^\kappa)$ time.
+\end{theorem}
+
+\begin{proof}
+The algorithm proceeds as follows.
+
+\begin{enumerate}
+\item \textbf{Partition and sort.}  Partition the $N$ events into groups $S_1, \ldots,
+  S_\kappa$ by noise type.  Sort each group by observed timestamp.  Time: $O(N \log N)$.
+
+\item \textbf{Compute cross-type weights.}  For each ordered pair of types $(\ell,m)$
+  and each pair of events $\ell_i \in S_\ell$, $m_j \in S_m$, compute $\alpha_{ij}^{\ell
+  m}$ and $\beta_{ij}^{\ell m}$.  Time: $O(N^2)$.
+
+\item \textbf{Precompute prefix sums.}  Compute all tables $A^{\ell m}$ and $B^{\ell
+  m}$.  Time: $O(N^2)$.
+
+\item \textbf{Run the DP.}  Fill the table $\mathrm{dp}[i_1]\cdots[i_\kappa]$ in
+  lexicographic order using recurrence~\eqref{eq:recurrence}.  Time: $O(N^\kappa)$.
+
+\item \textbf{Compute the optimal cost.}
+  \begin{equation}
+    \mathbb{E}[d_{\mathrm{KT}}(\hat{\pi}^*,\sigma)\mid\hat{t}]
+    = C_{\mathrm{same}}
+    + \mathrm{dp}[n_1]\cdots[n_\kappa]
+    + \sum_{\ell < m}\sum_{\substack{i \in S_\ell \\ j \in S_m}} \min(p_{ij}, 1 - p_{ij}).
+  \end{equation}
+  Time: $O(N^2)$.
+
+\item \textbf{Decide.}  Answer YES iff this value is $\le K$.
+\end{enumerate}
+
+Total running time: $O(N^\kappa)$.  The optimal permutation can be recovered in
+$O(N)$ additional time by tracing the DP back-pointers from state
+$(n_1, \ldots, n_\kappa)$ to $(0, \ldots, 0)$.
+\end{proof}
+
+\begin{remark}
+For $\kappa = 1$, the DP degenerates to a trivial sort (timestamp order is optimal),
+recovering the $O(N \log N)$ $\kappa = 1$ result.  For $\kappa = 2$, the DP is the
+two-dimensional algorithm of the companion document, running in $O(N^2)$.  For general
+fixed $\kappa$, the running time is $O(N^\kappa)$, which is polynomial in $N$ for any
+constant $\kappa$.
+\end{remark}
+
+\section{On the NP-hardness claim in the companion document}
+
+The companion NP-hardness document claims ORP is NP-hard for $\kappa = 3$ via a
+reduction from FAST\@.  That proof contains an error that makes it invalid when the
+noise distributions satisfy MLR (as the distributions constructed in the reduction
+do).
+
+\textbf{The error.}  The critical step (§3.3 of the NP-hardness document) asserts:
+\begin{quote}
+\emph{``By the realisability result, there exists a lifted permutation $\hat{\pi}^*$
+--- constructed from some vertex ordering $\pi'$ --- that makes the same $M$
+intra-block choices as $\hat{\pi}$.''}
+\end{quote}
+A \emph{lifted} permutation is one whose $M$ binary intra-block choices are jointly
+consistent with a linear ordering $\pi'$ of the $N$ tournament vertices.  The
+``realisability result'' invoked establishes only that any binary choice vector
+$(c_1, \ldots, c_M)$ can be realised as \emph{some} valid permutation of the $2M$
+events; it says nothing about realisability as a \emph{lifted} permutation.
+
+For a cyclic tournament (e.g., $1 \to 2, 2 \to 3, 3 \to 1$), the binary choices
+``agree with every arc'' require simultaneously $\pi'(1) < \pi'(2)$, $\pi'(2) <
+\pi'(3)$, and $\pi'(3) < \pi'(1)$, which is impossible.  No lifted permutation
+achieves all three intra-block costs as zero.
+
+\textbf{The gap.}  The non-lifted permutation that processes blocks in increasing
+order $1, 2, \ldots, M$ and within each block places events in their individually
+most-likely order achieves:
+\begin{itemize}
+\item zero intra-block disagreement cost (each block independently optimised), and
+\item zero inter-block cost (blocks are in order, so all inter-block pairs with
+  $p = 1$ are respected).
+\end{itemize}
+Its total expected Kendall tau distance is $M/4$ (only the fixed $\min(p, 1-p)$
+terms), strictly less than the minimum lifted cost of $\mathrm{fas}(T)/2 + M/4$ for
+any non-acyclic tournament.
+
+Therefore, the $(\Leftarrow)$ direction of the reduction fails: the ORP instance
+always answers YES (minimum cost $= M/4 \le K = k/2 + M/4$ for any $k \ge 0$),
+independent of the tournament's feedback arc set.
+
+\textbf{Why the $\kappa$-DP finds this solution.}  The noise distributions used in
+the reduction ($G_A$, $G_B$, $G_C$ each supported on two points) are log-concave
+(trivially, as any distribution on a 2-point integer support is log-concave).
+Lemma~\ref{lem:same-type} therefore applies, and Corollary~\ref{cor:within-group}
+ensures that the within-group timestamp ordering is optimal.  The $\kappa = 3$ DP
+finds the non-lifted permutation of cost $M/4$ in $O(N^3)$ time.
+
+\textbf{A correct NP-hardness result, if it exists, requires non-MLR distributions.}
+For distributions that violate MLR (such as bimodal distributions), Lemma
+\ref{lem:same-type} can fail, and the within-group ordering problem is no longer
+trivial.  In that regime a reduction from FAST may be possible, but the specific
+construction in the companion document (using log-concave distributions) does not
+achieve it.
+
+\end{document}
