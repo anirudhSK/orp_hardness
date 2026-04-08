@@ -1,0 +1,248 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem*{remark}{Remark}
+
+\title{Polynomial-Time Solvability of ORP\\under Two Noise Types ($\kappa = 2$)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\noindent This document proves that the Ordering Recovery Problem (ORP) is solvable in $O(N^2)$ time when the noise distributions are drawn from a catalogue of at most $\kappa = 2$ distinct types. Combined with the companion documents showing polynomial-time solvability for $\kappa = 1$ and NP-hardness for $\kappa = 3$, this establishes $\kappa = 3$ as the sharp threshold for the tractability of ORP.
+
+We use the notation and definitions from the main document: $N$ events with observed timestamps $\hat{t}_1, \ldots, \hat{t}_N$, spacing $\Delta > 0$, noise variables $\eta_i \sim F_i$ mutually independent and independent of the true permutation $\sigma$, and $p_{ij} = P(\sigma(i) < \sigma(j) \mid \hat{t})$ for $i < j$.
+
+\section{Setup and structural observations}
+
+When $\kappa = 2$, the events partition into two groups according to their noise type:
+\begin{equation}
+S_a = \{i : F_i = G_a\}, \qquad S_b = \{i : F_i = G_b\},
+\end{equation}
+with $|S_a| = n_a$, $|S_b| = n_b$, and $n_a + n_b = N$.
+
+\subsection{Same-type pairs have consistent most-likely orderings}
+
+\begin{lemma}[Monotonicity for same-type pairs]\label{lem:same-type}
+For any pair of events $i, j$ with the same noise type ($F_i = F_j$), the posterior $p_{ij}$ is a monotonically decreasing function of $\hat{t}_i - \hat{t}_j$, and the most-likely ordering agrees with the observed timestamp ordering:
+\begin{equation}
+p_{ij} \ge 1/2 \iff \hat{t}_i \le \hat{t}_j.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+This follows from the identical argument used in the $\kappa = 1$ case (Lemma~1 of the companion document on $\kappa = 1$ solvability). The proof depends only on the two events sharing the same noise distribution, not on all $N$ events doing so. When $F_i = F_j = G$ for some common distribution $G$, the likelihood ratio for each pair of candidate slots is symmetric under swapping the two events, and the posterior inherits the monotonicity of the likelihood ratio in the observed timestamp difference.
+\end{proof}
+
+\begin{corollary}[Intra-group orderings are forced]\label{cor:intra-forced}
+In any optimal permutation $\hat{\pi}^*$, the relative ordering of same-type events agrees with their observed timestamp ordering. That is:
+\begin{itemize}
+\item for all $i, j \in S_a$: $\hat{t}_i < \hat{t}_j \implies \hat{\pi}^*(i) < \hat{\pi}^*(j)$,
+\item for all $i, j \in S_b$: $\hat{t}_i < \hat{t}_j \implies \hat{\pi}^*(i) < \hat{\pi}^*(j)$.
+\end{itemize}
+\end{corollary}
+
+\begin{proof}
+By Lemma~\ref{lem:same-type}, the most-likely ordering for any same-type pair agrees with the timestamp ordering. Disagreeing with the most-likely ordering on such a pair incurs a strictly positive cost of $|2p_{ij} - 1| > 0$ (assuming $\hat{t}_i \ne \hat{t}_j$; ties can be broken arbitrarily). Reversing such a pair to agree with the most-likely ordering reduces the total cost without affecting any other pairwise contribution (since each pair's contribution depends only on its own relative ordering in $\hat{\pi}$). Therefore, any optimal permutation agrees with the timestamp ordering on all same-type pairs.
+\end{proof}
+
+Sort the events within each group by observed timestamp:
+\begin{equation}\label{eq:sorted}
+S_a: \quad a_1, a_2, \ldots, a_{n_a} \qquad (\hat{t}_{a_1} \le \hat{t}_{a_2} \le \cdots \le \hat{t}_{a_{n_a}}),
+\end{equation}
+\begin{equation}
+S_b: \quad b_1, b_2, \ldots, b_{n_b} \qquad (\hat{t}_{b_1} \le \hat{t}_{b_2} \le \cdots \le \hat{t}_{b_{n_b}}).
+\end{equation}
+By Corollary~\ref{cor:intra-forced}, any optimal permutation preserves the internal order within each group. The only remaining degree of freedom is how to \emph{interleave} these two sorted sequences.
+
+\subsection{Reduction to an interleaving problem}
+
+An \textbf{interleaving} of the sequences $(a_1, \ldots, a_{n_a})$ and $(b_1, \ldots, b_{n_b})$ is a permutation $\hat{\pi}$ of all $N$ events that preserves the internal order within each group. Any such interleaving is uniquely specified by the set of positions assigned to $S_a$ (or equivalently $S_b$) within the merged sequence, or more conveniently, by the sequence of choices ``take next from $S_a$'' or ``take next from $S_b$.''
+
+\begin{lemma}[Cost decomposition]\label{lem:cost-decomp}
+By Lemma~2 of the main document, the expected Kendall tau distance of any interleaving $\hat{\pi}$ decomposes as
+\begin{equation}
+\mathbb{E}[d_{\mathrm{KT}}(\hat{\pi}, \sigma) \mid \hat{t}] = C_{\mathrm{same}} + C_{\mathrm{cross}}(\hat{\pi}),
+\end{equation}
+where
+\begin{equation}
+C_{\mathrm{same}} = \sum_{\substack{i < j \\ i, j \in S_a}} \min(p_{ij}, 1-p_{ij}) + \sum_{\substack{i < j \\ i, j \in S_b}} \min(p_{ij}, 1-p_{ij})
+\end{equation}
+is the (fixed) contribution from same-type pairs, and
+\begin{multline}\label{eq:cross-cost}
+C_{\mathrm{cross}}(\hat{\pi}) = \sum_{i \in S_a,\, j \in S_b} \Bigl[ |2p_{ij} - 1| \cdot \mathbf{1}[\hat{\pi} \text{ disagrees with most-likely ordering on } (i,j)] \\
++ \min(p_{ij}, 1 - p_{ij}) \Bigr]
+\end{multline}
+is the contribution from cross-type pairs. Since $C_{\mathrm{same}}$ is independent of $\hat{\pi}$, and the constant part $\sum_{i \in S_a, j \in S_b} \min(p_{ij}, 1-p_{ij})$ within $C_{\mathrm{cross}}$ is also independent of $\hat{\pi}$, the optimisation reduces to minimising the cross-type disagreement cost:
+\begin{equation}\label{eq:obj}
+\mathrm{minimise} \sum_{i \in S_a,\, j \in S_b} |2p_{ij} - 1| \cdot \mathbf{1}[\hat{\pi} \text{ disagrees with most-likely ordering on } (i,j)]
+\end{equation}
+over all interleavings $\hat{\pi}$.
+\end{lemma}
+
+\section{The dynamic programming algorithm}
+
+\subsection{Cross-type pair costs}
+
+For each cross-type pair $(a_i, b_j)$ with $1 \le i \le n_a$ and $1 \le j \le n_b$, define the weight
+\begin{equation}
+w_{ij} = |2p_{a_i b_j} - 1|,
+\end{equation}
+where $p_{a_i b_j} = P(\sigma(a_i) < \sigma(b_j) \mid \hat{t})$, and the \textbf{direction indicator}
+\begin{equation}
+d_{ij} = \begin{cases} 1 & \text{if the most-likely ordering is ``$a_i$ before $b_j$'' (i.e.\ $p_{a_i b_j} \ge 1/2$)}, \\ 0 & \text{if the most-likely ordering is ``$b_j$ before $a_i$'' (i.e.\ $p_{a_i b_j} < 1/2$)}. \end{cases}
+\end{equation}
+The cost incurred by a particular relative ordering of $a_i$ and $b_j$ is:
+\begin{equation}\label{eq:pair-cost}
+\ell(a_i, b_j; \hat{\pi}) = \begin{cases}
+w_{ij} \cdot (1 - d_{ij}) & \text{if } \hat{\pi} \text{ places } a_i \text{ before } b_j, \\
+w_{ij} \cdot d_{ij} & \text{if } \hat{\pi} \text{ places } b_j \text{ before } a_i.
+\end{cases}
+\end{equation}
+That is, placing $a_i$ before $b_j$ incurs cost $w_{ij}$ if the most-likely ordering says $b_j$ should come first ($d_{ij} = 0$), and zero cost otherwise. We abbreviate:
+\begin{align}
+\alpha_{ij} &= w_{ij} \cdot (1 - d_{ij}) \quad \text{(cost of placing $a_i$ before $b_j$)}, \label{eq:alpha}\\
+\beta_{ij} &= w_{ij} \cdot d_{ij} \quad\;\;\;\;\;\, \text{(cost of placing $b_j$ before $a_i$)}. \label{eq:beta}
+\end{align}
+Note that exactly one of $\alpha_{ij}$ and $\beta_{ij}$ is zero (or both are zero if $p_{a_i b_j} = 1/2$, i.e.\ $w_{ij} = 0$).
+
+The total cross-type disagreement cost of an interleaving $\hat{\pi}$ is
+\begin{equation}\label{eq:total-cross}
+\sum_{i=1}^{n_a} \sum_{j=1}^{n_b} \ell(a_i, b_j; \hat{\pi}).
+\end{equation}
+
+\subsection{State space and transitions}
+
+An interleaving of $(a_1, \ldots, a_{n_a})$ and $(b_1, \ldots, b_{n_b})$ can be constructed left to right: at each step, we choose whether to place the next unused event from $S_a$ or from $S_b$. After placing the first $i$ events from $S_a$ and the first $j$ events from $S_b$, the relative ordering of every cross-type pair $(a_{i'}, b_{j'})$ with $i' \le i$ and $j' \le j$ has been determined: all such $b_{j'}$ were placed before $a_i$ was placed, or vice versa, depending on the construction order. The pairs involving $a_{i'}$ with $i' > i$ or $b_{j'}$ with $j' > j$ are not yet resolved.
+
+Define the DP table:
+\begin{equation}
+\mathrm{dp}[i][j] = \text{minimum cross-type disagreement cost achievable by an interleaving} 
+\end{equation}
+\[
+\text{of $(a_1, \ldots, a_i)$ and $(b_1, \ldots, b_j)$},
+\]
+for $0 \le i \le n_a$ and $0 \le j \le n_b$.
+
+\smallskip
+\noindent\textbf{Base case.} $\mathrm{dp}[0][0] = 0$ (no events placed, no cost incurred).
+
+\smallskip
+\noindent\textbf{Transitions.} The last event in the interleaving of $(a_1, \ldots, a_i)$ and $(b_1, \ldots, b_j)$ is either $a_i$ or $b_j$:
+
+\begin{itemize}
+\item \emph{Append $a_i$}: event $a_i$ is placed after all of $b_1, \ldots, b_j$ (since $a_i$ is the last event placed, and the internal $S_b$ order is preserved). The incremental cost is the sum of ``$b_{j'}$ before $a_i$'' costs for $j' = 1, \ldots, j$:
+\begin{equation}\label{eq:trans-a}
+\mathrm{dp}[i][j] \longleftarrow \mathrm{dp}[i-1][j] + \sum_{j'=1}^{j} \beta_{i,j'}.
+\end{equation}
+
+\item \emph{Append $b_j$}: event $b_j$ is placed after all of $a_1, \ldots, a_i$. The incremental cost is the sum of ``$a_{i'}$ before $b_j$'' costs for $i' = 1, \ldots, i$:
+\begin{equation}\label{eq:trans-b}
+\mathrm{dp}[i][j] \longleftarrow \mathrm{dp}[i][j-1] + \sum_{i'=1}^{i} \alpha_{i',j}.
+\end{equation}
+\end{itemize}
+
+The recurrence is:
+\begin{equation}\label{eq:recurrence}
+\mathrm{dp}[i][j] = \min \begin{cases}
+\mathrm{dp}[i-1][j] + B_a[i][j] & \text{if } i \ge 1, \\[2pt]
+\mathrm{dp}[i][j-1] + A_b[i][j] & \text{if } j \ge 1,
+\end{cases}
+\end{equation}
+where
+\begin{equation}\label{eq:prefix-Ba}
+B_a[i][j] = \sum_{j'=1}^{j} \beta_{i,j'}
+\end{equation}
+is the cost of placing $a_i$ after all of $b_1, \ldots, b_j$, and
+\begin{equation}\label{eq:prefix-Ab}
+A_b[i][j] = \sum_{i'=1}^{i} \alpha_{i',j}
+\end{equation}
+is the cost of placing $b_j$ after all of $a_1, \ldots, a_i$. For the boundary cases: $\mathrm{dp}[i][0] = 0$ for all $i$ (placing only $a$-events incurs no cross-type cost since there are no $b$-events to interact with), and $\mathrm{dp}[0][j] = 0$ for all $j$ (symmetrically).
+
+\smallskip
+\noindent\textbf{Correctness.} We verify that the DP correctly captures the cross-type disagreement cost. Consider an interleaving of $(a_1, \ldots, a_i)$ and $(b_1, \ldots, b_j)$. Every cross-type pair $(a_{i'}, b_{j'})$ with $1 \le i' \le i$ and $1 \le j' \le j$ has a definite relative ordering in this interleaving. There exists a step in the construction at which the second member of this pair was placed, thereby resolving the pair. At that step, the cost $\alpha_{i',j'}$ or $\beta_{i',j'}$ was incurred, depending on which event was placed second. Summing over all such steps gives the total cross-type disagreement cost. The DP explores all possible construction orders and takes the minimum.
+
+Conversely, every interleaving can be decomposed into a sequence of ``append $a_i$'' and ``append $b_j$'' steps, and the total cost equals the sum of incremental costs along the sequence, which is precisely what the DP computes.
+
+\subsection{Precomputation and running time}
+
+\begin{lemma}\label{lem:time}
+The DP can be evaluated in $O(n_a \cdot n_b) = O(N^2)$ time.
+\end{lemma}
+
+\begin{proof}
+\textbf{Precompute all weights.} For each pair $(i, j)$ with $1 \le i \le n_a$ and $1 \le j \le n_b$, compute $p_{a_i b_j}$, $w_{ij}$, $d_{ij}$, $\alpha_{ij}$, and $\beta_{ij}$. This takes $O(n_a \cdot n_b)$ time (assuming each posterior $p_{a_i b_j}$ can be evaluated in $O(1)$ time; see the remark below).
+
+\textbf{Precompute prefix sums.} Compute $B_a[i][j]$ for all $i, j$ by noting that $B_a[i][0] = 0$ and $B_a[i][j] = B_a[i][j-1] + \beta_{i,j}$ for $j \ge 1$. Similarly, $A_b[0][j] = 0$ and $A_b[i][j] = A_b[i-1][j] + \alpha_{i,j}$ for $i \ge 1$. Each prefix sum table has $n_a \cdot n_b$ entries and is filled in $O(n_a \cdot n_b)$ time.
+
+\textbf{Fill the DP table.} The table $\mathrm{dp}[i][j]$ has $(n_a + 1)(n_b + 1)$ entries. Each entry is computed in $O(1)$ time using the recurrence~(\ref{eq:recurrence}) and the precomputed prefix sums. Total: $O(n_a \cdot n_b)$.
+
+\textbf{Overall.} The total running time is $O(n_a \cdot n_b) = O(N^2)$.
+\end{proof}
+
+\begin{remark}
+As in the $\kappa = 1$ case, the $O(N^2)$ bound assumes each pairwise posterior $p_{a_i b_j}$ can be evaluated in $O(1)$ time. For cross-type pairs, the posterior depends on $G_a$, $G_b$, $\Delta$, and the observed timestamps $\hat{t}_{a_i}$, $\hat{t}_{b_j}$. In the worst case, evaluating each posterior involves a marginalisation over $O(N^2)$ pairs of slots, giving $O(N^2)$ per posterior and $O(N^4 \cdot N^2) = O(N^6)$ overall. However, for most standard noise models, the posterior can be expressed in closed form or evaluated efficiently, preserving the $O(N^2)$ bound. In any case, the overall algorithm remains polynomial.
+\end{remark}
+
+\section{Main result}
+
+\begin{theorem}[Polynomial-time solvability for $\kappa = 2$]\label{thm:main}
+When $\kappa = 2$ (i.e.\ the noise distributions are drawn from a catalogue of at most two distinct types), the ORP decision problem can be solved in $O(N^2)$ time.
+\end{theorem}
+
+\begin{proof}
+The algorithm proceeds as follows.
+
+\begin{enumerate}
+\item \textbf{Partition and sort.} Partition the events into $S_a$ and $S_b$ by noise type. Sort each group by observed timestamp to obtain the sequences $(a_1, \ldots, a_{n_a})$ and $(b_1, \ldots, b_{n_b})$ as in~(\ref{eq:sorted}). Time: $O(N \log N)$.
+
+\item \textbf{Compute cross-type weights.} For each pair $(i, j)$ with $1 \le i \le n_a$, $1 \le j \le n_b$, compute $\alpha_{ij}$ and $\beta_{ij}$ as in~(\ref{eq:alpha})--(\ref{eq:beta}). Time: $O(n_a \cdot n_b)$.
+
+\item \textbf{Precompute prefix sums.} Compute the tables $B_a[i][j]$ and $A_b[i][j]$. Time: $O(n_a \cdot n_b)$.
+
+\item \textbf{Run the DP.} Fill the table $\mathrm{dp}[i][j]$ using recurrence~(\ref{eq:recurrence}), for $i = 0, \ldots, n_a$ and $j = 0, \ldots, n_b$, in lexicographic order. Time: $O(n_a \cdot n_b)$.
+
+\item \textbf{Compute the optimal cost.} The minimum expected Kendall tau distance is
+\begin{equation}
+\mathbb{E}[d_{\mathrm{KT}}(\hat{\pi}^*, \sigma) \mid \hat{t}] = C_{\mathrm{same}} + \mathrm{dp}[n_a][n_b] + \sum_{i=1}^{n_a}\sum_{j=1}^{n_b} \min(p_{a_i b_j}, 1 - p_{a_i b_j}),
+\end{equation}
+where $C_{\mathrm{same}}$ is the fixed same-type contribution and the last sum is the fixed part of the cross-type contribution. Time: $O(N^2)$.
+
+\item \textbf{Decide.} Compare the computed cost to the threshold $K$. Answer YES if $\mathbb{E}[d_{\mathrm{KT}}(\hat{\pi}^*, \sigma) \mid \hat{t}] \le K$, and NO otherwise.
+\end{enumerate}
+
+The total running time is $O(N^2)$.
+
+\medskip
+\noindent\textbf{Recovering the optimal permutation.} To output the optimal permutation $\hat{\pi}^*$ (not just the decision), trace back through the DP table from $\mathrm{dp}[n_a][n_b]$ to $\mathrm{dp}[0][0]$, recording at each step whether $a_i$ or $b_j$ was appended. This gives the optimal interleaving in $O(N)$ additional time.
+\end{proof}
+
+\section{Discussion: the sharp threshold at $\kappa = 3$}
+
+The results across the three companion documents now give a complete picture of the complexity of ORP as a function of the catalogue size $\kappa$:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}cl@{}}
+\hline
+\textbf{Catalogue size} & \textbf{Complexity} \\
+\hline
+$\kappa = 1$ & $O(N^2)$ --- sort by observed timestamp (companion document) \\
+$\kappa = 2$ & $O(N^2)$ --- interleaving DP (this document, Theorem~\ref{thm:main}) \\
+$\kappa \ge 3$ & NP-hard --- reduction from FAST using $3$ distribution types (main document) \\
+\hline
+\end{tabular}
+\end{center}
+
+The structural reason for the threshold is as follows. When $\kappa \le 2$, the events partition into at most two groups, and the monotonicity of same-type posteriors (Lemma~\ref{lem:same-type}) forces the internal ordering within each group. This reduces the $N!$ candidate permutations to at most $\binom{N}{n_a}$ interleavings, and the optimal interleaving can be found by dynamic programming because the cost function decomposes over cross-type pairs and respects the sequential structure of the two sorted sequences.
+
+When $\kappa = 3$, this structure breaks down. With three or more groups, the problem of optimally interleaving three sorted sequences does not admit an analogous two-dimensional DP; the state space would be $n_a \times n_b \times n_c$, but more fundamentally, the NP-hardness proof constructs instances (via the block gadget) that encode arbitrary tournament structures in the cross-type posteriors, making the resulting combinatorial problem equivalent to the minimum feedback arc set in tournaments.
+
+\end{document}
