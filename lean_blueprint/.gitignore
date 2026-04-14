@@ -1,0 +1,11 @@
+# Lean / Lake build outputs
+.lake/
+
+# leanblueprint generated outputs
+blueprint/web/
+blueprint/lean_decls
+
+# plasTeX auxiliary files
+blueprint/src/web/
+blueprint/src/web.paux
+blueprint/src/*.paux

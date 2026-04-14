@@ -1,0 +1,13 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "simple-blueprint"
+version = "0.0.1"
+
+[tool.leanblueprint]
+# Path to the blueprint LaTeX sources
+src = "blueprint/src"
+# Lean project name (must match `name` in lakefile.toml)
+lean_project = "SimpleBlueprint"

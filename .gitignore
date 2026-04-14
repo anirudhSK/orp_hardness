@@ -1,0 +1,18 @@
+# LaTeX build artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.pdf
+
+# Lean / Lake build outputs
+lean_blueprint/.lake/
+
+# leanblueprint generated outputs
+lean_blueprint/blueprint/web/
+lean_blueprint/blueprint/lean_decls
+
+# plasTeX auxiliary files
+lean_blueprint/blueprint/src/web/
+lean_blueprint/blueprint/src/*.paux

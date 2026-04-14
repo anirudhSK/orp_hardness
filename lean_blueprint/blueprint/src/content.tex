@@ -1,0 +1,34 @@
+% Main blueprint content.
+% This file is included by both web.tex and print.tex.
+
+\chapter{Parity of Natural Numbers}
+
+\section{Definitions}
+
+\begin{definition}[Even number]
+  \label{def:even}
+  A natural number $n \in \NN$ is \emph{even} if there exists $k \in \NN$
+  such that $n = 2k$.
+  \lean{Even}
+  \leanok
+\end{definition}
+
+\section{Main Result}
+
+\begin{theorem}[Sum of two even numbers is even]
+  \label{thm:sum_of_evens}
+  Let $a, b \in \NN$.  If $a$ is even and $b$ is even, then $a + b$ is even.
+  \leanok
+  \uses{def:even}
+\end{theorem}
+
+\begin{proof}
+  Since $a$ is even, there exists $j \in \NN$ with $a = 2j$.
+  Since $b$ is even, there exists $k \in \NN$ with $b = 2k$.
+  Then
+  \[
+    a + b = 2j + 2k = 2(j + k),
+  \]
+  so $a + b$ is even.
+  \leanok
+\end{proof}
