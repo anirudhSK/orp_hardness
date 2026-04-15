@@ -2,7 +2,7 @@ name = "SimpleBlueprint"
 version = "0.0.1"
 defaultTargets = ["SimpleBlueprint"]
 
-[[lib]]
+[[lean_lib]]
 name = "SimpleBlueprint"
 
 [[require]]
