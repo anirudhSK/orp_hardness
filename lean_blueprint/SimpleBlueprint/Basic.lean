@@ -1,4 +1,4 @@
-import Mathlib.Algebra.Parity
+import Mathlib.Algebra.Group.Nat.Even
 
 /-!
 # Basic parity results
@@ -8,5 +8,7 @@ in `blueprint/src/content.tex`.
 -/
 
 /-- The sum of two even natural numbers is even. -/
-theorem sum_of_evens (a b : ℕ) (ha : Even a) (hb : Even b) : Even (a + b) :=
-  ha.add hb
+theorem sum_of_evens (a b : ℕ) (ha : Even a) (hb : Even b) : Even (a + b) := by
+  obtain ⟨j, rfl⟩ := ha
+  obtain ⟨k, rfl⟩ := hb
+  exact ⟨j + k, by omega⟩

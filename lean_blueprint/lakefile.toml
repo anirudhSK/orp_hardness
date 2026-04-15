@@ -2,6 +2,9 @@ name = "SimpleBlueprint"
 version = "0.0.1"
 defaultTargets = ["SimpleBlueprint"]
 
+[[lib]]
+name = "SimpleBlueprint"
+
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4"
