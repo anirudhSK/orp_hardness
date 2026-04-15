@@ -4,8 +4,18 @@
 \usepackage{hyperref}
 \usepackage[dep_graph]{blueprint}
 
-\input{macros/common}
-\input{macros/web}
+% Theorem environments (inlined from macros/common.tex)
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+% Project-specific macros
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\Even}{\operatorname{Even}}
 
 \dochome{https://anirudhsk.github.io/orp_hardness/docs}
 
