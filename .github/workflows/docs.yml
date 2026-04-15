@@ -1,0 +1,52 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- --default-toolchain none -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Get Mathlib cache
+        working-directory: lean_blueprint
+        run: lake exe cache get
+
+      - name: Build Lean project
+        working-directory: lean_blueprint
+        run: lake build
+
+      - name: Build Lean docs
+        working-directory: lean_blueprint
+        run: lake -R -Kenv=dev build SimpleBlueprint:docs
+
+      - name: Install leanblueprint
+        run: pip install leanblueprint
+
+      - name: Build blueprint HTML
+        working-directory: lean_blueprint/blueprint/src
+        run: plastex -c plastex.cfg web.tex
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site/docs
+          cp -r lean_blueprint/blueprint/web/. _site/
+          cp -r lean_blueprint/.lake/build/doc/. _site/docs/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _site
