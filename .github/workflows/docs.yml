@@ -32,6 +32,9 @@ jobs:
         working-directory: lean_blueprint
         run: lake -R -Kenv=dev build SimpleBlueprint:docs
 
+      - name: Install system dependencies for leanblueprint
+        run: sudo apt-get install -y graphviz libgraphviz-dev
+
       - name: Install leanblueprint
         run: pip install leanblueprint
 
