@@ -39,8 +39,9 @@ jobs:
         run: pip install leanblueprint
 
       - name: Build blueprint HTML
-        working-directory: lean_blueprint/blueprint/src
-        run: plastex -c plastex.cfg web.tex
+        run: |
+          cd "$GITHUB_WORKSPACE/lean_blueprint/blueprint/src"
+          plastex -c plastex.cfg web.tex
 
       - name: Assemble site
         run: |
