@@ -1,0 +1,476 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=black
+}
+
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prb}{\mathbb{P}}
+\newcommand{\ind}{\mathbf{1}}
+\newcommand{\KT}{\operatorname{KT}}
+\newcommand{\fas}{\operatorname{fas}}
+\newcommand{\rev}{\operatorname{rev}}
+\newcommand{\indeg}{\operatorname{indeg}}
+\newcommand{\outdeg}{\operatorname{outdeg}}
+
+\title{NP-Hardness of the Ordering Recovery Problem\\
+\large A Corrected Reduction}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note gives a complete deterministic polynomial-time reduction from the minimum feedback arc set problem in tournaments to the Ordering Recovery Problem.  The construction uses one designated event for each tournament vertex, together with filler events.  The fillers make the designated events exactly independent under the posterior while contributing only neutral pairwise terms to the Kendall-tau objective.  Tournament arc directions are encoded by a McGarvey-style profile of linear orders, and the posterior cost becomes an affine rescaling of the FAST objective.
+\end{abstract}
+
+\section{Preliminaries}
+
+We write $S_L$ for the symmetric group on $\{1,\ldots,L\}$.  A permutation $\pi \in S_L$ will be interpreted as a ranking: $\pi(i)$ is the position assigned to item $i$, and item $i$ precedes item $j$ when $\pi(i)<\pi(j)$.
+
+\begin{definition}[Minimum Feedback Arc Set in Tournaments]
+A tournament is a directed graph $T=(V,A)$ such that for every unordered pair $\{u,v\}\subseteq V$ exactly one of $(u,v)$ and $(v,u)$ is in $A$.  For a linear order $\pi$ of $V$, define
+\begin{equation}
+  \fas(T,\pi)=\left|\{(u,v)\in A: \pi(u)>\pi(v)\}\right| .
+\end{equation}
+The FAST decision problem asks, given a tournament $T$ and an integer $k\ge 0$, whether there exists a linear order $\pi$ of $V$ with $\fas(T,\pi)\le k$.  FAST is NP-complete \cite{Alon2006,Charbit2007}.
+\end{definition}
+
+\begin{definition}[Ordering Recovery Problem]
+An ORP instance has $L$ events $e_1,\ldots,e_L$.  A hidden permutation $\sigma\in S_L$ is drawn uniformly at random, and event $e_i$ occupies slot $\sigma(i)$, giving it true timestamp
+\begin{equation}
+  t_i^*=\sigma(i)\Delta,
+\end{equation}
+where $\Delta>0$ is fixed.  The observation is
+\begin{equation}
+  \hat t_i=t_i^*+\eta_i,
+\end{equation}
+where the noise variables $\eta_i\sim F_i$ are mutually independent and independent of $\sigma$.  In this note the distributions $F_i$ are finite-support rational probability mass functions.
+
+Given the observation vector $\hat t=(\hat t_1,\ldots,\hat t_L)$ and a candidate output order $\hat\pi\in S_L$, the loss is the posterior expected Kendall-tau distance
+\begin{equation}
+  \E\left[d_{\KT}(\hat\pi,\sigma)\mid \hat t\right],
+\end{equation}
+where
+\begin{equation}
+  d_{\KT}(\hat\pi,\sigma)
+  =\sum_{i<j}
+  \ind\!\big[(\sigma(i)-\sigma(j))(\hat\pi(i)-\hat\pi(j))<0\big].
+\end{equation}
+The ORP decision problem asks whether there exists $\hat\pi\in S_L$ with
+\begin{equation}
+  \E\left[d_{\KT}(\hat\pi,\sigma)\mid \hat t\right]\le K,
+\end{equation}
+where $K$ is a non-negative rational threshold.
+\end{definition}
+
+\section{Pairwise decomposition}
+
+The following two elementary lemmas are the only facts about Kendall-tau loss used in the reduction.
+
+\begin{lemma}[Pairwise decomposition]
+For any prior distribution on $\sigma\in S_L$ and any observation vector $\hat t$,
+\begin{align}
+  \E\left[d_{\KT}(\hat\pi,\sigma)\mid \hat t\right]
+  =\sum_{i<j} &\Prb(\sigma(i)<\sigma(j)\mid \hat t)\,\ind[\hat\pi(i)>\hat\pi(j)] \notag\\
+  &+\Prb(\sigma(i)>\sigma(j)\mid \hat t)\,\ind[\hat\pi(i)<\hat\pi(j)].
+\end{align}
+\end{lemma}
+
+\begin{proof}
+For each pair $i<j$, let
+\begin{align}
+  X_{ij}(\sigma,\hat\pi)
+  ={}&\ind[\sigma(i)<\sigma(j)\text{ and }\hat\pi(i)>\hat\pi(j)] \notag\\
+   &+\ind[\sigma(i)>\sigma(j)\text{ and }\hat\pi(i)<\hat\pi(j)].
+\end{align}
+Then $X_{ij}=1$ exactly when $\sigma$ and $\hat\pi$ disagree on the relative order of $i$ and $j$, and $X_{ij}=0$ otherwise.  Thus $d_{\KT}(\hat\pi,\sigma)=\sum_{i<j}X_{ij}(\sigma,\hat\pi)$.  Taking conditional expectations and using that $\hat\pi$ is fixed gives the formula.
+\end{proof}
+
+\begin{lemma}[Majority form of a pairwise contribution]
+Fix $i<j$ and write
+\begin{equation}
+  p_{ij}=\Prb(\sigma(i)<\sigma(j)\mid \hat t).
+\end{equation}
+Call the more likely relative order the posterior majority order, breaking ties arbitrarily.  The contribution of pair $\{i,j\}$ to the expected Kendall-tau loss is
+\begin{equation}
+  |2p_{ij}-1|\,\ind[\hat\pi\text{ disagrees with the posterior majority order on }\{i,j\}]
+  +\min(p_{ij},1-p_{ij}).
+\end{equation}
+In particular, if $p_{ij}=1/2$, the contribution is always $1/2$, independent of $\hat\pi$.
+\end{lemma}
+
+\begin{proof}
+By the previous lemma, the pair contribution is
+\begin{equation}
+  \ell_{ij}(\hat\pi)=p_{ij}\ind[\hat\pi(i)>\hat\pi(j)]
+  +(1-p_{ij})\ind[\hat\pi(i)<\hat\pi(j)].
+\end{equation}
+If $\hat\pi$ agrees with the posterior majority order, this equals $\min(p_{ij},1-p_{ij})$.  If $\hat\pi$ disagrees, it equals $\max(p_{ij},1-p_{ij})$.  Since
+\begin{equation}
+  \max(p,1-p)=\min(p,1-p)+|2p-1|,
+\end{equation}
+for every $p\in[0,1]$, the claimed expression follows.  At $p_{ij}=1/2$ the coefficient $|2p_{ij}-1|$ is zero and the constant term is $1/2$.
+\end{proof}
+
+\section{The corrected reduction}
+
+We reduce FAST to ORP.  Let $(T,k)$ be a FAST instance, where $T=(V,A)$ is a tournament on
+\begin{equation}
+  V=\{1,\ldots,n\}
+\end{equation}
+and let
+\begin{equation}
+  m=\binom n2 .
+\end{equation}
+For $u\in V$, write
+\begin{equation}
+  \delta_u=\indeg(u)-\outdeg(u).
+\end{equation}
+Thus $|\delta_u|\le n-1$.
+
+\subsection{A McGarvey profile with exact margins and rank sums}
+
+We first build a list of linear orders of $V$ whose pairwise margins encode the tournament.
+
+\begin{lemma}[Profile gadget]
+There is a polynomial-time constructible even integer $R=O(n^2)$ and linear orders
+\begin{equation}
+  \rho_1,\ldots,\rho_R
+\end{equation}
+of $V$, where $\rho_b(u)$ denotes the rank position of $u$ in order $\rho_b$, such that:
+\begin{enumerate}[label=(\roman*)]
+\item for every ordered pair $u\ne v$, if $(u,v)\in A$ then
+\begin{equation}
+  c_{uv}:=\left|\{b:\rho_b(u)<\rho_b(v)\}\right|=\frac R2+1,
+\end{equation}
+and if $(v,u)\in A$ then
+\begin{equation}
+  c_{uv}=\frac R2-1;
+\end{equation}
+\item for every vertex $u$,
+\begin{equation}
+  \sum_{b=1}^R \rho_b(u)=\frac{R(n+1)}2+\delta_u;
+\end{equation}
+\item $R\ge 8n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+For each arc $(u,v)\in A$, choose an arbitrary order $\omega$ of the remaining vertices $V\setminus\{u,v\}$.  Add the two orders
+\begin{equation}
+  O_1=(u,v,\omega),\qquad O_2=(\omega^{\rev},u,v),
+\end{equation}
+where $\omega^{\rev}$ is $\omega$ in reverse order.  In both $O_1$ and $O_2$, $u$ is ranked before $v$.  Every other pair comparison is reversed between $O_1$ and $O_2$: pairs internal to $\omega$ are reversed by construction, and for each $x\in\omega$, both $u$ and $v$ precede $x$ in $O_1$ while $x$ precedes both $u$ and $v$ in $O_2$.
+
+Thus the gadget for $(u,v)$ contributes net margin $+2$ to the comparison $u$ before $v$ and net margin $0$ to every other unordered pair.  After adding one gadget for every arc, there are $2m$ orders.  For a pair $\{u,v\}$ with $(u,v)\in A$, its own gadget contributes two orders ranking $u$ before $v$, while each of the other $m-1$ gadgets contributes exactly one order ranking $u$ before $v$.  Hence the count is $m+1=2m/2+1$.  If $(v,u)\in A$, the count is $m-1=2m/2-1$.
+
+Now append $4n$ neutral pairs $(\tau,\tau^{\rev})$, where $\tau$ is any fixed order of $V$.  Each neutral pair contributes one order in each direction to every unordered pair, so it preserves all margins.  The final number of orders is
+\begin{equation}
+  R=2m+8n,
+\end{equation}
+which is even, satisfies $R\ge 8n$, and is $O(n^2)$.  The pairwise counts become $R/2+1$ or $R/2-1$, as claimed.
+
+It remains to verify the rank-sum identity.  For a gadget associated with arc $(u,v)$, vertex $u$ has ranks $1$ and $n-1$ in the two orders, so its rank sum is $n$, which is one below the neutral value $n+1$.  Vertex $v$ has ranks $2$ and $n$, so its rank sum is $n+2$, one above the neutral value.  Any vertex $x\in V\setminus\{u,v\}$ has ranks summing to $n+1$, because its position inside $\omega$ is reversed in the second order.  Thus each outgoing arc of $u$ contributes $-1$ to $u$'s rank sum relative to neutral, and each incoming arc contributes $+1$.  A neutral padding pair $(\tau,\tau^{\rev})$ gives rank sum $n+1$ to every vertex.  Therefore
+\begin{equation}
+  \sum_{b=1}^R \rho_b(u)
+  =\frac{R(n+1)}2+\indeg(u)-\outdeg(u)
+  =\frac{R(n+1)}2+\delta_u.
+\end{equation}
+\end{proof}
+
+\subsection{The ORP instance}
+
+Set
+\begin{equation}
+  L=2nR,
+  \qquad q=L-n=2nR-n.
+\end{equation}
+The ORP instance has $L$ events: one designated event $d_u$ for each vertex $u\in V$, and $q$ filler events $f_1,
+\ldots,f_q$.  Set $\Delta=1$ and set every observation equal to zero:
+\begin{equation}
+  \hat t_i=0\qquad\text{for every event }i.
+\end{equation}
+
+View the $L$ slots as $R$ consecutive blocks of width $2n$.  Block $b$ consists of slots
+\begin{equation}
+  (b-1)2n+1,\ldots,b2n.
+\end{equation}
+For vertex $u$ and block $b$, define the consecutive slot pair
+\begin{equation}
+  a_{u,b}^-=(b-1)2n+2\rho_b(u)-1,
+  \qquad
+  a_{u,b}^+=(b-1)2n+2\rho_b(u).
+\end{equation}
+Because $\rho_b$ is a linear order, the pairs $\{a_{u,b}^-,a_{u,b}^+\}$ are disjoint over $u$ inside each block.
+
+Define
+\begin{equation}
+  \alpha_u=\frac12-\frac{2\delta_u}{R}+\frac{\delta_u}{R^2}.
+\end{equation}
+Since $|\delta_u|\le n-1$ and $R\ge 8n$,
+\begin{equation}
+  \left|\frac{2\delta_u}{R}-\frac{\delta_u}{R^2}\right|
+  \le (n-1)\left(\frac2R+\frac1{R^2}\right)<\frac13,
+\end{equation}
+so in particular $\alpha_u\in[0,1]$.  With the sharper bound $(n-1)(2/R-1/R^2)<1/4$ one gets $\alpha_u\in(1/4,3/4)$; only membership in $[0,1]$ is needed.
+
+The noise distribution of designated event $d_u$ is
+\begin{equation}
+  F_{d_u}(-a_{u,b}^-)=\frac{1-\alpha_u}{R},
+  \qquad
+  F_{d_u}(-a_{u,b}^+)=\frac{\alpha_u}{R}
+  \quad\text{for }b=1,\ldots,R,
+\end{equation}
+with probability zero on all other values.  The distribution sums to one because each block contributes $(1-\alpha_u)/R+\alpha_u/R=1/R$.
+
+Each filler event has the uniform noise distribution
+\begin{equation}
+  F_f(-s)=\frac1L\quad\text{for }s=1,
+\ldots,L,
+\end{equation}
+with probability zero elsewhere.  Since every observation is zero, assigning an event to slot $s$ requires noise value $-s$.  Thus, conditioned on the observation vector, the posterior weight of a permutation $\sigma$ is proportional to
+\begin{equation}
+  \prod_i F_i(-\sigma(i)).
+\end{equation}
+The construction is therefore exactly a finite-support rational ORP instance.
+
+\subsection{Exact independence of the designated events}
+
+The filler events remove the permanent-type dependence among the designated events.
+
+\begin{lemma}[Independence via fillers]
+Conditioned on the observation vector, the slots of the designated events are mutually independent.  More precisely,
+\begin{equation}
+  \Prb(X_u=a_{u,b}^-\mid \hat t)=\frac{1-\alpha_u}{R},
+  \qquad
+  \Prb(X_u=a_{u,b}^+\mid \hat t)=\frac{\alpha_u}{R},
+\end{equation}
+where $X_u$ is the slot occupied by $d_u$.
+\end{lemma}
+
+\begin{proof}
+Let
+\begin{equation}
+  S_u=\{a_{u,b}^-,a_{u,b}^+: b=1,
+\ldots,R\}
+\end{equation}
+be the support of designated event $d_u$.  The sets $S_u$ are pairwise disjoint over $u\in V$.
+
+Fix any placement $(s_u)_{u\in V}$ with $s_u\in S_u$.  This placement uses $n$ distinct slots.  The $q=L-n$ fillers can be assigned bijectively to the remaining $q$ slots in exactly $q!$ ways.  Every such filler completion has the same filler likelihood $(1/L)^q$, and the number $q!$ of completions is independent of the chosen designated placement.  The prior on $\sigma$ is uniform and therefore also contributes only a placement-independent factor.
+
+Consequently, the marginal posterior weight of the designated placement $(s_u)_{u\in V}$ is proportional to
+\begin{equation}
+  \prod_{u\in V} F_{d_u}(-s_u).
+\end{equation}
+Normalizing over the Cartesian product $\prod_u S_u$ gives the product measure.  The displayed probabilities are exactly the designated noise weights.
+\end{proof}
+
+\subsection{Designated-designated posterior margins}
+
+Let $B_u$ be the block containing $X_u$.  By the previous lemma, the random variables $B_u$ are mutually independent and uniform on $\{1,\ldots,R\}$.
+
+Fix distinct vertices $u,v$.  If $B_u<B_v$, then $X_u<X_v$ because every slot in an earlier block is smaller than every slot in a later block.  If $B_u>B_v$, then $X_u>X_v$.  If $B_u=B_v=b$, then the comparison is decided by the profile order $\rho_b$: the two slots assigned to a vertex are consecutive, and the pairs for distinct vertices do not interleave.  Hence
+\begin{align}
+  \Prb(X_u<X_v\mid \hat t)
+  &=\Prb(B_u<B_v)+\Prb(B_u=B_v\text{ and }\rho_{B_u}(u)<\rho_{B_u}(v)) \notag\\
+  &=\frac{R(R-1)/2+c_{uv}}{R^2}.
+\end{align}
+Using the profile property,
+\begin{equation}
+  \Prb(X_u<X_v\mid \hat t)
+  =
+  \begin{cases}
+    \displaystyle \frac12+\frac1{R^2}, & (u,v)\in A,\\[6pt]
+    \displaystyle \frac12-\frac1{R^2}, & (v,u)\in A.
+  \end{cases}
+\end{equation}
+Therefore each designated pair has posterior majority direction equal to the tournament arc direction.  Its decision weight in Lemma 2 is
+\begin{equation}
+  \left|2\Prb(X_u<X_v\mid \hat t)-1\right|=\frac2{R^2},
+\end{equation}
+and its constant term is
+\begin{equation}
+  \min\left(\Prb(X_u<X_v\mid \hat t),1-\Prb(X_u<X_v\mid \hat t)\right)
+  =\frac12-\frac1{R^2}.
+\end{equation}
+
+\subsection{Filler pairs are exactly neutral}
+
+The remaining task is to show that every pair involving a filler has posterior probability $1/2$ in each direction.  Filler-filler neutrality is immediate: fillers have identical distributions and the posterior is invariant under relabeling them, so for distinct fillers $f$ and $f'$,
+\begin{equation}
+  \Prb(X_f<X_{f'}\mid \hat t)=\Prb(X_{f'}<X_f\mid \hat t)=\frac12.
+\end{equation}
+There are no ties because $\sigma$ is a permutation.
+
+Now fix a designated event $d_u$ and a filler $f$.  All fillers are exchangeable, so
+\begin{equation}
+  \theta_u:=\Prb(X_f<X_u\mid \hat t)
+\end{equation}
+does not depend on the filler label.  We compute $\theta_u$ using the pointwise rank identity
+\begin{equation}
+  X_u=1+
+  \sum_{v\in V\setminus\{u\}}\ind[X_v<X_u]
+  +\sum_{r=1}^q\ind[X_{f_r}<X_u].
+\end{equation}
+Taking expectations gives
+\begin{equation}
+  \E[X_u\mid \hat t]
+  =1+
+  \sum_{v\ne u}\Prb(X_v<X_u\mid \hat t)
+  +q\theta_u.
+\end{equation}
+
+First compute $\E[X_u\mid \hat t]$.  Conditional on $B_u=b$, the expected slot of $d_u$ is
+\begin{equation}
+  (b-1)2n+2\rho_b(u)-1+\alpha_u.
+\end{equation}
+Since $B_u$ is uniform,
+\begin{align}
+  \E[X_u\mid \hat t]
+  &=\frac1R\sum_{b=1}^R\left((b-1)2n+2\rho_b(u)-1+\alpha_u\right) \notag\\
+  &=n(R-1)+\frac2R\sum_{b=1}^R\rho_b(u)-1+\alpha_u \notag\\
+  &=n(R-1)+(n+1)+\frac{2\delta_u}{R}-1+\alpha_u \notag\\
+  &=nR+\frac{2\delta_u}{R}+\alpha_u.
+\end{align}
+By the definition of $\alpha_u$,
+\begin{equation}
+  \E[X_u\mid \hat t]=nR+\frac12+\frac{\delta_u}{R^2}.
+\end{equation}
+
+Next compute the designated-designated terms.  If $(v,u)\in A$, then $v$ is an in-neighbor of $u$ and
+\begin{equation}
+  \Prb(X_v<X_u\mid \hat t)=\frac12+\frac1{R^2}.
+\end{equation}
+If $(u,v)\in A$, then
+\begin{equation}
+  \Prb(X_v<X_u\mid \hat t)=\frac12-\frac1{R^2}.
+\end{equation}
+Thus
+\begin{align}
+  \sum_{v\ne u}\Prb(X_v<X_u\mid \hat t)
+  &=\indeg(u)\left(\frac12+\frac1{R^2}\right)
+    +\outdeg(u)\left(\frac12-\frac1{R^2}\right) \notag\\
+  &=\frac{n-1}{2}+\frac{\delta_u}{R^2}.
+\end{align}
+Substituting into the rank identity and using $q=2nR-n$ gives
+\begin{align}
+  q\theta_u
+  &=\left(nR+\frac12+\frac{\delta_u}{R^2}\right)-1
+    -\left(\frac{n-1}{2}+\frac{\delta_u}{R^2}\right) \notag\\
+  &=nR-\frac n2
+  =\frac q2.
+\end{align}
+Therefore $\theta_u=1/2$.  Hence every filler-designated pair is exactly neutral:
+\begin{equation}
+  \Prb(X_f<X_u\mid \hat t)=\Prb(X_u<X_f\mid \hat t)=\frac12.
+\end{equation}
+By Lemma 2, every pair involving a filler contributes exactly $1/2$ to the expected Kendall-tau loss, independent of the candidate order $\hat\pi$.
+
+\subsection{The objective identity}
+
+Let
+\begin{equation}
+  C_0=m\left(\frac12-\frac1{R^2}\right)
+  +\left(\binom L2-m\right)\frac12 .
+\end{equation}
+The first term is the sum of the constant terms for the $m$ designated-designated pairs.  The second term is the fixed contribution of all pairs that involve at least one filler.
+
+Given any full event order $\hat\pi\in S_L$, let $\pi_{\hat\pi}$ be the induced order of the tournament vertices:
+\begin{equation}
+  \pi_{\hat\pi}(u)<\pi_{\hat\pi}(v)
+  \quad\Longleftrightarrow\quad
+  \hat\pi(d_u)<\hat\pi(d_v).
+\end{equation}
+This is a genuine linear order of $V$, because it is obtained by restricting a single permutation $\hat\pi$ to the designated events.
+
+By the designated-pair calculation, the posterior majority direction for pair $\{d_u,d_v\}$ is $d_u$ before $d_v$ exactly when $(u,v)\in A$.  Therefore a designated pair disagrees with its posterior majority order exactly when the corresponding tournament arc is backward under $\pi_{\hat\pi}$.  Filler-involved pairs have zero decision weight.  Lemma 2 yields the exact identity
+\begin{equation}
+  \E\left[d_{\KT}(\hat\pi,\sigma)\mid \hat t\right]
+  =C_0+\frac2{R^2}\fas(T,\pi_{\hat\pi}).
+  \label{eq:objective-identity}
+\end{equation}
+This is the central point of the construction: the ORP objective is a constant plus a positive scalar multiple of the FAST objective, and the scalar is uniform over all arcs.
+
+\subsection{Correctness of the reduction}
+
+Set the ORP threshold to
+\begin{equation}
+  K=C_0+\frac{2k}{R^2}.
+\end{equation}
+We prove
+\begin{equation}
+  (T,k)\in\textsc{FAST}
+  \quad\Longleftrightarrow\quad
+  f(T,k)\in\textsc{ORP}.
+\end{equation}
+
+Suppose first that $(T,k)$ is a YES instance of FAST.  Then there is a linear order $\pi'$ of $V$ with $\fas(T,\pi')\le k$.  Choose any full event order $\hat\pi$ whose restriction to the designated events is $\pi'$; the fillers may be placed arbitrarily.  By \eqref{eq:objective-identity},
+\begin{equation}
+  \E\left[d_{\KT}(\hat\pi,\sigma)\mid \hat t\right]
+  =C_0+\frac2{R^2}\fas(T,\pi')
+  \le C_0+\frac{2k}{R^2}=K.
+\end{equation}
+Thus the constructed ORP instance is a YES instance.
+
+Conversely, suppose the constructed ORP instance is a YES instance.  Then there exists $\hat\pi\in S_L$ with
+\begin{equation}
+  \E\left[d_{\KT}(\hat\pi,\sigma)\mid \hat t\right]\le K.
+\end{equation}
+Let $\pi_{\hat\pi}$ be the induced order of the designated events.  Applying \eqref{eq:objective-identity},
+\begin{equation}
+  C_0+\frac2{R^2}\fas(T,\pi_{\hat\pi})
+  \le C_0+\frac{2k}{R^2}.
+\end{equation}
+Since $2/R^2>0$, this implies
+\begin{equation}
+  \fas(T,\pi_{\hat\pi})\le k.
+\end{equation}
+Hence $(T,k)$ is a YES instance of FAST.
+
+Finally, the construction is polynomial time.  We have $R=2m+8n=O(n^2)$ and $L=2nR=O(n^3)$.  If the finite-support distributions are written explicitly, each designated distribution has support size $2R=O(n^2)$ and each filler distribution has support size $L=O(n^3)$, for a total explicit encoding size $O(L^2)=O(n^6)$.  All support points and rational probabilities have bit-length $O(\log n+\log k)$, except for the threshold numerator which also uses the input integer $k$.  Thus the map $(T,k)\mapsto f(T,k)$ is computable in deterministic polynomial time.
+
+\begin{theorem}
+The Ordering Recovery Problem is NP-hard under deterministic polynomial-time many-one reductions.
+\end{theorem}
+
+\begin{proof}
+The construction above is a deterministic polynomial-time many-one reduction from FAST to ORP and is correct in both directions.  Since FAST is NP-complete, ORP is NP-hard.
+\end{proof}
+
+\begin{remark}
+The theorem is stated as NP-hardness only.  For general ORP instances, evaluating the posterior pair marginals may require computing quantities associated with permanental distributions.  The reduction above avoids that issue on its image by giving a closed-form expression for the objective, namely \eqref{eq:objective-identity}.
+\end{remark}
+
+\begin{thebibliography}{9}
+
+\bibitem{Alon2006}
+N. Alon.
+\newblock Ranking tournaments.
+\newblock \emph{SIAM Journal on Discrete Mathematics}, 20(1):137--142, 2006.
+
+\bibitem{Charbit2007}
+P. Charbit, S. Thomass\'e, and A. Yeo.
+\newblock The minimum feedback arc set problem is NP-hard for tournaments.
+\newblock \emph{Combinatorics, Probability and Computing}, 16(1):1--4, 2007.
+
+\end{thebibliography}
+
+\end{document}
