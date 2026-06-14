@@ -1,0 +1,680 @@
+% Blueprint content for the NP-hardness of the Ordering Recovery Problem.
+%
+% Ported from the leanblueprint-style annotations in
+%   lea-frontier:blueprint/src/orp_np_hardness.tex
+% with full informal proofs folded in from
+%   orp_np_hardness_corrected_note.tex (the source note).
+%
+% Every node names its Lean declaration in LeaFrontier.OrderingRecovery via
+% \lean{...}.  \leanok on a statement means the statement is formalized; \leanok
+% in a proof means the Lean proof is complete (sorry-free).  The whole
+% development is sorry-free modulo the three cited/elementary axioms, which are
+% marked explicitly below.
+
+\chapter*{Overview}
+
+\textbf{Source.} \emph{NP-Hardness of the Ordering Recovery Problem: A Corrected
+Reduction} (note, 2026). The note gives a deterministic polynomial-time
+many-one reduction from the minimum feedback arc set problem in tournaments
+(FAST) to the Ordering Recovery Problem (ORP). One designated event encodes each
+tournament vertex; filler events make the designated events exactly independent
+under the posterior while contributing only neutral pairwise terms to the
+Kendall--tau objective. Arc directions are encoded by a McGarvey-style profile
+of linear orders, and the posterior cost becomes an affine rescaling of the FAST
+objective.
+
+\textbf{Scope.} We formalize the \emph{mathematical core} of the reduction --- the
+exact pairwise posterior marginals, the objective identity, and the
+two-directional correctness equivalence --- as fully \texttt{sorry}-free Lean
+theorems. We do \emph{not} build a formal model of polynomial-time computation
+(Mathlib has no usable poly-time / NP-completeness framework). The headline
+``ORP is NP-hard'' is assembled from the proven core together with three
+explicitly stated axioms: that FAST is NP-complete (textbook, cited), that a
+correct polynomial-time many-one reduction from an NP-complete source yields
+NP-hardness of the target (a meta-fact), and one generic, problem-independent
+permutation fiber-count. \texttt{\#print axioms orp\_np\_hard} surfaces exactly
+these.
+
+\textbf{Probability model.} The posterior over $\sigma \in S_L$ given
+$\hat t = 0$ is modeled by explicit finite counting: the unnormalized weight of a
+permutation $\sigma$ is $w(\sigma) = \prod_i F_i(-\sigma(i))$ over
+$\sigma \in \mathrm{Equiv.Perm}\,(\mathrm{Fin}\,L)$, and every posterior quantity
+(pair marginals $p_{ij}$, expectations $\E[X_u]$) is a ratio of
+\texttt{Finset.sum}s, hence an explicit rational. No measure-theoretic
+conditional-expectation machinery is used.
+
+%=====================================================================
+\section{Layer 0 --- Core definitions}
+
+\begin{definition}[Tournament and degree difference]
+\label{def:tournament}
+\lean{LeaFrontier.OrderingRecovery.Tournament}
+\leanok
+A \emph{tournament} on $V = \{1,\dots,n\}$ ($= \mathrm{Fin}\,n$) is a relation
+$\mathrm{beats} : V \to V \to \mathrm{Bool}$ that is irreflexive
+($\mathrm{beats}(u,u) = \mathrm{false}$) and exactly one-directional on each
+unordered pair ($u \ne v \Rightarrow \mathrm{beats}(u,v) =
+\neg\,\mathrm{beats}(v,u)$). Arc $(u,v) \in A$ means
+$\mathrm{beats}(u,v) = \mathrm{true}$. For $u \in V$ the degree difference is
+$\delta_u := \indeg(u) - \outdeg(u)$
+(\texttt{Tournament.degDiff}).
+\end{definition}
+
+\begin{lemma}[Degree-difference bound]
+\label{lem:degdiff_bound}
+\lean{LeaFrontier.OrderingRecovery.degDiff_abs_le}
+\leanok
+\uses{def:tournament}
+For every vertex $u$ of a tournament on $n$ vertices, $|\delta_u| \le n - 1$.
+\end{lemma}
+\begin{proof}
+\leanok
+Each of the $n-1$ vertices $v \ne u$ contributes exactly $+1$ or $-1$ to
+$\indeg(u) - \outdeg(u)$, according to whether $(v,u) \in A$ or $(u,v) \in A$.
+Hence the signed sum has absolute value at most $n-1$.
+\end{proof}
+
+\begin{definition}[FAST objective and decision problem]
+\label{def:fast}
+\lean{LeaFrontier.OrderingRecovery.FAST}
+\leanok
+\uses{def:tournament}
+For a linear order $\pi \in S_V$ (an \texttt{Equiv.Perm} of $V$, with $\pi(u)$ the
+position of $u$), the feedback-arc-set count is
+$\fas(T,\pi) = |\{(u,v) \in A : \pi(u) > \pi(v)\}|$. The FAST decision predicate
+is $\mathrm{FAST}(T,k) :\Leftrightarrow \exists \pi,\ \fas(T,\pi) \le k$.
+\end{definition}
+
+\begin{definition}[Kendall--tau distance]
+\label{def:kendall_tau}
+\lean{LeaFrontier.OrderingRecovery.dKT}
+\leanok
+For $\hat\pi, \sigma \in S_L$,
+$d_{\mathrm{KT}}(\hat\pi,\sigma) = \sum_{i<j}
+\ind[(\sigma(i)-\sigma(j))(\hat\pi(i)-\hat\pi(j)) < 0]$, the number of pairs on
+which $\hat\pi$ and $\sigma$ disagree.
+\end{definition}
+
+\begin{definition}[Posterior weight, normalizer, and pair marginal]
+\label{def:posterior}
+\lean{LeaFrontier.OrderingRecovery.ORPInstance.pairLess}
+\leanok
+An ORP instance carries $L$ finite-support rational noise PMFs
+$F_i : \mathbb{Z} \to \mathbb{Q}$. With every observation equal to $0$, the
+unnormalized posterior weight of $\sigma \in S_L$ is
+$w(\sigma) = \prod_{i} F_i(-\sigma(i))$ (\texttt{ORPInstance.weight}), normalized
+by $Z = \sum_\sigma w(\sigma)$ (\texttt{ORPInstance.Z}). For events $i,j$ the
+pair marginal is
+$p_{ij} = \Prb(\sigma(i) < \sigma(j)) = Z^{-1}\sum_{\sigma : \sigma(i) < \sigma(j)}
+w(\sigma)$ (\texttt{ORPInstance.pairLess}).
+\end{definition}
+
+\begin{definition}[Posterior cost and the ORP decision]
+\label{def:orp}
+\lean{LeaFrontier.OrderingRecovery.ORP}
+\leanok
+\uses{def:posterior, def:kendall_tau}
+The posterior cost of a candidate order $\hat\pi$ is
+$\mathrm{cost}(\hat\pi) = Z^{-1}\sum_\sigma w(\sigma)\,d_{\mathrm{KT}}(\hat\pi,\sigma)$
+(\texttt{ORPInstance.cost}). The ORP decision predicate is
+$\mathrm{ORP}(\mathrm{inst},K) :\Leftrightarrow \exists \hat\pi,\
+\mathrm{cost}(\hat\pi) \le K$.
+\end{definition}
+
+%=====================================================================
+\section{Layer 1 --- Abstract pairwise decomposition}
+
+\begin{lemma}[Pairwise decomposition]
+\label{lem:pairwise_decomp}
+\lean{LeaFrontier.OrderingRecovery.pairwise_decomp}
+\leanok
+\uses{def:orp, def:kendall_tau, def:posterior}
+For any probability distribution on $\sigma \in S_L$ and any fixed $\hat\pi$,
+\[
+  \mathrm{cost}(\hat\pi) = \sum_{i<j}
+  \Big( p_{ij}\,\ind[\hat\pi(i) > \hat\pi(j)] +
+        (1-p_{ij})\,\ind[\hat\pi(i) < \hat\pi(j)] \Big),
+\]
+where $p_{ij} = \Prb(\sigma(i) < \sigma(j))$.
+\end{lemma}
+\begin{proof}
+\leanok
+For each pair $i<j$ let
+$X_{ij}(\sigma,\hat\pi) = \ind[\sigma(i)<\sigma(j) \text{ and } \hat\pi(i)>\hat\pi(j)]
++ \ind[\sigma(i)>\sigma(j) \text{ and } \hat\pi(i)<\hat\pi(j)]$.
+Then $X_{ij} = 1$ exactly when $\sigma$ and $\hat\pi$ disagree on the relative
+order of $i$ and $j$, so $d_{\mathrm{KT}}(\hat\pi,\sigma) = \sum_{i<j} X_{ij}$.
+Taking the posterior expectation and using that $\hat\pi$ is fixed (so the two
+indicator events on $\hat\pi$ are constants pulled out of the expectation, and
+$\Prb(\sigma(i)>\sigma(j)) = 1 - p_{ij}$ since $\sigma$ is a permutation) gives
+the formula. The normalization by $Z \ne 0$ is what turns the weighted sums into
+the probabilities $p_{ij}$.
+\end{proof}
+
+\begin{lemma}[Majority form of a pairwise contribution]
+\label{lem:majority_form}
+\lean{LeaFrontier.OrderingRecovery.majority_form}
+\leanok
+\uses{lem:pairwise_decomp}
+Write the contribution of pair $\{i,j\}$ to $\mathrm{cost}(\hat\pi)$ as
+$\ell_{ij}(\hat\pi) = p_{ij}\,\ind[\hat\pi(i)>\hat\pi(j)] +
+(1-p_{ij})\,\ind[\hat\pi(i)<\hat\pi(j)]$. Calling the more likely relative order
+the \emph{posterior majority order} (ties broken arbitrarily),
+\[
+  \ell_{ij}(\hat\pi) =
+  |2p_{ij}-1|\,\ind[\hat\pi \text{ disagrees with the majority order on } \{i,j\}]
+  + \min(p_{ij}, 1-p_{ij}).
+\]
+In particular, if $p_{ij} = 1/2$ the contribution is always $1/2$, independent of
+$\hat\pi$.
+\end{lemma}
+\begin{proof}
+\leanok
+If $\hat\pi$ agrees with the posterior majority order, $\ell_{ij}(\hat\pi) =
+\min(p_{ij}, 1-p_{ij})$; if it disagrees, $\ell_{ij}(\hat\pi) =
+\max(p_{ij}, 1-p_{ij})$. Since $\max(p,1-p) = \min(p,1-p) + |2p-1|$ for every
+$p \in [0,1]$, the claimed expression follows. At $p_{ij} = 1/2$ the coefficient
+$|2p_{ij}-1|$ vanishes and the constant term is $1/2$.
+\end{proof}
+
+%=====================================================================
+\section{Layer 2 --- The McGarvey profile gadget}
+
+\begin{lemma}[Single-arc gadget margins and rank sums]
+\label{lem:gadget_arc}
+\lean{LeaFrontier.OrderingRecovery.gadget_arc}
+\leanok
+\uses{def:tournament}
+For an arc $(u,v)$ pick any order $\omega$ of $V \setminus \{u,v\}$ and form the
+two orders $O_1 = (u,v,\omega)$ and $O_2 = (\omega^{\rev}, u, v)$. Then: (i) both
+rank $u$ before $v$; (ii) every ordered pair \emph{other than the arc itself} (in
+either orientation) is reversed between $O_1$ and $O_2$ (net margin $0$); (iii)
+the two orders give $u$ the 0-indexed rank sum $n-2$ (ranks $0$ and $n-2$), $v$
+the rank sum $n$ (ranks $1$ and $n-1$), and every $x \notin \{u,v\}$ the rank sum
+$n-1$.
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{def:tournament}
+In both $O_1$ and $O_2$, $u$ is ranked before $v$, giving clause~(i). For
+clause~(ii): pairs internal to $\omega$ are reversed by construction (one order
+uses $\omega$, the other $\omega^{\rev}$); and for each $x \in \omega$, both $u$
+and $v$ precede $x$ in $O_1$ while $x$ precedes both in $O_2$, so the pairs
+$\{u,x\}$ and $\{v,x\}$ are reversed as well. Thus every pair except $\{u,v\}$
+itself flips orientation between $O_1$ and $O_2$, contributing net margin $0$.
+For clause~(iii): $u$ has ranks $0$ and $n-2$, $v$ has ranks $1$ and $n-1$, and
+each $x \in \omega$ occupies symmetric positions reversed between the two orders,
+summing to $n-1$. (The note states this 1-indexed as rank sums $n$, $n+2$,
+$n+1$; subtracting $2$ for the two orders gives the 0-indexed form used in Lean.)
+\end{proof}
+
+\begin{definition}[Profile construction]
+\label{def:profile}
+\lean{LeaFrontier.OrderingRecovery.profileMap}
+\leanok
+\uses{def:tournament, lem:gadget_arc}
+Set $m = \binom n2$ and $R = 2m + 8n$. The profile
+$\rho : \mathrm{Fin}\,R \to \mathrm{Perm}(\mathrm{Fin}\,n)$ is the concatenation
+of: (a) for each of the $m$ arcs $(u,v) \in A$, the two gadget orders $O_1, O_2$
+of Lemma~\ref{lem:gadget_arc} ($2m$ orders, extracted by choice); (b) $4n$ copies
+of the identity and $4n$ copies of its reverse $\mathrm{rev}$ (the neutral pairs
+$(\tau, \tau^{\rev})$). Ranks are 0-indexed,
+$(\rho_b(u) : \mathbb{N}) \in \{0,\dots,n-1\}$. This is hand-authored in Lean as a
+choice-based \emph{construction}; the development tracks $R = 2m + 8n$ directly
+rather than proving $m = \binom n2$ (downstream only needs even / ${\ge}\,8n$ /
+${\le}\,2n^2+8n$).
+\end{definition}
+
+\begin{lemma}[Profile margins]
+\label{lem:profile_margins}
+\lean{LeaFrontier.OrderingRecovery.profile_margins}
+\leanok
+\uses{def:profile, lem:gadget_arc}
+For ordered $u \ne v$, $c_{uv} := |\{b : \rho_b(u) < \rho_b(v)\}|$ equals
+$R/2 + 1$ if $(u,v) \in A$ and $R/2 - 1$ if $(v,u) \in A$.
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:gadget_arc, def:profile}
+The gadget for arc $(u,v)$ contributes $2$ to its own pair $u$-before-$v$ and,
+by Lemma~\ref{lem:gadget_arc}(ii), exactly $1$ to every other unordered pair
+(one of $O_1,O_2$ ranks them each way). Every other arc's gadget contributes $1$
+to the pair $\{u,v\}$, and each of the $4n$ neutral pairs contributes $1$.
+Summing for a pair with $(u,v) \in A$: $2 + (m-1) + 4n = m + 1 + 4n = R/2 + 1$;
+for $(v,u) \in A$ it is $0 + (m-1) + 4n + 1 = R/2 - 1$.
+\end{proof}
+
+\begin{lemma}[Profile rank sums]
+\label{lem:profile_ranksums}
+\lean{LeaFrontier.OrderingRecovery.profile_ranksums}
+\leanok
+\uses{def:profile, lem:degdiff_bound}
+For every vertex $u$, $\sum_b \rho_b(u) = R(n+1)/2 + \delta_u$ (1-indexed); in
+Lean the equivalent 0-indexed doubled form $2\sum_b (\rho_b u : \mathbb{N}) =
+R(n-1) + 2\delta_u$.
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:gadget_arc}
+By Lemma~\ref{lem:gadget_arc}(iii), in each arc gadget vertex $u$ has rank sum
+$n-2$ (0-indexed) when it is the tail of that arc, $n$ when the head, and $n-1$
+otherwise; each neutral pair gives every vertex rank sum $n-1$. With $\outdeg(u)$
+tails and $\indeg(u)$ heads among the $m$ gadgets, the total 0-indexed rank sum
+is $(n-1)(m + 4n) + (\indeg(u) - \outdeg(u)) = (n-1)R/2 + \delta_u$. Doubling and
+rearranging gives the stated identity.
+\end{proof}
+
+\begin{lemma}[Profile gadget]
+\label{lem:profile_gadget}
+\lean{LeaFrontier.OrderingRecovery.profile_gadget}
+\leanok
+\uses{def:profile, lem:profile_margins, lem:profile_ranksums}
+There is an even $R = 2m + 8n \ge 8n$ and a profile
+$\rho : \mathrm{Fin}\,R \to \mathrm{Perm}(\mathrm{Fin}\,n)$ satisfying both the
+margin identity (Lemma~\ref{lem:profile_margins}) and the rank-sum identity
+(Lemma~\ref{lem:profile_ranksums}). This packages
+Definition~\ref{def:profile} with the two preceding lemmas into the existential
+$\exists R\,\rho,\ \mathrm{Even}\,R \wedge 8n \le R \wedge R = 2m+8n \wedge
+\text{margins} \wedge \text{ranksums}$ that everything downstream consumes via
+\texttt{.choose}.
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:profile_margins, lem:profile_ranksums, def:profile}
+Take $R = 2m + 8n$, which is even and $\ge 8n$, and $\rho = $ the profile of
+Definition~\ref{def:profile}. The margin and rank-sum conjuncts are
+Lemmas~\ref{lem:profile_margins} and~\ref{lem:profile_ranksums}; the evenness and
+size facts are immediate from $R = 2m+8n$.
+\end{proof}
+
+%=====================================================================
+\section{Layer 3 --- The constructed ORP instance}
+
+\begin{definition}[$\alpha_u$ and the reduction $f(T,k)$]
+\label{def:orp_of_tournament}
+\lean{LeaFrontier.OrderingRecovery.orpOfTournament}
+\leanok
+\uses{def:orp, lem:profile_gadget}
+Set $L = 2nR$ and $q = L - n$. The instance has one designated event $d_u$ per
+vertex and $q$ filler events; $\Delta = 1$ and every observation is $0$. View the
+$L$ slots as $R$ blocks of width $2n$; in block $b$ vertex $u$ owns the
+consecutive slot pair $a^-_{u,b} = (b-1)2n + 2\rho_b(u) - 1$,
+$a^+_{u,b} = (b-1)2n + 2\rho_b(u)$. With
+$\alpha_u = \tfrac12 - \tfrac{2\delta_u}{R} + \tfrac{\delta_u}{R^2}$, the
+designated noise is $F_{d_u}(-a^-_{u,b}) = (1-\alpha_u)/R$,
+$F_{d_u}(-a^+_{u,b}) = \alpha_u/R$ ($b = 1,\dots,R$), and each filler has the
+uniform law $F_f(-s) = 1/L$ ($s = 1,\dots,L$). The reduction maps $(T,k)$ to this
+instance together with threshold $K = C_0 + 2k/R^2$ (\texttt{orpThresholdOf};
+see Lemma~\ref{lem:reduction_correct}). The builder is parameterized in $\rho$ so
+the heavy Layer-4/5 lemmas can take the gadget properties as hypotheses; the
+public \texttt{orpOfTournament} fixes $\rho$ via \texttt{profile\_gadget.choose}.
+\end{definition}
+
+\begin{lemma}[$\alpha_u \in [0,1]$]
+\label{lem:alpha_mem}
+\lean{LeaFrontier.OrderingRecovery.alpha_mem_unitInterval}
+\leanok
+\uses{def:orp_of_tournament, lem:degdiff_bound}
+$\alpha_u \in [0,1]$ (indeed $\alpha_u \in (1/4, 3/4)$), so the designated noise
+$F_{d_u}$ is a genuine PMF.
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:degdiff_bound}
+Since $|\delta_u| \le n-1$ (Lemma~\ref{lem:degdiff_bound}) and $R \ge 8n$,
+\[
+  \Big|\tfrac{2\delta_u}{R} - \tfrac{\delta_u}{R^2}\Big|
+  \le (n-1)\Big(\tfrac2R + \tfrac1{R^2}\Big) < \tfrac13,
+\]
+so $\alpha_u \in [0,1]$. Each block then carries mass
+$(1-\alpha_u)/R + \alpha_u/R = 1/R$, and summing over the $R$ blocks gives total
+mass $1$.
+\end{proof}
+
+\begin{lemma}[Designated supports are pairwise disjoint]
+\label{lem:support_disjoint}
+\lean{LeaFrontier.OrderingRecovery.support_disjoint}
+\leanok
+\uses{def:orp_of_tournament}
+The supports $S_u = \{a^-_{u,b}, a^+_{u,b} : b = 1,\dots,R\}$ are pairwise disjoint
+over $u \in V$; equivalently, the slot map
+$(u,b,\mathrm{sign}) \mapsto \text{slot}$ is injective.
+\end{lemma}
+\begin{proof}
+\leanok
+Within a block the slot pairs of distinct vertices do not interleave because
+$\rho_b$ is a linear order (the pairs are $2\rho_b(u){+}1, 2\rho_b(u){+}2$ with
+$\rho_b(u)$ distinct), and distinct blocks occupy disjoint slot ranges of width
+$2n$. Concretely, from an equality of slots one recovers the block $b$ by
+dividing by $2n$, the sign by parity, and the vertex $u$ from injectivity of
+$\rho_b$; \texttt{omega} closes the arithmetic.
+\end{proof}
+
+%=====================================================================
+\section{Layer 4 --- Independence and posterior margins}
+
+\begin{theorem}[Permutation fiber-count \emph{(axiom: generic, problem-independent)}]
+\label{ax:fiber_count}
+\lean{LeaFrontier.OrderingRecovery.sum_perm_comp_embedding}
+\leanok
+For any embedding $e : \mathrm{Fin}\,n \hookrightarrow \mathrm{Fin}\,L$ and any
+$F$,
+\[
+  \sum_{\sigma : \mathrm{Perm}(\mathrm{Fin}\,L)} F(\lambda u.\,\sigma(e\,u))
+  = (L-n)!\, \cdot
+    \sum_{\varphi : \mathrm{Fin}\,n \hookrightarrow \mathrm{Fin}\,L} F(\lambda u.\,\varphi\,u):
+\]
+each injective placement of $n$ marked indices extends to a full permutation in
+exactly $(L-n)!$ ways. \emph{Axiomatized} (\texttt{PermFiber.lean}): true,
+elementary, and entirely independent of the ORP construction; isolated so the
+genuinely novel content is proved on top of it. (TODO: discharge / upstream to
+Mathlib.)
+\end{theorem}
+
+\begin{lemma}[Exact independence via fillers]
+\label{lem:independence_fillers}
+\lean{LeaFrontier.OrderingRecovery.independence_fillers}
+\leanok
+\uses{def:orp_of_tournament, lem:support_disjoint, lem:alpha_mem}
+Conditioned on $\hat t = 0$, the designated slots are mutually independent, with
+$\Prb(X_u = a^-_{u,b}) = (1-\alpha_u)/R$ and
+$\Prb(X_u = a^+_{u,b}) = \alpha_u/R$, where $X_u$ is the slot of $d_u$. The
+pairwise joint law factors:
+$\Prb(X_u = s \wedge X_v = t) = \Prb(X_u=s)\,\Prb(X_v=t)$ for $u \ne v$.
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{ax:fiber_count, lem:support_disjoint}
+Write $g_u(s) = F_{d_u}(-s)$, supported on $S_u$ with masses $(1-\alpha_u)/R$ and
+$\alpha_u/R$. The argument has four steps.
+\emph{(1) Weight factorizes.} Every filler has mass $1/L$ at any actual slot, so
+$w(\sigma) = (1/L)^q \prod_{u} g_u\big((\sigma(d_u):\mathbb N)+1\big)$, with the
+filler factor $(1/L)^q$ a constant independent of $\sigma$.
+\emph{(2) Fiber-count.} By Theorem~\ref{ax:fiber_count} applied to the
+designated-index embedding, summing such a functional over all
+$\sigma \in \mathrm{Perm}(\mathrm{Fin}\,L)$ equals $(L-n)! = q!$ times the sum
+over injective placements $\varphi$ of the $n$ designated events. The factor $q!$
+appears in numerator and denominator and cancels.
+\emph{(3) Disjoint supports $\Rightarrow$ product.} By
+Lemma~\ref{lem:support_disjoint} the supports $S_u$ are disjoint, so an injective
+placement is unconstrained beyond $\varphi_u \in S_u$ and
+$\sum_{\varphi} \prod_u g_u(\varphi_u) = \prod_u \big(\sum_{s \in S_u} g_u(s)\big)$,
+each inner sum $= \sum_b\big((1-\alpha_u)/R + \alpha_u/R\big) = R \cdot (1/R) = 1$.
+\emph{(4) Conclude.} Hence $Z = (1/L)^q q!$, the joint law of $(X_u)$ is
+$\prod_u g_u$, and the single marginals are the designated weights as claimed.
+\end{proof}
+
+\begin{lemma}[Block pair count]
+\label{lem:pair_count_lt}
+\lean{LeaFrontier.OrderingRecovery.pairCount_lt}
+\leanok
+Over $\{0,\dots,R-1\}^2$, $\sum_{b,b'} \ind[b<b'] = R(R-1)/2$.
+\end{lemma}
+\begin{proof}
+\leanok
+By symmetry $\#\{(b,b') : b<b'\} = \#\{(b,b') : b>b'\}$, and the diagonal has $R$
+elements, so $2S + R = R^2$, giving $S = R(R-1)/2$.
+\end{proof}
+
+\begin{lemma}[Designated-margin closing algebra]
+\label{lem:designated_margin_close}
+\lean{LeaFrontier.OrderingRecovery.designated_margin_close}
+\leanok
+For even $R \ge 1$ and $c = \lfloor R/2\rfloor + \varepsilon$,
+$\dfrac{R(R-1)/2 + c}{R^2} = \dfrac12 + \dfrac{\varepsilon}{R^2}$.
+\end{lemma}
+\begin{proof}
+\leanok
+For even $R$, $R(R-1)/2 + R/2 = R^2/2$, so the numerator is $R^2/2 + \varepsilon$
+and dividing by $R^2$ gives $1/2 + \varepsilon/R^2$. (Evenness of $R$ is
+essential: $\lfloor R/2\rfloor = R/2$ exactly, which is why
+\texttt{profile\_gadget} threads \texttt{Even R} to all consumers.)
+\end{proof}
+
+\begin{lemma}[Designated--designated posterior margins]
+\label{lem:designated_margin}
+\lean{LeaFrontier.OrderingRecovery.designated_margin}
+\leanok
+\uses{lem:independence_fillers, lem:profile_gadget, lem:pair_count_lt, lem:designated_margin_close}
+Let $B_u$ be the block of $X_u$; by independence the $B_u$ are i.i.d. uniform on
+$\{1,\dots,R\}$. Then $\Prb(X_u < X_v) = \frac{R(R-1)/2 + c_{uv}}{R^2}$, which
+equals $\tfrac12 + \tfrac1{R^2}$ if $(u,v) \in A$ and $\tfrac12 - \tfrac1{R^2}$ if
+$(v,u) \in A$. So each designated pair's posterior majority direction is the
+tournament arc direction, with decision weight $|2p-1| = 2/R^2$ and constant term
+$\min(p,1-p) = \tfrac12 - \tfrac1{R^2}$.
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:independence_fillers, lem:pair_count_lt, lem:designated_margin_close, lem:profile_gadget}
+If $B_u < B_v$ then $X_u < X_v$ (earlier blocks hold smaller slots), and
+symmetrically for $B_u > B_v$; if $B_u = B_v = b$ the comparison is decided by
+$\rho_b$ since within a block the consecutive slot pairs of distinct vertices do
+not interleave. By independence (Lemma~\ref{lem:independence_fillers}),
+\[
+  \Prb(X_u<X_v) = \Prb(B_u<B_v) + \Prb(B_u=B_v \text{ and } \rho_{B_u}(u)<\rho_{B_u}(v))
+  = \frac{R(R-1)/2 + c_{uv}}{R^2},
+\]
+using Lemma~\ref{lem:pair_count_lt} for the off-diagonal count. Substituting the
+profile margins $c_{uv} = R/2 \pm 1$ (Lemma~\ref{lem:profile_gadget}) into
+Lemma~\ref{lem:designated_margin_close} (with $\varepsilon = \pm 1$) gives
+$\tfrac12 \pm \tfrac1{R^2}$.
+\end{proof}
+
+\begin{lemma}[Expected designated slot]
+\label{lem:expected_slot}
+\lean{LeaFrontier.OrderingRecovery.expected_slot}
+\leanok
+\uses{lem:independence_fillers, def:orp_of_tournament, lem:profile_gadget}
+$\E[X_u] = nR + \tfrac{2\delta_u}{R} + \alpha_u = nR + \tfrac12 + \tfrac{\delta_u}{R^2}$.
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:profile_gadget}
+Conditional on $B_u = b$, the expected slot of $d_u$ is
+$(b-1)2n + 2\rho_b(u) - 1 + \alpha_u$. Averaging over the uniform $B_u$,
+\[
+  \E[X_u] = \tfrac1R\sum_b\big((b-1)2n + 2\rho_b(u) - 1 + \alpha_u\big)
+  = n(R-1) + \tfrac2R\textstyle\sum_b\rho_b(u) - 1 + \alpha_u.
+\]
+The rank-sum identity (Lemma~\ref{lem:profile_gadget}) gives
+$\tfrac2R\sum_b\rho_b(u) = (n+1) + \tfrac{2\delta_u}{R}$, so
+$\E[X_u] = nR + \tfrac{2\delta_u}{R} + \alpha_u$, and the definition of $\alpha_u$
+collapses this to $nR + \tfrac12 + \tfrac{\delta_u}{R^2}$.
+\end{proof}
+
+\begin{lemma}[Rank identity]
+\label{lem:rank_identity}
+\lean{LeaFrontier.OrderingRecovery.rank_identity}
+\leanok
+For a permutation $\sigma$ of $\mathrm{Fin}\,L$,
+$\sigma(x) = \#\{i : \sigma(i) < \sigma(x)\} = \sum_i \ind[\sigma(i) < \sigma(x)]$:
+a value is its own rank.
+\end{lemma}
+\begin{proof}
+\leanok
+Since $\sigma$ is a bijection, the values $\{\sigma(i)\}$ are exactly
+$\{0,\dots,L-1\}$, so the number of them strictly below $\sigma(x)$ is
+$\sigma(x)$ itself.
+\end{proof}
+
+\begin{lemma}[Signed degree sum]
+\label{lem:degree_sum}
+\lean{LeaFrontier.OrderingRecovery.degree_sum}
+\leanok
+\uses{def:tournament}
+$\sum_{v \ne u} (\ind[(u,v)\in A] - \ind[(v,u)\in A]) = \outdeg(u) - \indeg(u) = -\delta_u$.
+\end{lemma}
+\begin{proof}
+\leanok
+For each $v \ne u$ exactly one of $(u,v),(v,u)$ is an arc, so the summand is
+$+1$ for out-neighbours and $-1$ for in-neighbours; the total is
+$\outdeg(u) - \indeg(u) = -\delta_u$.
+\end{proof}
+
+\begin{lemma}[Filler pairs are exactly neutral]
+\label{lem:filler_neutral}
+\lean{LeaFrontier.OrderingRecovery.filler_neutral}
+\leanok
+\uses{lem:expected_slot, lem:designated_margin, lem:independence_fillers, lem:rank_identity, lem:degree_sum, lem:majority_form}
+Every pair involving a filler has posterior probability $1/2$ in each direction,
+hence (by Lemma~\ref{lem:majority_form}) contributes exactly $1/2$ to the cost,
+independent of $\hat\pi$.
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:expected_slot, lem:designated_margin, lem:rank_identity, lem:degree_sum}
+\emph{Filler--filler:} fillers are exchangeable (identical laws, posterior
+invariant under relabeling them), so $\Prb(X_f<X_{f'}) = \Prb(X_{f'}<X_f) =
+\tfrac12$, with no ties since $\sigma$ is a permutation.
+\emph{Designated--filler:} let $\theta_u = \Prb(X_f < X_u)$, the same for every
+filler $f$. The pointwise rank identity (Lemma~\ref{lem:rank_identity})
+$X_u = 1 + \sum_{v \ne u}\ind[X_v<X_u] + \sum_{r}\ind[X_{f_r}<X_u]$ gives, in
+expectation, $\E[X_u] = 1 + \sum_{v\ne u}\Prb(X_v<X_u) + q\,\theta_u$. By the
+margins (Lemma~\ref{lem:designated_margin}) and the degree sum
+(Lemma~\ref{lem:degree_sum}),
+$\sum_{v\ne u}\Prb(X_v<X_u) = \tfrac{n-1}{2} + \tfrac{\delta_u}{R^2}$.
+Substituting $\E[X_u] = nR + \tfrac12 + \tfrac{\delta_u}{R^2}$
+(Lemma~\ref{lem:expected_slot}) and $q = 2nR - n$ yields
+$q\,\theta_u = nR - \tfrac n2 = q/2$, so $\theta_u = \tfrac12$.
+\end{proof}
+
+%=====================================================================
+\section{Layer 5 --- Objective identity and correctness}
+
+\begin{lemma}[Increasing-pair count]
+\label{lem:card_lt_pairs}
+\lean{LeaFrontier.OrderingRecovery.card_lt_pairs}
+\leanok
+$\#\{(i,j)\in(\mathrm{Fin}\,m)^2 : i<j\} = \binom m2$.
+\end{lemma}
+\begin{proof}
+\leanok
+Of the $m^2$ ordered pairs, $m$ lie on the diagonal and the remaining
+$m^2 - m$ split evenly between $i<j$ and $i>j$, giving $\binom m2 = m(m-1)/2$.
+\end{proof}
+
+\begin{definition}[Induced vertex order]
+\label{def:induced_order}
+\lean{LeaFrontier.OrderingRecovery.rankPerm}
+\leanok
+For injective $g : \mathrm{Fin}\,n \to \alpha$ into a linear order,
+$\mathrm{rankPerm}\,g$ ranks $\mathrm{Fin}\,n$ by $g$:
+$\mathrm{rankPerm}\,g\,u < \mathrm{rankPerm}\,g\,v \iff g(u) < g(v)$ (in Lean,
+$(\mathrm{Tuple.sort}\,g)^{-1}$). The induced vertex order is
+$\pi_{\hat\pi} = \mathrm{rankPerm}(u \mapsto \hat\pi(d_u))$.
+\end{definition}
+
+\begin{lemma}[Objective identity]
+\label{lem:objective_identity}
+\lean{LeaFrontier.OrderingRecovery.objective_identity}
+\leanok
+\uses{lem:majority_form, lem:designated_margin, lem:filler_neutral, lem:card_lt_pairs, def:induced_order}
+With $C_0 = m(\tfrac12 - \tfrac1{R^2}) + (\binom L2 - m)\tfrac12$ and
+$\pi_{\hat\pi}$ the induced vertex order,
+\[
+  \mathrm{cost}(\hat\pi) = C_0 + \frac{2}{R^2}\,\fas(T, \pi_{\hat\pi}).
+\]
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:designated_margin, lem:filler_neutral, lem:card_lt_pairs, def:induced_order}
+Apply the pairwise decomposition. A designated pair $\{d_u,d_v\}$ contributes,
+via Lemma~\ref{lem:designated_margin}, constant term $\tfrac12 - \tfrac1{R^2}$
+plus decision weight $\tfrac2{R^2}$ times the indicator that $\hat\pi$ disagrees
+with the majority order; by construction this disagreement happens exactly when
+the arc is backward under $\pi_{\hat\pi}$. Every filler-involved pair contributes
+exactly $\tfrac12$ (Lemma~\ref{lem:filler_neutral}), with zero decision weight.
+Summing the $m$ designated constant terms and the $\binom L2 - m$ filler terms
+gives $C_0$; the decision weights sum to $\tfrac2{R^2}$ times the number of
+backward arcs, i.e. $\fas(T,\pi_{\hat\pi})$. Reindexing designated pairs to
+$\mathrm{Fin}\,n$ pairs and counting via Lemma~\ref{lem:card_lt_pairs} closes it.
+\end{proof}
+
+\begin{lemma}[Reduction correctness]
+\label{lem:reduction_correct}
+\lean{LeaFrontier.OrderingRecovery.reduction_correct}
+\leanok
+\uses{lem:objective_identity, def:fast, def:orp_of_tournament}
+With threshold $K = C_0 + 2k/R^2$,
+\[
+  \mathrm{FAST}(T,k) \iff \mathrm{ORP}(f(T,k), K).
+\]
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:objective_identity}
+\emph{Forward:} given $\pi'$ with $\fas(T,\pi') \le k$, extend it to any full
+event order $\hat\pi$ whose restriction to the designated events is $\pi'$ (via
+\texttt{Equiv.Perm.extendDomain}, so the induced order is exactly $\pi'$). By the
+objective identity (Lemma~\ref{lem:objective_identity}),
+$\mathrm{cost}(\hat\pi) = C_0 + \tfrac2{R^2}\fas(T,\pi') \le C_0 + \tfrac{2k}{R^2}
+= K$.
+\emph{Backward:} from any $\hat\pi$ with $\mathrm{cost}(\hat\pi) \le K$, the
+identity gives $C_0 + \tfrac2{R^2}\fas(T,\pi_{\hat\pi}) \le C_0 + \tfrac{2k}{R^2}$;
+clearing the positive factor $\tfrac2{R^2} > 0$ (multiply by $R^2$, then
+\texttt{linarith}) yields $\fas(T,\pi_{\hat\pi}) \le k$. The $n = 0$ empty
+tournament is handled separately (both sides hold trivially).
+\end{proof}
+
+\begin{lemma}[Polynomial size bounds]
+\label{lem:poly_size}
+\lean{LeaFrontier.OrderingRecovery.poly_size_bounds}
+\leanok
+\uses{def:orp_of_tournament, lem:profile_gadget}
+$m \le n^2$, $R = 2m + 8n \le 2n^2 + 8n$, and $L = 2nR \le 4n^3 + 16n^2$; in
+particular $L \le 16(n+1)^3$, so the reduction's output is polynomial-sized.
+\end{lemma}
+\begin{proof}
+\leanok
+Direct arithmetic from $m = \binom n2 \le n^2$ and $R = 2m+8n$, $L = 2nR$. The
+explicit bound $L = 2nR \le 16(n+1)^3$ is what the headline theorem consumes as
+its polynomial-size certificate $\langle 16, 3\rangle$.
+\end{proof}
+
+%=====================================================================
+\section{Layer 6 --- Headline theorem (cited meta-inputs)}
+
+\begin{theorem}[FAST is NP-complete \emph{(axiom: cited)}]
+\label{ax:fast_np_complete}
+\lean{LeaFrontier.OrderingRecovery.fast_np_complete}
+\leanok
+The minimum feedback arc set problem in tournaments is NP-complete.
+\emph{Axiomatized, cited}: N.~Alon, \emph{Ranking tournaments}, SIAM J. Discrete
+Math. 20(1):137--142, 2006; P.~Charbit, S.~Thomass\'e, A.~Yeo, \emph{The minimum
+feedback arc set problem is NP-hard for tournaments}, Combin. Probab. Comput.
+16(1):1--4, 2007.
+\end{theorem}
+
+\begin{theorem}[Reduction packaging \emph{(axiom: meta-fact)}]
+\label{ax:reduction_packaging}
+\lean{LeaFrontier.OrderingRecovery.reduction_yields_np_hard}
+\leanok
+A deterministic polynomial-time many-one reduction that is correct in both
+directions from an NP-complete source problem, and whose output has polynomially
+bounded size, witnesses NP-hardness of the target. \emph{Axiomatized meta-fact}:
+stands in for the complexity-theoretic framework (poly-time many-one reductions,
+the NP hierarchy) that Mathlib does not provide. The explicit polynomial
+size-bound hypothesis is what makes the poly-time character load-bearing in the
+type.
+\end{theorem}
+
+\begin{theorem}[ORP is NP-hard]
+\label{thm:orp_np_hard}
+\lean{LeaFrontier.OrderingRecovery.orp_np_hard}
+\leanok
+\uses{lem:reduction_correct, lem:poly_size, ax:fast_np_complete, ax:reduction_packaging}
+The Ordering Recovery Problem is NP-hard under deterministic polynomial-time
+many-one reductions.
+\end{theorem}
+\begin{proof}
+\leanok
+\uses{lem:reduction_correct, lem:poly_size, ax:fast_np_complete, ax:reduction_packaging}
+Instantiate the packaging axiom (Theorem~\ref{ax:reduction_packaging}) with the
+reduction $f = \mathrm{orpOfTournament}$ and threshold map $\mathrm{orpThresholdOf}$:
+NP-completeness of FAST is Theorem~\ref{ax:fast_np_complete}, the polynomial
+size bound $L \le 16(n+1)^3$ is Lemma~\ref{lem:poly_size} (supplying the
+certificate $\langle 16,3\rangle$), and both-directional correctness is
+Lemma~\ref{lem:reduction_correct}. Hence ORP is NP-hard. \texttt{\#print axioms
+orp\_np\_hard} is exactly \texttt{[propext, Classical.choice, Quot.sound,
+fast\_np\_complete, reduction\_yields\_np\_hard, sum\_perm\_comp\_embedding]}.
+\end{proof}

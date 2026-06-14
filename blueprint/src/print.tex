@@ -1,0 +1,19 @@
+% Printable (pdf) version of the blueprint.
+\documentclass[a4paper]{report}
+
+\usepackage{geometry}
+\usepackage{expl3}
+\usepackage{amssymb, amsthm, mathtools}
+\usepackage[unicode,colorlinks=true,linkcolor=blue,urlcolor=magenta, citecolor=blue]{hyperref}
+
+\input{macros/common}
+\input{macros/print}
+
+\title{Blueprint: NP-Hardness of the Ordering Recovery Problem\\
+\large A Corrected Reduction (FAST $\le_p$ ORP)}
+\author{Formalized in Lean~4 + Mathlib (\texttt{LeaFrontier.OrderingRecovery})}
+
+\begin{document}
+\maketitle
+\input{content}
+\end{document}

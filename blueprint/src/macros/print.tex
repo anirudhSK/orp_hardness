@@ -1,0 +1,25 @@
+% Macros used only by the printed (pdf) version.
+%
+% These dummy definitions make the pdf compiler ignore the blueprint commands
+% that only make sense for the web version (dependency graph / Lean linkage).
+
+\newcommand{\lean}[1]{}
+\newcommand{\discussion}[1]{}
+\newcommand{\leanok}{}
+\newcommand{\mathlibok}{}
+\newcommand{\notready}{}
+\newcommand{\home}[1]{}
+\newcommand{\github}[1]{}
+\newcommand{\dochome}[1]{}
+\newcommand{\graphcolor}[3]{}
+
+% Make sure the arguments of \uses and \proves are real labels, using invisible
+% refs: LaTeX warns if a label is undefined, but nothing is printed.
+\ExplSyntaxOn
+\NewDocumentCommand{\uses}{m}
+ {\clist_map_inline:nn{#1}{\vphantom{\ref{##1}}}%
+  \ignorespaces}
+\NewDocumentCommand{\proves}{m}
+ {\clist_map_inline:nn{#1}{\vphantom{\ref{##1}}}%
+  \ignorespaces}
+\ExplSyntaxOff

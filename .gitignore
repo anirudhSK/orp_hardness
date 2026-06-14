@@ -1,0 +1,15 @@
+# leanblueprint build venv and generated site
+.blueprint-venv/
+blueprint/web/
+blueprint/lean_decls
+blueprint/src/web.paux
+blueprint/src/print.paux
+
+# LaTeX/plastex build artifacts
+*.aux
+*.log
+*.out
+*.paux
+*.toc
+*.fls
+*.fdb_latexmk

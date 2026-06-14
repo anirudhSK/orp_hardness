@@ -1,0 +1,22 @@
+% Macros and theorem environments shared by the web and pdf versions.
+
+% The theorem-like environments below are exactly those that appear as nodes in
+% the dependency graph (definition + lemma + proposition + theorem + corollary).
+% They all share a single counter and it is never reset.
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+% Project-specific notation (ported from orp_np_hardness_corrected_note.tex).
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prb}{\mathbb{P}}
+\newcommand{\ind}{\mathbf{1}}
+\newcommand{\KT}{\operatorname{KT}}
+\newcommand{\fas}{\operatorname{fas}}
+\newcommand{\rev}{\operatorname{rev}}
+\newcommand{\indeg}{\operatorname{indeg}}
+\newcommand{\outdeg}{\operatorname{outdeg}}
