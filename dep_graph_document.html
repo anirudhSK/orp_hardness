@@ -63,25 +63,25 @@
 <div id="statements">
 
     
-    <div class="dep-modal-container" id="def:even_modal">
+    <div class="dep-modal-container" id="ax:fast_np_complete_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
 <svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
 </button>
         
-  <div class="thm" id="def:even" style="display: none">
+  <div class="thm" id="ax:fast_np_complete" style="display: none">
     <div class="thm_thmheading">
-      <span class="definition_thmcaption">
-      Definition
+      <span class="theorem_thmcaption">
+      Theorem
       </span>
-      <span class="definition_thmlabel">1</span><span class="definition_thmtitle">Even number</span></div>
-    <div class="thm_thmcontent"><p>  A natural number \(n \in \mathbb {N}\) is <em>even</em> if there exists \(k \in \mathbb {N}\) such that \(n = 2k\).  </p>
+      <span class="theorem_thmlabel">31</span><span class="theorem_thmtitle">FAST is NP-complete <em>(axiom: cited)</em></span></div>
+    <div class="thm_thmcontent"><p>   The minimum feedback arc set problem in tournaments is NP-complete. <em>Axiomatized, cited</em>: N.&#160;Alon, <em>Ranking tournaments</em>, SIAM J. Discrete Math. 20(1):137–142, 2006; P.&#160;Charbit, S.&#160;Thomassé, A.&#160;Yeo, <em>The minimum feedback arc set problem is NP-hard for tournaments</em>, Combin. Probab. Comput. 16(1):1–4, 2007. </p>
 </div>
 
-    <a class="latex_link" href="sect0002.html#def:even">LaTeX</a>
+    <a class="latex_link" href="sect0008.html#ax:fast_np_complete">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://anirudhsk.github.io/orp_hardness/docs/find/#doc/Even">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Axioms.lean#L39">Lean</a>
     
     
   
@@ -93,25 +93,973 @@
 
 
     
-    <div class="dep-modal-container" id="thm:sum_of_evens_modal">
+    <div class="dep-modal-container" id="ax:fiber_count_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
 <svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
 </button>
         
-  <div class="thm" id="thm:sum_of_evens" style="display: none">
+  <div class="thm" id="ax:fiber_count" style="display: none">
     <div class="thm_thmheading">
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">2</span><span class="theorem_thmtitle">Sum of two even numbers is even</span></div>
-    <div class="thm_thmcontent"><p>  Let \(a, b \in \mathbb {N}\). If \(a\) is even and \(b\) is even, then \(a + b\) is even.   </p>
+      <span class="theorem_thmlabel">17</span><span class="theorem_thmtitle">Permutation fiber-count <em>(axiom: generic, problem-independent)</em></span></div>
+    <div class="thm_thmcontent"><p>   For any embedding \(e : \mathrm{Fin}\, n \hookrightarrow \mathrm{Fin}\, L\) and any \(F\), </p>
+<div class="displaymath" id="a0000000022">
+  \[  \sum _{\sigma : \mathrm{Perm}(\mathrm{Fin}\, L)} F(\lambda u.\, \sigma (e\, u)) = (L-n)!\,  \cdot \sum _{\varphi : \mathrm{Fin}\, n \hookrightarrow \mathrm{Fin}\, L} F(\lambda u.\, \varphi \, u):  \]
+</div>
+<p> each injective placement of \(n\) marked indices extends to a full permutation in exactly \((L-n)!\) ways. <em>Axiomatized</em> (<span class="ttfamily">PermFiber.lean</span>): true, elementary, and entirely independent of the ORP construction; isolated so the genuinely novel content is proved on top of it. (TODO: discharge / upstream to Mathlib.) </p>
 </div>
 
-    <a class="latex_link" href="sect0003.html#thm:sum_of_evens">LaTeX</a>
+    <a class="latex_link" href="sect0006.html#ax:fiber_count">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://anirudhsk.github.io/orp_hardness/docs/find/#doc/sum_of_evens">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PermFiber.lean#L39">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="ax:reduction_packaging_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="ax:reduction_packaging" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">32</span><span class="theorem_thmtitle">Reduction packaging <em>(axiom: meta-fact)</em></span></div>
+    <div class="thm_thmcontent"><p>   A deterministic polynomial-time many-one reduction that is correct in both directions from an NP-complete source problem, and whose output has polynomially bounded size, witnesses NP-hardness of the target. <em>Axiomatized meta-fact</em>: stands in for the complexity-theoretic framework (poly-time many-one reductions, the NP hierarchy) that Mathlib does not provide. The explicit polynomial size-bound hypothesis is what makes the poly-time character load-bearing in the type. </p>
+</div>
+
+    <a class="latex_link" href="sect0008.html#ax:reduction_packaging">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Axioms.lean#L50">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:fast_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:fast" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">3</span><span class="definition_thmtitle">FAST objective and decision problem</span></div>
+    <div class="thm_thmcontent"><p>    For a linear order \(\pi \in S_V\) (an <span class="ttfamily">Equiv.Perm</span> of \(V\), with \(\pi (u)\) the position of \(u\)), the feedback-arc-set count is \(\operatorname {fas}(T,\pi ) = |\{ (u,v) \in A : \pi (u) {\gt} \pi (v)\} |\). The FAST decision predicate is \(\mathrm{FAST}(T,k) :\Leftrightarrow \exists \pi ,\  \operatorname {fas}(T,\pi ) \le k\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:fast">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L65">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:induced_order_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:induced_order" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">27</span><span class="definition_thmtitle">Induced vertex order</span></div>
+    <div class="thm_thmcontent"><p>   For injective \(g : \mathrm{Fin}\, n \to \alpha \) into a linear order, \(\mathrm{rankPerm}\, g\) ranks \(\mathrm{Fin}\, n\) by \(g\): \(\mathrm{rankPerm}\, g\, u {\lt} \mathrm{rankPerm}\, g\, v \iff g(u) {\lt} g(v)\) (in Lean, \((\mathrm{Tuple.sort}\, g)^{-1}\)). The induced vertex order is \(\pi _{\hat\pi } = \mathrm{rankPerm}(u \mapsto \hat\pi (d_u))\). </p>
+</div>
+
+    <a class="latex_link" href="sect0007.html#def:induced_order">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/InducedOrder.lean#L22">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:kendall_tau_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:kendall_tau" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">4</span><span class="definition_thmtitle">Kendall–tau distance</span></div>
+    <div class="thm_thmcontent"><p>   For \(\hat\pi , \sigma \in S_L\), \(d_{\mathrm{KT}}(\hat\pi ,\sigma ) = \sum _{i{\lt}j} \mathbf{1}[(\sigma (i)-\sigma (j))(\hat\pi (i)-\hat\pi (j)) {\lt} 0]\), the number of pairs on which \(\hat\pi \) and \(\sigma \) disagree. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:kendall_tau">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L74">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:orp_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:orp" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">6</span><span class="definition_thmtitle">Posterior cost and the ORP decision</span></div>
+    <div class="thm_thmcontent"><p>    The posterior cost of a candidate order \(\hat\pi \) is \(\mathrm{cost}(\hat\pi ) = Z^{-1}\sum _\sigma w(\sigma )\, d_{\mathrm{KT}}(\hat\pi ,\sigma )\) (<span class="ttfamily">ORPInstance.cost</span>). The ORP decision predicate is \(\mathrm{ORP}(\mathrm{inst},K) :\Leftrightarrow \exists \hat\pi , \mathrm{cost}(\hat\pi ) \le K\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:orp">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L110">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:orp_of_tournament_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:orp_of_tournament" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">14</span><span class="definition_thmtitle">\(\alpha _u\) and the reduction \(f(T,k)\)</span></div>
+    <div class="thm_thmcontent"><p>    Set \(L = 2nR\) and \(q = L - n\). The instance has one designated event \(d_u\) per vertex and \(q\) filler events; \(\Delta = 1\) and every observation is \(0\). View the \(L\) slots as \(R\) blocks of width \(2n\); in block \(b\) vertex \(u\) owns the consecutive slot pair \(a^-_{u,b} = (b-1)2n + 2\rho _b(u) - 1\), \(a^+_{u,b} = (b-1)2n + 2\rho _b(u)\). With \(\alpha _u = \tfrac 12 - \tfrac {2\delta _u}{R} + \tfrac {\delta _u}{R^2}\), the designated noise is \(F_{d_u}(-a^-_{u,b}) = (1-\alpha _u)/R\), \(F_{d_u}(-a^+_{u,b}) = \alpha _u/R\) (\(b = 1,\dots ,R\)), and each filler has the uniform law \(F_f(-s) = 1/L\) (\(s = 1,\dots ,L\)). The reduction maps \((T,k)\) to this instance together with threshold \(K = C_0 + 2k/R^2\) (<span class="ttfamily">orpThresholdOf</span>; see Lemma&#160;<a href="sect0007.html#lem:reduction_correct">29</a>). The builder is parameterized in \(\rho \) so the heavy Layer-4/5 lemmas can take the gadget properties as hypotheses; the public <span class="ttfamily">orpOfTournament</span> fixes \(\rho \) via <span class="ttfamily">profile_gadget.choose</span>. </p>
+</div>
+
+    <a class="latex_link" href="sect0005.html#def:orp_of_tournament">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L42">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:posterior_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:posterior" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">5</span><span class="definition_thmtitle">Posterior weight, normalizer, and pair marginal</span></div>
+    <div class="thm_thmcontent"><p>   An ORP instance carries \(L\) finite-support rational noise PMFs \(F_i : \mathbb {Z} \to \mathbb {Q}\). With every observation equal to \(0\), the unnormalized posterior weight of \(\sigma \in S_L\) is \(w(\sigma ) = \prod _{i} F_i(-\sigma (i))\) (<span class="ttfamily">ORPInstance.weight</span>), normalized by \(Z = \sum _\sigma w(\sigma )\) (<span class="ttfamily">ORPInstance.Z</span>). For events \(i,j\) the pair marginal is \(p_{ij} = \mathbb {P}(\sigma (i) {\lt} \sigma (j)) = Z^{-1}\sum _{\sigma : \sigma (i) {\lt} \sigma (j)} w(\sigma )\) (<span class="ttfamily">ORPInstance.pairLess</span>). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:posterior">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L101">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:profile_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:profile" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">10</span><span class="definition_thmtitle">Profile construction</span></div>
+    <div class="thm_thmcontent"><p>    Set \(m = \binom n2\) and \(R = 2m + 8n\). The profile \(\rho : \mathrm{Fin}\, R \to \mathrm{Perm}(\mathrm{Fin}\, n)\) is the concatenation of: (a) for each of the \(m\) arcs \((u,v) \in A\), the two gadget orders \(O_1, O_2\) of Lemma&#160;<a href="sect0004.html#lem:gadget_arc">9</a> (\(2m\) orders, extracted by choice); (b) \(4n\) copies of the identity and \(4n\) copies of its reverse \(\mathrm{rev}\) (the neutral pairs \((\tau , \tau ^{\operatorname {rev}})\)). Ranks are 0-indexed, \((\rho _b(u) : \mathbb {N}) \in \{ 0,\dots ,n-1\} \). This is hand-authored in Lean as a choice-based <em>construction</em>; the development tracks \(R = 2m + 8n\) directly rather than proving \(m = \binom n2\) (downstream only needs even / \({\ge }\, 8n\) / \({\le }\, 2n^2+8n\)). </p>
+</div>
+
+    <a class="latex_link" href="sect0004.html#def:profile">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Profile.lean#L121">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:tournament_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:tournament" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1</span><span class="definition_thmtitle">Tournament and degree difference</span></div>
+    <div class="thm_thmcontent"><p>   A <em>tournament</em> on \(V = \{ 1,\dots ,n\} \) (\(= \mathrm{Fin}\, n\)) is a relation \(\mathrm{beats} : V \to V \to \mathrm{Bool}\) that is irreflexive (\(\mathrm{beats}(u,u) = \mathrm{false}\)) and exactly one-directional on each unordered pair (\(u \ne v \Rightarrow \mathrm{beats}(u,v) = \neg \, \mathrm{beats}(v,u)\)). Arc \((u,v) \in A\) means \(\mathrm{beats}(u,v) = \mathrm{true}\). For \(u \in V\) the degree difference is \(\delta _u := \operatorname {indeg}(u) - \operatorname {outdeg}(u)\) (<span class="ttfamily">Tournament.degDiff</span>). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:tournament">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L39">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:alpha_mem_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:alpha_mem" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">15</span><span class="lemma_thmtitle">\(\alpha _u \in [0,1]\)</span></div>
+    <div class="thm_thmcontent"><p>    \(\alpha _u \in [0,1]\) (indeed \(\alpha _u \in (1/4, 3/4)\)), so the designated noise \(F_{d_u}\) is a genuine PMF. </p>
+</div>
+
+    <a class="latex_link" href="sect0005.html#lem:alpha_mem">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/AlphaMemUnitInterval.lean#L22">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:card_lt_pairs_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:card_lt_pairs" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">26</span><span class="lemma_thmtitle">Increasing-pair count</span></div>
+    <div class="thm_thmcontent"><p>   \(\# \{ (i,j)\in (\mathrm{Fin}\, m)^2 : i{\lt}j\}  = \binom m2\). </p>
+</div>
+
+    <a class="latex_link" href="sect0007.html#lem:card_lt_pairs">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/CardLtPairs.lean#L32">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:degdiff_bound_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:degdiff_bound" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">2</span><span class="lemma_thmtitle">Degree-difference bound</span></div>
+    <div class="thm_thmcontent"><p>    For every vertex \(u\) of a tournament on \(n\) vertices, \(|\delta _u| \le n - 1\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#lem:degdiff_bound">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DegDiffAbsLe.lean#L66">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:degree_sum_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:degree_sum" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">24</span><span class="lemma_thmtitle">Signed degree sum</span></div>
+    <div class="thm_thmcontent"><p>    \(\sum _{v \ne u} (\mathbf{1}[(u,v)\in A] - \mathbf{1}[(v,u)\in A]) = \operatorname {outdeg}(u) - \operatorname {indeg}(u) = -\delta _u\). </p>
+</div>
+
+    <a class="latex_link" href="sect0006.html#lem:degree_sum">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DegreeSum.lean#L18">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:designated_margin_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:designated_margin" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">21</span><span class="lemma_thmtitle">Designated–designated posterior margins</span></div>
+    <div class="thm_thmcontent"><p>    Let \(B_u\) be the block of \(X_u\); by independence the \(B_u\) are i.i.d. uniform on \(\{ 1,\dots ,R\} \). Then \(\mathbb {P}(X_u {\lt} X_v) = \frac{R(R-1)/2 + c_{uv}}{R^2}\), which equals \(\tfrac 12 + \tfrac 1{R^2}\) if \((u,v) \in A\) and \(\tfrac 12 - \tfrac 1{R^2}\) if \((v,u) \in A\). So each designated pair’s posterior majority direction is the tournament arc direction, with decision weight \(|2p-1| = 2/R^2\) and constant term \(\min (p,1-p) = \tfrac 12 - \tfrac 1{R^2}\). </p>
+</div>
+
+    <a class="latex_link" href="sect0006.html#lem:designated_margin">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DesignatedMargin.lean#L38">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:designated_margin_close_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:designated_margin_close" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">20</span><span class="lemma_thmtitle">Designated-margin closing algebra</span></div>
+    <div class="thm_thmcontent"><p>   For even \(R \ge 1\) and \(c = \lfloor R/2\rfloor + \varepsilon \), \(\dfrac {R(R-1)/2 + c}{R^2} = \dfrac 12 + \dfrac {\varepsilon }{R^2}\). </p>
+</div>
+
+    <a class="latex_link" href="sect0006.html#lem:designated_margin_close">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DesignatedMarginClose.lean#L30">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:expected_slot_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:expected_slot" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">22</span><span class="lemma_thmtitle">Expected designated slot</span></div>
+    <div class="thm_thmcontent"><p>    \(\mathbb {E}[X_u] = nR + \tfrac {2\delta _u}{R} + \alpha _u = nR + \tfrac 12 + \tfrac {\delta _u}{R^2}\). </p>
+</div>
+
+    <a class="latex_link" href="sect0006.html#lem:expected_slot">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ExpectedSlot.lean#L18">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:filler_neutral_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:filler_neutral" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">25</span><span class="lemma_thmtitle">Filler pairs are exactly neutral</span></div>
+    <div class="thm_thmcontent"><p>    Every pair involving a filler has posterior probability \(1/2\) in each direction, hence (by Lemma&#160;<a href="sect0003.html#lem:majority_form">8</a>) contributes exactly \(1/2\) to the cost, independent of \(\hat\pi \). </p>
+</div>
+
+    <a class="latex_link" href="sect0006.html#lem:filler_neutral">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/FillerNeutral.lean#L286">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:gadget_arc_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:gadget_arc" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">9</span><span class="lemma_thmtitle">Single-arc gadget margins and rank sums</span></div>
+    <div class="thm_thmcontent"><p>    For an arc \((u,v)\) pick any order \(\omega \) of \(V \setminus \{ u,v\} \) and form the two orders \(O_1 = (u,v,\omega )\) and \(O_2 = (\omega ^{\operatorname {rev}}, u, v)\). Then: (i) both rank \(u\) before \(v\); (ii) every ordered pair <em>other than the arc itself</em> (in either orientation) is reversed between \(O_1\) and \(O_2\) (net margin \(0\)); (iii) the two orders give \(u\) the 0-indexed rank sum \(n-2\) (ranks \(0\) and \(n-2\)), \(v\) the rank sum \(n\) (ranks \(1\) and \(n-1\)), and every \(x \notin \{ u,v\} \) the rank sum \(n-1\). </p>
+</div>
+
+    <a class="latex_link" href="sect0004.html#lem:gadget_arc">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/GadgetArc.lean#L36">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:independence_fillers_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:independence_fillers" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">18</span><span class="lemma_thmtitle">Exact independence via fillers</span></div>
+    <div class="thm_thmcontent"><p>    Conditioned on \(\hat t = 0\), the designated slots are mutually independent, with \(\mathbb {P}(X_u = a^-_{u,b}) = (1-\alpha _u)/R\) and \(\mathbb {P}(X_u = a^+_{u,b}) = \alpha _u/R\), where \(X_u\) is the slot of \(d_u\). The pairwise joint law factors: \(\mathbb {P}(X_u = s \wedge X_v = t) = \mathbb {P}(X_u=s)\, \mathbb {P}(X_v=t)\) for \(u \ne v\). </p>
+</div>
+
+    <a class="latex_link" href="sect0006.html#lem:independence_fillers">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/IndependenceFillers.lean#L585">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:majority_form_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:majority_form" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">8</span><span class="lemma_thmtitle">Majority form of a pairwise contribution</span></div>
+    <div class="thm_thmcontent"><p>    Write the contribution of pair \(\{ i,j\} \) to \(\mathrm{cost}(\hat\pi )\) as \(\ell _{ij}(\hat\pi ) = p_{ij}\, \mathbf{1}[\hat\pi (i){\gt}\hat\pi (j)] + (1-p_{ij})\, \mathbf{1}[\hat\pi (i){\lt}\hat\pi (j)]\). Calling the more likely relative order the <em>posterior majority order</em> (ties broken arbitrarily), </p>
+<div class="displaymath" id="a0000000014">
+  \[  \ell _{ij}(\hat\pi ) = |2p_{ij}-1|\, \mathbf{1}[\hat\pi \text{ disagrees with the majority order on } \{ i,j\} ] + \min (p_{ij}, 1-p_{ij}).  \]
+</div>
+<p> In particular, if \(p_{ij} = 1/2\) the contribution is always \(1/2\), independent of \(\hat\pi \). </p>
+</div>
+
+    <a class="latex_link" href="sect0003.html#lem:majority_form">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/MajorityForm.lean#L42">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:objective_identity_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:objective_identity" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">28</span><span class="lemma_thmtitle">Objective identity</span></div>
+    <div class="thm_thmcontent"><p>    With \(C_0 = m(\tfrac 12 - \tfrac 1{R^2}) + (\binom L2 - m)\tfrac 12\) and \(\pi _{\hat\pi }\) the induced vertex order, </p>
+<div class="displaymath" id="a0000000035">
+  \[  \mathrm{cost}(\hat\pi ) = C_0 + \frac{2}{R^2}\, \operatorname {fas}(T, \pi _{\hat\pi }).  \]
+</div>
+</div>
+
+    <a class="latex_link" href="sect0007.html#lem:objective_identity">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ObjectiveIdentity.lean#L61">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:pair_count_lt_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:pair_count_lt" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">19</span><span class="lemma_thmtitle">Block pair count</span></div>
+    <div class="thm_thmcontent"><p>   Over \(\{ 0,\dots ,R-1\} ^2\), \(\sum _{b,b'} \mathbf{1}[b{\lt}b'] = R(R-1)/2\). </p>
+</div>
+
+    <a class="latex_link" href="sect0006.html#lem:pair_count_lt">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PairCountLt.lean#L29">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:pairwise_decomp_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:pairwise_decomp" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">7</span><span class="lemma_thmtitle">Pairwise decomposition</span></div>
+    <div class="thm_thmcontent"><p>    For any probability distribution on \(\sigma \in S_L\) and any fixed \(\hat\pi \), </p>
+<div class="displaymath" id="a0000000012">
+  \[  \mathrm{cost}(\hat\pi ) = \sum _{i{\lt}j} \Big( p_{ij}\, \mathbf{1}[\hat\pi (i) {\gt} \hat\pi (j)] + (1-p_{ij})\, \mathbf{1}[\hat\pi (i) {\lt} \hat\pi (j)] \Big),  \]
+</div>
+<p> where \(p_{ij} = \mathbb {P}(\sigma (i) {\lt} \sigma (j))\). </p>
+</div>
+
+    <a class="latex_link" href="sect0003.html#lem:pairwise_decomp">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PairwiseDecomp.lean#L46">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:poly_size_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:poly_size" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">30</span><span class="lemma_thmtitle">Polynomial size bounds</span></div>
+    <div class="thm_thmcontent"><p>    \(m \le n^2\), \(R = 2m + 8n \le 2n^2 + 8n\), and \(L = 2nR \le 4n^3 + 16n^2\); in particular \(L \le 16(n+1)^3\), so the reduction’s output is polynomial-sized. </p>
+</div>
+
+    <a class="latex_link" href="sect0007.html#lem:poly_size">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PolySizeBounds.lean#L23">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:profile_gadget_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:profile_gadget" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">13</span><span class="lemma_thmtitle">Profile gadget</span></div>
+    <div class="thm_thmcontent"><p>    There is an even \(R = 2m + 8n \ge 8n\) and a profile \(\rho : \mathrm{Fin}\, R \to \mathrm{Perm}(\mathrm{Fin}\, n)\) satisfying both the margin identity (Lemma&#160;<a href="sect0004.html#lem:profile_margins">11</a>) and the rank-sum identity (Lemma&#160;<a href="sect0004.html#lem:profile_ranksums">12</a>). This packages Definition&#160;<a href="sect0004.html#def:profile">10</a> with the two preceding lemmas into the existential \(\exists R\, \rho ,\  \mathrm{Even}\, R \wedge 8n \le R \wedge R = 2m+8n \wedge \text{margins} \wedge \text{ranksums}\) that everything downstream consumes via <span class="ttfamily">.choose</span>. </p>
+</div>
+
+    <a class="latex_link" href="sect0004.html#lem:profile_gadget">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ProfileGadget.lean#L28">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:profile_margins_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:profile_margins" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">11</span><span class="lemma_thmtitle">Profile margins</span></div>
+    <div class="thm_thmcontent"><p>    For ordered \(u \ne v\), \(c_{uv} := |\{ b : \rho _b(u) {\lt} \rho _b(v)\} |\) equals \(R/2 + 1\) if \((u,v) \in A\) and \(R/2 - 1\) if \((v,u) \in A\). </p>
+</div>
+
+    <a class="latex_link" href="sect0004.html#lem:profile_margins">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ProfileMargins.lean#L336">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:profile_ranksums_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:profile_ranksums" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">12</span><span class="lemma_thmtitle">Profile rank sums</span></div>
+    <div class="thm_thmcontent"><p>    For every vertex \(u\), \(\sum _b \rho _b(u) = R(n+1)/2 + \delta _u\) (1-indexed); in Lean the equivalent 0-indexed doubled form \(2\sum _b (\rho _b u : \mathbb {N}) = R(n-1) + 2\delta _u\). </p>
+</div>
+
+    <a class="latex_link" href="sect0004.html#lem:profile_ranksums">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ProfileRanksums.lean#L182">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:rank_identity_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:rank_identity" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">23</span><span class="lemma_thmtitle">Rank identity</span></div>
+    <div class="thm_thmcontent"><p>   For a permutation \(\sigma \) of \(\mathrm{Fin}\, L\), \(\sigma (x) = \# \{ i : \sigma (i) {\lt} \sigma (x)\}  = \sum _i \mathbf{1}[\sigma (i) {\lt} \sigma (x)]\): a value is its own rank. </p>
+</div>
+
+    <a class="latex_link" href="sect0006.html#lem:rank_identity">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/RankIdentity.lean#L17">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:reduction_correct_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:reduction_correct" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">29</span><span class="lemma_thmtitle">Reduction correctness</span></div>
+    <div class="thm_thmcontent"><p>    With threshold \(K = C_0 + 2k/R^2\), </p>
+<div class="displaymath" id="a0000000037">
+  \[  \mathrm{FAST}(T,k) \iff \mathrm{ORP}(f(T,k), K).  \]
+</div>
+</div>
+
+    <a class="latex_link" href="sect0007.html#lem:reduction_correct">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L50">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:support_disjoint_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:support_disjoint" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">16</span><span class="lemma_thmtitle">Designated supports are pairwise disjoint</span></div>
+    <div class="thm_thmcontent"><p>    The supports \(S_u = \{ a^-_{u,b}, a^+_{u,b} : b = 1,\dots ,R\} \) are pairwise disjoint over \(u \in V\); equivalently, the slot map \((u,b,\mathrm{sign}) \mapsto \text{slot}\) is injective. </p>
+</div>
+
+    <a class="latex_link" href="sect0005.html#lem:support_disjoint">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/SupportDisjoint.lean#L27">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:orp_np_hard_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:orp_np_hard" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">33</span><span class="theorem_thmtitle">ORP is NP-hard</span></div>
+    <div class="thm_thmcontent"><p>    The Ordering Recovery Problem is NP-hard under deterministic polynomial-time many-one reductions. </p>
+</div>
+
+    <a class="latex_link" href="sect0008.html#thm:orp_np_hard">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L164">Lean</a>
     
     
   
@@ -139,7 +1087,7 @@ graphContainer.graphviz({useWorker: true})
     .width(width)
     .height(height)
     .fit(true)
-    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"def:even"	[color=green,		fillcolor="#B0ECA3",		label=even,		shape=box,		style=filled];	"thm:sum_of_evens"	[color=green,		fillcolor="#1CAC78",		label=sum_of_evens,		shape=ellipse,		style=filled];	"def:even" -> "thm:sum_of_evens"	[style=dashed];}`)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"def:tournament"	[color=green,		fillcolor="#B0ECA3",		label=tournament,		shape=box,		style=filled];	"lem:degree_sum"	[color=green,		fillcolor="#1CAC78",		label=degree_sum,		shape=ellipse,		style=filled];	"def:tournament" -> "lem:degree_sum"	[style=dashed];	"lem:degdiff_bound"	[color=green,		fillcolor="#1CAC78",		label=degdiff_bound,		shape=ellipse,		style=filled];	"def:tournament" -> "lem:degdiff_bound"	[style=dashed];	"def:fast"	[color=green,		fillcolor="#B0ECA3",		label=fast,		shape=box,		style=filled];	"def:tournament" -> "def:fast"	[style=dashed];	"lem:gadget_arc"	[color=green,		fillcolor="#1CAC78",		label=gadget_arc,		shape=ellipse,		style=filled];	"def:tournament" -> "lem:gadget_arc"	[style=dashed];	"lem:filler_neutral"	[color=green,		fillcolor="#9CEC8B",		label=filler_neutral,		shape=ellipse,		style=filled];	"lem:degree_sum" -> "lem:filler_neutral"	[style=dashed];	"lem:profile_ranksums"	[color=green,		fillcolor="#1CAC78",		label=profile_ranksums,		shape=ellipse,		style=filled];	"lem:degdiff_bound" -> "lem:profile_ranksums"	[style=dashed];	"lem:reduction_correct"	[color=green,		fillcolor="#9CEC8B",		label=reduction_correct,		shape=ellipse,		style=filled];	"def:fast" -> "lem:reduction_correct"	[style=dashed];	"def:profile"	[color=green,		fillcolor="#B0ECA3",		label=profile,		shape=box,		style=filled];	"lem:gadget_arc" -> "def:profile"	[style=dashed];	"lem:objective_identity"	[color=green,		fillcolor="#9CEC8B",		label=objective_identity,		shape=ellipse,		style=filled];	"lem:filler_neutral" -> "lem:objective_identity"	[style=dashed];	"lem:profile_gadget"	[color=green,		fillcolor="#1CAC78",		label=profile_gadget,		shape=ellipse,		style=filled];	"lem:profile_ranksums" -> "lem:profile_gadget"	[style=dashed];	"thm:orp_np_hard"	[color=green,		fillcolor="#9CEC8B",		label=orp_np_hard,		shape=ellipse,		style=filled];	"lem:reduction_correct" -> "thm:orp_np_hard"	[style=dashed];	"def:profile" -> "lem:profile_ranksums"	[style=dashed];	"lem:profile_margins"	[color=green,		fillcolor="#1CAC78",		label=profile_margins,		shape=ellipse,		style=filled];	"def:profile" -> "lem:profile_margins"	[style=dashed];	"lem:profile_margins" -> "lem:profile_gadget"	[style=dashed];	"lem:independence_fillers"	[color=green,		fillcolor="#9CEC8B",		label=independence_fillers,		shape=ellipse,		style=filled];	"lem:designated_margin"	[color=green,		fillcolor="#9CEC8B",		label=designated_margin,		shape=ellipse,		style=filled];	"lem:independence_fillers" -> "lem:designated_margin"	[style=dashed];	"lem:expected_slot"	[color=green,		fillcolor="#9CEC8B",		label=expected_slot,		shape=ellipse,		style=filled];	"lem:independence_fillers" -> "lem:expected_slot"	[style=dashed];	"lem:designated_margin" -> "lem:filler_neutral"	[style=dashed];	"lem:expected_slot" -> "lem:filler_neutral"	[style=dashed];	"lem:objective_identity" -> "lem:reduction_correct"	[style=dashed];	"lem:designated_margin_close"	[color=green,		fillcolor="#1CAC78",		label=designated_margin_close,		shape=ellipse,		style=filled];	"lem:designated_margin_close" -> "lem:designated_margin"	[style=dashed];	"lem:pair_count_lt"	[color=green,		fillcolor="#1CAC78",		label=pair_count_lt,		shape=ellipse,		style=filled];	"lem:pair_count_lt" -> "lem:designated_margin"	[style=dashed];	"lem:alpha_mem"	[color=green,		fillcolor="#1CAC78",		label=alpha_mem,		shape=ellipse,		style=filled];	"lem:alpha_mem" -> "lem:independence_fillers"	[style=dashed];	"def:orp_of_tournament"	[color=green,		fillcolor="#B0ECA3",		label=orp_of_tournament,		shape=box,		style=filled];	"def:orp_of_tournament" -> "lem:alpha_mem"	[style=dashed];	"lem:poly_size"	[color=green,		fillcolor="#1CAC78",		label=poly_size,		shape=ellipse,		style=filled];	"def:orp_of_tournament" -> "lem:poly_size"	[style=dashed];	"lem:support_disjoint"	[color=green,		fillcolor="#1CAC78",		label=support_disjoint,		shape=ellipse,		style=filled];	"def:orp_of_tournament" -> "lem:support_disjoint"	[style=dashed];	"lem:poly_size" -> "thm:orp_np_hard"	[style=dashed];	"lem:support_disjoint" -> "lem:independence_fillers"	[style=dashed];	"lem:profile_gadget" -> "def:orp_of_tournament"	[style=dashed];	"ax:reduction_packaging"	[color=green,		label=reduction_packaging,		shape=ellipse];	"ax:reduction_packaging" -> "thm:orp_np_hard"	[style=dashed];	"def:induced_order"	[color=green,		fillcolor="#B0ECA3",		label=induced_order,		shape=box,		style=filled];	"def:induced_order" -> "lem:objective_identity"	[style=dashed];	"def:posterior"	[color=green,		fillcolor="#B0ECA3",		label=posterior,		shape=box,		style=filled];	"def:orp"	[color=green,		fillcolor="#B0ECA3",		label=orp,		shape=box,		style=filled];	"def:posterior" -> "def:orp"	[style=dashed];	"def:orp" -> "def:orp_of_tournament"	[style=dashed];	"lem:pairwise_decomp"	[color=green,		fillcolor="#1CAC78",		label=pairwise_decomp,		shape=ellipse,		style=filled];	"def:orp" -> "lem:pairwise_decomp"	[style=dashed];	"lem:majority_form"	[color=green,		fillcolor="#1CAC78",		label=majority_form,		shape=ellipse,		style=filled];	"lem:pairwise_decomp" -> "lem:majority_form"	[style=dashed];	"lem:majority_form" -> "lem:filler_neutral"	[style=dashed];	"def:kendall_tau"	[color=green,		fillcolor="#B0ECA3",		label=kendall_tau,		shape=box,		style=filled];	"def:kendall_tau" -> "def:orp"	[style=dashed];	"ax:fiber_count"	[color=green,		label=fiber_count,		shape=ellipse];	"ax:fiber_count" -> "lem:independence_fillers";	"lem:card_lt_pairs"	[color=green,		fillcolor="#1CAC78",		label=card_lt_pairs,		shape=ellipse,		style=filled];	"lem:card_lt_pairs" -> "lem:objective_identity"	[style=dashed];	"lem:rank_identity"	[color=green,		fillcolor="#1CAC78",		label=rank_identity,		shape=ellipse,		style=filled];	"lem:rank_identity" -> "lem:filler_neutral"	[style=dashed];	"ax:fast_np_complete"	[color=green,		label=fast_np_complete,		shape=ellipse];	"ax:fast_np_complete" -> "thm:orp_np_hard"	[style=dashed];}`)
     .on("end", interactive);
 
 latexLabelEscaper = function(label) {

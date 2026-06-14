@@ -12,12 +12,13 @@
 <meta name="generator" content="plasTeX" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Definitions</title>
-<link rel="next" href="sect0003.html" title="Main Result" />
-<link rel="prev" href="sect0001.html" title="Parity of Natural Numbers" />
-<link rel="up" href="sect0001.html" title="Parity of Natural Numbers" />
+<title>Layer 0 — Core definitions</title>
+<link rel="next" href="sect0003.html" title="Layer 1 — Abstract pairwise decomposition" />
+<link rel="prev" href="sect0001.html" title="Overview" />
+<link rel="up" href="sect0001.html" title="Overview" />
 <link rel="stylesheet" href="styles/theme-white.css" />
 <link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
 <link rel="stylesheet" href="styles/blueprint.css" />
 <link rel="stylesheet" href="styles/extra_styles.css" />
 </head>
@@ -25,21 +26,36 @@
 <body>
 <header>
 <svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
-<h1 id="doc_title"><a href="index.html">Simple Blueprint Example</a></h1>
+<h1 id="doc_title"><a href="index.html">Blueprint: NP-Hardness of the Ordering Recovery Problem<br /><big class="large">A Corrected Reduction (FAST \(\le _p\) ORP)</big></a></h1>
 </header>
 
 <div class="wrapper">
 <nav class="toc">
 <ul class="sub-toc-0">
 <li class=" active">
-  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Parity of Natural Numbers</span></a>
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Overview</span></a>
   <span class="expand-toc">▼</span>
   <ul class="sub-toc-1 active">
      <li class=" active current">
-  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Definitions</span></a>
+  <a href="sect0002.html"><span class="toc_ref">0.1</span> <span class="toc_entry">Layer 0 — Core definitions</span></a>
  </li>
 <li class="">
-  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Main Result</span></a>
+  <a href="sect0003.html"><span class="toc_ref">0.2</span> <span class="toc_entry">Layer 1 — Abstract pairwise decomposition</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">0.3</span> <span class="toc_entry">Layer 2 — The McGarvey profile gadget</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">0.4</span> <span class="toc_entry">Layer 3 — The constructed ORP instance</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">0.5</span> <span class="toc_entry">Layer 4 — Independence and posterior margins</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">0.6</span> <span class="toc_entry">Layer 5 — Objective identity and correctness</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">0.7</span> <span class="toc_entry">Layer 6 — Headline theorem (cited meta-inputs)</span></a>
  </li>
 
   </ul>
@@ -53,14 +69,14 @@
 
 
 <div class="main-text">
-<h1 id="a0000000003">1.1 Definitions</h1>
-<div class="definition_thmwrapper theorem-style-definition" id="def:even">
+<h1 id="a0000000003">0.1 Layer 0 — Core definitions</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:tournament">
   <div class="definition_thmheading">
     <span class="definition_thmcaption">
     Definition
     </span>
     <span class="definition_thmlabel">1</span>
-    <span class="definition_thmtitle">Even number</span>
+    <span class="definition_thmtitle">Tournament and degree difference</span>
     <div class="thm_header_extras">
 
     
@@ -68,7 +84,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="sect0002.html#def:even">#</a>
+    <a class="icon proof" href="sect0002.html#def:tournament">#</a>
     
     
     
@@ -83,7 +99,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://anirudhsk.github.io/orp_hardness/docs/find/#doc/Even" class="lean_decl">Even</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L39" class="lean_decl">LeaFrontier.OrderingRecovery.Tournament</a></li>
           
         </ul>
     
@@ -94,7 +110,304 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>  A natural number \(n \in \mathbb {N}\) is <em>even</em> if there exists \(k \in \mathbb {N}\) such that \(n = 2k\).  </p>
+  <p>   A <em>tournament</em> on \(V = \{ 1,\dots ,n\} \) (\(= \mathrm{Fin}\, n\)) is a relation \(\mathrm{beats} : V \to V \to \mathrm{Bool}\) that is irreflexive (\(\mathrm{beats}(u,u) = \mathrm{false}\)) and exactly one-directional on each unordered pair (\(u \ne v \Rightarrow \mathrm{beats}(u,v) = \neg \, \mathrm{beats}(v,u)\)). Arc \((u,v) \in A\) means \(\mathrm{beats}(u,v) = \mathrm{true}\). For \(u \in V\) the degree difference is \(\delta _u := \operatorname {indeg}(u) - \operatorname {outdeg}(u)\) (<span class="ttfamily">Tournament.degDiff</span>). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:degdiff_bound">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2</span>
+    <span class="lemma_thmtitle">Degree-difference bound</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#lem:degdiff_bound">#</a>
+    
+    <a class="icon proof" href="sect0002.html#a0000000010"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:tournament">Definition 1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DegDiffAbsLe.lean#L66" class="lean_decl">LeaFrontier.OrderingRecovery.degDiff_abs_le</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every vertex \(u\) of a tournament on \(n\) vertices, \(|\delta _u| \le n - 1\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000010">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Each of the \(n-1\) vertices \(v \ne u\) contributes exactly \(+1\) or \(-1\) to \(\operatorname {indeg}(u) - \operatorname {outdeg}(u)\), according to whether \((v,u) \in A\) or \((u,v) \in A\). Hence the signed sum has absolute value at most \(n-1\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:fast">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">3</span>
+    <span class="definition_thmtitle">FAST objective and decision problem</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:fast">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:tournament">Definition 1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L65" class="lean_decl">LeaFrontier.OrderingRecovery.FAST</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For a linear order \(\pi \in S_V\) (an <span class="ttfamily">Equiv.Perm</span> of \(V\), with \(\pi (u)\) the position of \(u\)), the feedback-arc-set count is \(\operatorname {fas}(T,\pi ) = |\{ (u,v) \in A : \pi (u) {\gt} \pi (v)\} |\). The FAST decision predicate is \(\mathrm{FAST}(T,k) :\Leftrightarrow \exists \pi ,\  \operatorname {fas}(T,\pi ) \le k\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:kendall_tau">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">4</span>
+    <span class="definition_thmtitle">Kendall–tau distance</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:kendall_tau">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L74" class="lean_decl">LeaFrontier.OrderingRecovery.dKT</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   For \(\hat\pi , \sigma \in S_L\), \(d_{\mathrm{KT}}(\hat\pi ,\sigma ) = \sum _{i{\lt}j} \mathbf{1}[(\sigma (i)-\sigma (j))(\hat\pi (i)-\hat\pi (j)) {\lt} 0]\), the number of pairs on which \(\hat\pi \) and \(\sigma \) disagree. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:posterior">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">5</span>
+    <span class="definition_thmtitle">Posterior weight, normalizer, and pair marginal</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:posterior">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L101" class="lean_decl">LeaFrontier.OrderingRecovery.ORPInstance.pairLess</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   An ORP instance carries \(L\) finite-support rational noise PMFs \(F_i : \mathbb {Z} \to \mathbb {Q}\). With every observation equal to \(0\), the unnormalized posterior weight of \(\sigma \in S_L\) is \(w(\sigma ) = \prod _{i} F_i(-\sigma (i))\) (<span class="ttfamily">ORPInstance.weight</span>), normalized by \(Z = \sum _\sigma w(\sigma )\) (<span class="ttfamily">ORPInstance.Z</span>). For events \(i,j\) the pair marginal is \(p_{ij} = \mathbb {P}(\sigma (i) {\lt} \sigma (j)) = Z^{-1}\sum _{\sigma : \sigma (i) {\lt} \sigma (j)} w(\sigma )\) (<span class="ttfamily">ORPInstance.pairLess</span>). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:orp">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">6</span>
+    <span class="definition_thmtitle">Posterior cost and the ORP decision</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:orp">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:posterior">Definition 5</a></li>
+          
+          <li><a href="sect0002.html#def:kendall_tau">Definition 4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L110" class="lean_decl">LeaFrontier.OrderingRecovery.ORP</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    The posterior cost of a candidate order \(\hat\pi \) is \(\mathrm{cost}(\hat\pi ) = Z^{-1}\sum _\sigma w(\sigma )\, d_{\mathrm{KT}}(\hat\pi ,\sigma )\) (<span class="ttfamily">ORPInstance.cost</span>). The ORP decision predicate is \(\mathrm{ORP}(\mathrm{inst},K) :\Leftrightarrow \exists \hat\pi , \mathrm{cost}(\hat\pi ) \le K\). </p>
 
   </div>
 </div>
@@ -105,16 +418,22 @@
 </div> <!-- wrapper -->
 
 <nav class="prev_up_next">
-  <a href="sect0001.html" title="Parity of Natural Numbers"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0001.html" title="Overview"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
 </a>
-  <a href="sect0001.html" title="Parity of Natural Numbers"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+  <a href="sect0001.html" title="Overview"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
 </a>
-  <a href="sect0003.html" title="Main Result"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+  <a href="sect0003.html" title="Layer 1 — Abstract pairwise decomposition"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
 </a>
 </nav>
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/plastex.js"></script>
 <script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
 </body>
 </html>

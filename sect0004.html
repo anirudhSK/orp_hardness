@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Layer 2 — The McGarvey profile gadget</title>
+<link rel="next" href="sect0005.html" title="Layer 3 — The constructed ORP instance" />
+<link rel="prev" href="sect0003.html" title="Layer 1 — Abstract pairwise decomposition" />
+<link rel="up" href="sect0001.html" title="Overview" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Blueprint: NP-Hardness of the Ordering Recovery Problem<br /><big class="large">A Corrected Reduction (FAST \(\le _p\) ORP)</big></a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Overview</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">0.1</span> <span class="toc_entry">Layer 0 — Core definitions</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">0.2</span> <span class="toc_entry">Layer 1 — Abstract pairwise decomposition</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0004.html"><span class="toc_ref">0.3</span> <span class="toc_entry">Layer 2 — The McGarvey profile gadget</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">0.4</span> <span class="toc_entry">Layer 3 — The constructed ORP instance</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">0.5</span> <span class="toc_entry">Layer 4 — Independence and posterior margins</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">0.6</span> <span class="toc_entry">Layer 5 — Objective identity and correctness</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">0.7</span> <span class="toc_entry">Layer 6 — Headline theorem (cited meta-inputs)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000005">0.3 Layer 2 — The McGarvey profile gadget</h1>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:gadget_arc">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9</span>
+    <span class="lemma_thmtitle">Single-arc gadget margins and rank sums</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:gadget_arc">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000015"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:tournament">Definition 1</a></li>
+          
+          <li><a href="sect0002.html#def:tournament">Definition 1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/GadgetArc.lean#L36" class="lean_decl">LeaFrontier.OrderingRecovery.gadget_arc</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For an arc \((u,v)\) pick any order \(\omega \) of \(V \setminus \{ u,v\} \) and form the two orders \(O_1 = (u,v,\omega )\) and \(O_2 = (\omega ^{\operatorname {rev}}, u, v)\). Then: (i) both rank \(u\) before \(v\); (ii) every ordered pair <em>other than the arc itself</em> (in either orientation) is reversed between \(O_1\) and \(O_2\) (net margin \(0\)); (iii) the two orders give \(u\) the 0-indexed rank sum \(n-2\) (ranks \(0\) and \(n-2\)), \(v\) the rank sum \(n\) (ranks \(1\) and \(n-1\)), and every \(x \notin \{ u,v\} \) the rank sum \(n-1\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000015">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> In both \(O_1\) and \(O_2\), \(u\) is ranked before \(v\), giving clause&#160;(i). For clause&#160;(ii): pairs internal to \(\omega \) are reversed by construction (one order uses \(\omega \), the other \(\omega ^{\operatorname {rev}}\)); and for each \(x \in \omega \), both \(u\) and \(v\) precede \(x\) in \(O_1\) while \(x\) precedes both in \(O_2\), so the pairs \(\{ u,x\} \) and \(\{ v,x\} \) are reversed as well. Thus every pair except \(\{ u,v\} \) itself flips orientation between \(O_1\) and \(O_2\), contributing net margin \(0\). For clause&#160;(iii): \(u\) has ranks \(0\) and \(n-2\), \(v\) has ranks \(1\) and \(n-1\), and each \(x \in \omega \) occupies symmetric positions reversed between the two orders, summing to \(n-1\). (The note states this 1-indexed as rank sums \(n\), \(n+2\), \(n+1\); subtracting \(2\) for the two orders gives the 0-indexed form used in Lean.) </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:profile">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">10</span>
+    <span class="definition_thmtitle">Profile construction</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#def:profile">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:tournament">Definition 1</a></li>
+          
+          <li><a href="sect0004.html#lem:gadget_arc">Lemma 9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Profile.lean#L121" class="lean_decl">LeaFrontier.OrderingRecovery.profileMap</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    Set \(m = \binom n2\) and \(R = 2m + 8n\). The profile \(\rho : \mathrm{Fin}\, R \to \mathrm{Perm}(\mathrm{Fin}\, n)\) is the concatenation of: (a) for each of the \(m\) arcs \((u,v) \in A\), the two gadget orders \(O_1, O_2\) of Lemma&#160;<a href="sect0004.html#lem:gadget_arc">9</a> (\(2m\) orders, extracted by choice); (b) \(4n\) copies of the identity and \(4n\) copies of its reverse \(\mathrm{rev}\) (the neutral pairs \((\tau , \tau ^{\operatorname {rev}})\)). Ranks are 0-indexed, \((\rho _b(u) : \mathbb {N}) \in \{ 0,\dots ,n-1\} \). This is hand-authored in Lean as a choice-based <em>construction</em>; the development tracks \(R = 2m + 8n\) directly rather than proving \(m = \binom n2\) (downstream only needs even / \({\ge }\, 8n\) / \({\le }\, 2n^2+8n\)). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:profile_margins">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">11</span>
+    <span class="lemma_thmtitle">Profile margins</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:profile_margins">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000016"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:profile">Definition 10</a></li>
+          
+          <li><a href="sect0004.html#lem:gadget_arc">Lemma 9</a></li>
+          
+          <li><a href="sect0004.html#lem:gadget_arc">Lemma 9</a></li>
+          
+          <li><a href="sect0004.html#def:profile">Definition 10</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ProfileMargins.lean#L336" class="lean_decl">LeaFrontier.OrderingRecovery.profile_margins</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For ordered \(u \ne v\), \(c_{uv} := |\{ b : \rho _b(u) {\lt} \rho _b(v)\} |\) equals \(R/2 + 1\) if \((u,v) \in A\) and \(R/2 - 1\) if \((v,u) \in A\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000016">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The gadget for arc \((u,v)\) contributes \(2\) to its own pair \(u\)-before-\(v\) and, by Lemma&#160;<a href="sect0004.html#lem:gadget_arc">9</a>(ii), exactly \(1\) to every other unordered pair (one of \(O_1,O_2\) ranks them each way). Every other arc’s gadget contributes \(1\) to the pair \(\{ u,v\} \), and each of the \(4n\) neutral pairs contributes \(1\). Summing for a pair with \((u,v) \in A\): \(2 + (m-1) + 4n = m + 1 + 4n = R/2 + 1\); for \((v,u) \in A\) it is \(0 + (m-1) + 4n + 1 = R/2 - 1\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:profile_ranksums">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12</span>
+    <span class="lemma_thmtitle">Profile rank sums</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:profile_ranksums">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000017"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:profile">Definition 10</a></li>
+          
+          <li><a href="sect0002.html#lem:degdiff_bound">Lemma 2</a></li>
+          
+          <li><a href="sect0004.html#lem:gadget_arc">Lemma 9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ProfileRanksums.lean#L182" class="lean_decl">LeaFrontier.OrderingRecovery.profile_ranksums</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every vertex \(u\), \(\sum _b \rho _b(u) = R(n+1)/2 + \delta _u\) (1-indexed); in Lean the equivalent 0-indexed doubled form \(2\sum _b (\rho _b u : \mathbb {N}) = R(n-1) + 2\delta _u\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000017">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By Lemma&#160;<a href="sect0004.html#lem:gadget_arc">9</a>(iii), in each arc gadget vertex \(u\) has rank sum \(n-2\) (0-indexed) when it is the tail of that arc, \(n\) when the head, and \(n-1\) otherwise; each neutral pair gives every vertex rank sum \(n-1\). With \(\operatorname {outdeg}(u)\) tails and \(\operatorname {indeg}(u)\) heads among the \(m\) gadgets, the total 0-indexed rank sum is \((n-1)(m + 4n) + (\operatorname {indeg}(u) - \operatorname {outdeg}(u)) = (n-1)R/2 + \delta _u\). Doubling and rearranging gives the stated identity. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:profile_gadget">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13</span>
+    <span class="lemma_thmtitle">Profile gadget</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:profile_gadget">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000018"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:profile">Definition 10</a></li>
+          
+          <li><a href="sect0004.html#lem:profile_margins">Lemma 11</a></li>
+          
+          <li><a href="sect0004.html#lem:profile_ranksums">Lemma 12</a></li>
+          
+          <li><a href="sect0004.html#lem:profile_margins">Lemma 11</a></li>
+          
+          <li><a href="sect0004.html#lem:profile_ranksums">Lemma 12</a></li>
+          
+          <li><a href="sect0004.html#def:profile">Definition 10</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ProfileGadget.lean#L28" class="lean_decl">LeaFrontier.OrderingRecovery.profile_gadget</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    There is an even \(R = 2m + 8n \ge 8n\) and a profile \(\rho : \mathrm{Fin}\, R \to \mathrm{Perm}(\mathrm{Fin}\, n)\) satisfying both the margin identity (Lemma&#160;<a href="sect0004.html#lem:profile_margins">11</a>) and the rank-sum identity (Lemma&#160;<a href="sect0004.html#lem:profile_ranksums">12</a>). This packages Definition&#160;<a href="sect0004.html#def:profile">10</a> with the two preceding lemmas into the existential \(\exists R\, \rho ,\  \mathrm{Even}\, R \wedge 8n \le R \wedge R = 2m+8n \wedge \text{margins} \wedge \text{ranksums}\) that everything downstream consumes via <span class="ttfamily">.choose</span>. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000018">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Take \(R = 2m + 8n\), which is even and \(\ge 8n\), and \(\rho = \) the profile of Definition&#160;<a href="sect0004.html#def:profile">10</a>. The margin and rank-sum conjuncts are Lemmas&#160;<a href="sect0004.html#lem:profile_margins">11</a> and&#160;<a href="sect0004.html#lem:profile_ranksums">12</a>; the evenness and size facts are immediate from \(R = 2m+8n\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0003.html" title="Layer 1 — Abstract pairwise decomposition"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0001.html" title="Overview"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0005.html" title="Layer 3 — The constructed ORP instance"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

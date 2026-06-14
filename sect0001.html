@@ -12,12 +12,13 @@
 <meta name="generator" content="plasTeX" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Parity of Natural Numbers</title>
-<link rel="next" href="sect0002.html" title="Definitions" />
-<link rel="prev" href="index.html" title="Simple Blueprint Example" />
-<link rel="up" href="index.html" title="Simple Blueprint Example" />
+<title>Overview</title>
+<link rel="next" href="sect0002.html" title="Layer 0 — Core definitions" />
+<link rel="prev" href="index.html" title="Blueprint: NP-Hardness of the Ordering Recovery ProblemA Corrected Reduction (FAST ≤p ORP)" />
+<link rel="up" href="index.html" title="Blueprint: NP-Hardness of the Ordering Recovery ProblemA Corrected Reduction (FAST ≤p ORP)" />
 <link rel="stylesheet" href="styles/theme-white.css" />
 <link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
 <link rel="stylesheet" href="styles/blueprint.css" />
 <link rel="stylesheet" href="styles/extra_styles.css" />
 </head>
@@ -25,21 +26,36 @@
 <body>
 <header>
 <svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
-<h1 id="doc_title"><a href="index.html">Simple Blueprint Example</a></h1>
+<h1 id="doc_title"><a href="index.html">Blueprint: NP-Hardness of the Ordering Recovery Problem<br /><big class="large">A Corrected Reduction (FAST \(\le _p\) ORP)</big></a></h1>
 </header>
 
 <div class="wrapper">
 <nav class="toc">
 <ul class="sub-toc-0">
 <li class=" active current">
-  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Parity of Natural Numbers</span></a>
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Overview</span></a>
   <span class="expand-toc">▼</span>
   <ul class="sub-toc-1 active">
      <li class="">
-  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Definitions</span></a>
+  <a href="sect0002.html"><span class="toc_ref">0.1</span> <span class="toc_entry">Layer 0 — Core definitions</span></a>
  </li>
 <li class="">
-  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Main Result</span></a>
+  <a href="sect0003.html"><span class="toc_ref">0.2</span> <span class="toc_entry">Layer 1 — Abstract pairwise decomposition</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">0.3</span> <span class="toc_entry">Layer 2 — The McGarvey profile gadget</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">0.4</span> <span class="toc_entry">Layer 3 — The constructed ORP instance</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">0.5</span> <span class="toc_entry">Layer 4 — Independence and posterior margins</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">0.6</span> <span class="toc_entry">Layer 5 — Objective identity and correctness</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">0.7</span> <span class="toc_entry">Layer 6 — Headline theorem (cited meta-inputs)</span></a>
  </li>
 
   </ul>
@@ -53,16 +69,34 @@
 
 
 <div class="main-text">
-<h1 id="a0000000002">1 Parity of Natural Numbers</h1>
+<h1 id="a0000000002">Overview</h1>
+<p><b class="bfseries">Source.</b> <em>NP-Hardness of the Ordering Recovery Problem: A Corrected Reduction</em> (note, 2026). The note gives a deterministic polynomial-time many-one reduction from the minimum feedback arc set problem in tournaments (FAST) to the Ordering Recovery Problem (ORP). One designated event encodes each tournament vertex; filler events make the designated events exactly independent under the posterior while contributing only neutral pairwise terms to the Kendall–tau objective. Arc directions are encoded by a McGarvey-style profile of linear orders, and the posterior cost becomes an affine rescaling of the FAST objective. </p>
+<p><b class="bfseries">Scope.</b> We formalize the <em>mathematical core</em> of the reduction — the exact pairwise posterior marginals, the objective identity, and the two-directional correctness equivalence — as fully <span class="ttfamily">sorry</span>-free Lean theorems. We do <em>not</em> build a formal model of polynomial-time computation (Mathlib has no usable poly-time / NP-completeness framework). The headline “ORP is NP-hard” is assembled from the proven core together with three explicitly stated axioms: that FAST is NP-complete (textbook, cited), that a correct polynomial-time many-one reduction from an NP-complete source yields NP-hardness of the target (a meta-fact), and one generic, problem-independent permutation fiber-count. <span class="ttfamily">#print axioms orp_np_hard</span> surfaces exactly these. </p>
+<p><b class="bfseries">Probability model.</b> The posterior over \(\sigma \in S_L\) given \(\hat t = 0\) is modeled by explicit finite counting: the unnormalized weight of a permutation \(\sigma \) is \(w(\sigma ) = \prod _i F_i(-\sigma (i))\) over \(\sigma \in \mathrm{Equiv.Perm}\, (\mathrm{Fin}\, L)\), and every posterior quantity (pair marginals \(p_{ij}\), expectations \(\mathbb {E}[X_u]\)) is a ratio of <span class="ttfamily">Finset.sum</span>s, hence an explicit rational. No measure-theoretic conditional-expectation machinery is used. </p>
 
 </div> <!--main-text -->
 <nav class=local_toc>
 <ul>
   <li>  
-  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Definitions</span></a>
+  <a href="sect0002.html"><span class="toc_ref">0.1</span> <span class="toc_entry">Layer 0 — Core definitions</span></a>
   </li>
   <li>  
-  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Main Result</span></a>
+  <a href="sect0003.html"><span class="toc_ref">0.2</span> <span class="toc_entry">Layer 1 — Abstract pairwise decomposition</span></a>
+  </li>
+  <li>  
+  <a href="sect0004.html"><span class="toc_ref">0.3</span> <span class="toc_entry">Layer 2 — The McGarvey profile gadget</span></a>
+  </li>
+  <li>  
+  <a href="sect0005.html"><span class="toc_ref">0.4</span> <span class="toc_entry">Layer 3 — The constructed ORP instance</span></a>
+  </li>
+  <li>  
+  <a href="sect0006.html"><span class="toc_ref">0.5</span> <span class="toc_entry">Layer 4 — Independence and posterior margins</span></a>
+  </li>
+  <li>  
+  <a href="sect0007.html"><span class="toc_ref">0.6</span> <span class="toc_entry">Layer 5 — Objective identity and correctness</span></a>
+  </li>
+  <li>  
+  <a href="sect0008.html"><span class="toc_ref">0.7</span> <span class="toc_entry">Layer 6 — Headline theorem (cited meta-inputs)</span></a>
   </li>
 </ul>
 </nav>
@@ -71,16 +105,22 @@
 </div> <!-- wrapper -->
 
 <nav class="prev_up_next">
-  <a href="index.html" title="Simple Blueprint Example"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="index.html" title="Blueprint: NP-Hardness of the Ordering Recovery ProblemA Corrected Reduction (FAST \(\le _p\) ORP)"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
 </a>
-  <a href="index.html" title="Simple Blueprint Example"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+  <a href="index.html" title="Blueprint: NP-Hardness of the Ordering Recovery ProblemA Corrected Reduction (FAST \(\le _p\) ORP)"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
 </a>
-  <a href="sect0002.html" title="Definitions"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+  <a href="sect0002.html" title="Layer 0 — Core definitions"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
 </a>
 </nav>
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/plastex.js"></script>
 <script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
 </body>
 </html>

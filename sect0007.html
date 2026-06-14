@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Layer 5 — Objective identity and correctness</title>
+<link rel="next" href="sect0008.html" title="Layer 6 — Headline theorem (cited meta-inputs)" />
+<link rel="prev" href="sect0006.html" title="Layer 4 — Independence and posterior margins" />
+<link rel="up" href="sect0001.html" title="Overview" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Blueprint: NP-Hardness of the Ordering Recovery Problem<br /><big class="large">A Corrected Reduction (FAST \(\le _p\) ORP)</big></a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Overview</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">0.1</span> <span class="toc_entry">Layer 0 — Core definitions</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">0.2</span> <span class="toc_entry">Layer 1 — Abstract pairwise decomposition</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">0.3</span> <span class="toc_entry">Layer 2 — The McGarvey profile gadget</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">0.4</span> <span class="toc_entry">Layer 3 — The constructed ORP instance</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">0.5</span> <span class="toc_entry">Layer 4 — Independence and posterior margins</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0007.html"><span class="toc_ref">0.6</span> <span class="toc_entry">Layer 5 — Objective identity and correctness</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">0.7</span> <span class="toc_entry">Layer 6 — Headline theorem (cited meta-inputs)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000008">0.6 Layer 5 — Objective identity and correctness</h1>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:card_lt_pairs">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">26</span>
+    <span class="lemma_thmtitle">Increasing-pair count</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:card_lt_pairs">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000033"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/CardLtPairs.lean#L32" class="lean_decl">LeaFrontier.OrderingRecovery.card_lt_pairs</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   \(\# \{ (i,j)\in (\mathrm{Fin}\, m)^2 : i{\lt}j\}  = \binom m2\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000033">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Of the \(m^2\) ordered pairs, \(m\) lie on the diagonal and the remaining \(m^2 - m\) split evenly between \(i{\lt}j\) and \(i{\gt}j\), giving \(\binom m2 = m(m-1)/2\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:induced_order">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">27</span>
+    <span class="definition_thmtitle">Induced vertex order</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#def:induced_order">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/InducedOrder.lean#L22" class="lean_decl">LeaFrontier.OrderingRecovery.rankPerm</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   For injective \(g : \mathrm{Fin}\, n \to \alpha \) into a linear order, \(\mathrm{rankPerm}\, g\) ranks \(\mathrm{Fin}\, n\) by \(g\): \(\mathrm{rankPerm}\, g\, u {\lt} \mathrm{rankPerm}\, g\, v \iff g(u) {\lt} g(v)\) (in Lean, \((\mathrm{Tuple.sort}\, g)^{-1}\)). The induced vertex order is \(\pi _{\hat\pi } = \mathrm{rankPerm}(u \mapsto \hat\pi (d_u))\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:objective_identity">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">28</span>
+    <span class="lemma_thmtitle">Objective identity</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:objective_identity">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000034"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0003.html#lem:majority_form">Lemma 8</a></li>
+          
+          <li><a href="sect0006.html#lem:designated_margin">Lemma 21</a></li>
+          
+          <li><a href="sect0006.html#lem:filler_neutral">Lemma 25</a></li>
+          
+          <li><a href="sect0007.html#lem:card_lt_pairs">Lemma 26</a></li>
+          
+          <li><a href="sect0007.html#def:induced_order">Definition 27</a></li>
+          
+          <li><a href="sect0006.html#lem:designated_margin">Lemma 21</a></li>
+          
+          <li><a href="sect0006.html#lem:filler_neutral">Lemma 25</a></li>
+          
+          <li><a href="sect0007.html#lem:card_lt_pairs">Lemma 26</a></li>
+          
+          <li><a href="sect0007.html#def:induced_order">Definition 27</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ObjectiveIdentity.lean#L61" class="lean_decl">LeaFrontier.OrderingRecovery.objective_identity</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    With \(C_0 = m(\tfrac 12 - \tfrac 1{R^2}) + (\binom L2 - m)\tfrac 12\) and \(\pi _{\hat\pi }\) the induced vertex order, </p>
+<div class="displaymath" id="a0000000035">
+  \[  \mathrm{cost}(\hat\pi ) = C_0 + \frac{2}{R^2}\, \operatorname {fas}(T, \pi _{\hat\pi }).  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000034">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Apply the pairwise decomposition. A designated pair \(\{ d_u,d_v\} \) contributes, via Lemma&#160;<a href="sect0006.html#lem:designated_margin">21</a>, constant term \(\tfrac 12 - \tfrac 1{R^2}\) plus decision weight \(\tfrac 2{R^2}\) times the indicator that \(\hat\pi \) disagrees with the majority order; by construction this disagreement happens exactly when the arc is backward under \(\pi _{\hat\pi }\). Every filler-involved pair contributes exactly \(\tfrac 12\) (Lemma&#160;<a href="sect0006.html#lem:filler_neutral">25</a>), with zero decision weight. Summing the \(m\) designated constant terms and the \(\binom L2 - m\) filler terms gives \(C_0\); the decision weights sum to \(\tfrac 2{R^2}\) times the number of backward arcs, i.e. \(\operatorname {fas}(T,\pi _{\hat\pi })\). Reindexing designated pairs to \(\mathrm{Fin}\, n\) pairs and counting via Lemma&#160;<a href="sect0007.html#lem:card_lt_pairs">26</a> closes it. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:reduction_correct">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">29</span>
+    <span class="lemma_thmtitle">Reduction correctness</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:reduction_correct">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000036"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#lem:objective_identity">Lemma 28</a></li>
+          
+          <li><a href="sect0002.html#def:fast">Definition 3</a></li>
+          
+          <li><a href="sect0005.html#def:orp_of_tournament">Definition 14</a></li>
+          
+          <li><a href="sect0007.html#lem:objective_identity">Lemma 28</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L50" class="lean_decl">LeaFrontier.OrderingRecovery.reduction_correct</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    With threshold \(K = C_0 + 2k/R^2\), </p>
+<div class="displaymath" id="a0000000037">
+  \[  \mathrm{FAST}(T,k) \iff \mathrm{ORP}(f(T,k), K).  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000036">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> <em>Forward:</em> given \(\pi '\) with \(\operatorname {fas}(T,\pi ') \le k\), extend it to any full event order \(\hat\pi \) whose restriction to the designated events is \(\pi '\) (via <span class="ttfamily">Equiv.Perm.extendDomain</span>, so the induced order is exactly \(\pi '\)). By the objective identity (Lemma&#160;<a href="sect0007.html#lem:objective_identity">28</a>), \(\mathrm{cost}(\hat\pi ) = C_0 + \tfrac 2{R^2}\operatorname {fas}(T,\pi ') \le C_0 + \tfrac {2k}{R^2} = K\). <em>Backward:</em> from any \(\hat\pi \) with \(\mathrm{cost}(\hat\pi ) \le K\), the identity gives \(C_0 + \tfrac 2{R^2}\operatorname {fas}(T,\pi _{\hat\pi }) \le C_0 + \tfrac {2k}{R^2}\); clearing the positive factor \(\tfrac 2{R^2} {\gt} 0\) (multiply by \(R^2\), then <span class="ttfamily">linarith</span>) yields \(\operatorname {fas}(T,\pi _{\hat\pi }) \le k\). The \(n = 0\) empty tournament is handled separately (both sides hold trivially). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:poly_size">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">30</span>
+    <span class="lemma_thmtitle">Polynomial size bounds</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:poly_size">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000038"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:orp_of_tournament">Definition 14</a></li>
+          
+          <li><a href="sect0004.html#lem:profile_gadget">Lemma 13</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PolySizeBounds.lean#L23" class="lean_decl">LeaFrontier.OrderingRecovery.poly_size_bounds</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    \(m \le n^2\), \(R = 2m + 8n \le 2n^2 + 8n\), and \(L = 2nR \le 4n^3 + 16n^2\); in particular \(L \le 16(n+1)^3\), so the reduction’s output is polynomial-sized. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000038">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Direct arithmetic from \(m = \binom n2 \le n^2\) and \(R = 2m+8n\), \(L = 2nR\). The explicit bound \(L = 2nR \le 16(n+1)^3\) is what the headline theorem consumes as its polynomial-size certificate \(\langle 16, 3\rangle \). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0006.html" title="Layer 4 — Independence and posterior margins"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0001.html" title="Overview"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0008.html" title="Layer 6 — Headline theorem (cited meta-inputs)"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

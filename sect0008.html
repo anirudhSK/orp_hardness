@@ -12,9 +12,8 @@
 <meta name="generator" content="plasTeX" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Layer 1 — Abstract pairwise decomposition</title>
-<link rel="next" href="sect0004.html" title="Layer 2 — The McGarvey profile gadget" />
-<link rel="prev" href="sect0002.html" title="Layer 0 — Core definitions" />
+<title>Layer 6 — Headline theorem (cited meta-inputs)</title>
+<link rel="prev" href="sect0007.html" title="Layer 5 — Objective identity and correctness" />
 <link rel="up" href="sect0001.html" title="Overview" />
 <link rel="stylesheet" href="styles/theme-white.css" />
 <link rel="stylesheet" href="styles/amsthm.css" />
@@ -39,7 +38,7 @@
      <li class="">
   <a href="sect0002.html"><span class="toc_ref">0.1</span> <span class="toc_entry">Layer 0 — Core definitions</span></a>
  </li>
-<li class=" active current">
+<li class="">
   <a href="sect0003.html"><span class="toc_ref">0.2</span> <span class="toc_entry">Layer 1 — Abstract pairwise decomposition</span></a>
  </li>
 <li class="">
@@ -54,7 +53,7 @@
 <li class="">
   <a href="sect0007.html"><span class="toc_ref">0.6</span> <span class="toc_entry">Layer 5 — Objective identity and correctness</span></a>
  </li>
-<li class="">
+<li class=" active current">
   <a href="sect0008.html"><span class="toc_ref">0.7</span> <span class="toc_entry">Layer 6 — Headline theorem (cited meta-inputs)</span></a>
  </li>
 
@@ -69,14 +68,14 @@
 
 
 <div class="main-text">
-<h1 id="a0000000004">0.2 Layer 1 — Abstract pairwise decomposition</h1>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:pairwise_decomp">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
+<h1 id="a0000000009">0.7 Layer 6 — Headline theorem (cited meta-inputs)</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="ax:fast_np_complete">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
     </span>
-    <span class="lemma_thmlabel">7</span>
-    <span class="lemma_thmtitle">Pairwise decomposition</span>
+    <span class="theorem_thmlabel">31</span>
+    <span class="theorem_thmtitle">FAST is NP-complete <em>(axiom: cited)</em></span>
     <div class="thm_header_extras">
 
     
@@ -84,9 +83,97 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="sect0003.html#lem:pairwise_decomp">#</a>
+    <a class="icon proof" href="sect0008.html#ax:fast_np_complete">#</a>
     
-    <a class="icon proof" href="sect0003.html#a0000000011"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Axioms.lean#L39" class="lean_decl">LeaFrontier.OrderingRecovery.fast_np_complete</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   The minimum feedback arc set problem in tournaments is NP-complete. <em>Axiomatized, cited</em>: N.&#160;Alon, <em>Ranking tournaments</em>, SIAM J. Discrete Math. 20(1):137–142, 2006; P.&#160;Charbit, S.&#160;Thomassé, A.&#160;Yeo, <em>The minimum feedback arc set problem is NP-hard for tournaments</em>, Combin. Probab. Comput. 16(1):1–4, 2007. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="ax:reduction_packaging">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">32</span>
+    <span class="theorem_thmtitle">Reduction packaging <em>(axiom: meta-fact)</em></span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0008.html#ax:reduction_packaging">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Axioms.lean#L50" class="lean_decl">LeaFrontier.OrderingRecovery.reduction_yields_np_hard</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   A deterministic polynomial-time many-one reduction that is correct in both directions from an NP-complete source problem, and whose output has polynomially bounded size, witnesses NP-hardness of the target. <em>Axiomatized meta-fact</em>: stands in for the complexity-theoretic framework (poly-time many-one reductions, the NP hierarchy) that Mathlib does not provide. The explicit polynomial size-bound hypothesis is what makes the poly-time character load-bearing in the type. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:orp_np_hard">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">33</span>
+    <span class="theorem_thmtitle">ORP is NP-hard</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0008.html#thm:orp_np_hard">#</a>
+    
+    <a class="icon proof" href="sect0008.html#a0000000039"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -102,11 +189,21 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#def:orp">Definition 6</a></li>
+          <li><a href="sect0007.html#lem:reduction_correct">Lemma 29</a></li>
           
-          <li><a href="sect0002.html#def:kendall_tau">Definition 4</a></li>
+          <li><a href="sect0007.html#lem:poly_size">Lemma 30</a></li>
           
-          <li><a href="sect0002.html#def:posterior">Definition 5</a></li>
+          <li><a href="sect0008.html#ax:fast_np_complete">Theorem 31</a></li>
+          
+          <li><a href="sect0008.html#ax:reduction_packaging">Theorem 32</a></li>
+          
+          <li><a href="sect0007.html#lem:reduction_correct">Lemma 29</a></li>
+          
+          <li><a href="sect0007.html#lem:poly_size">Lemma 30</a></li>
+          
+          <li><a href="sect0008.html#ax:fast_np_complete">Theorem 31</a></li>
+          
+          <li><a href="sect0008.html#ax:reduction_packaging">Theorem 32</a></li>
           
         </ul>
     
@@ -126,7 +223,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PairwiseDecomp.lean#L46" class="lean_decl">LeaFrontier.OrderingRecovery.pairwise_decomp</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L164" class="lean_decl">LeaFrontier.OrderingRecovery.orp_np_hard</a></li>
           
         </ul>
     
@@ -136,16 +233,12 @@
     
         </div>
   </div>
-  <div class="lemma_thmcontent">
-  <p>    For any probability distribution on \(\sigma \in S_L\) and any fixed \(\hat\pi \), </p>
-<div class="displaymath" id="a0000000012">
-  \[  \mathrm{cost}(\hat\pi ) = \sum _{i{\lt}j} \Big( p_{ij}\, \mathbf{1}[\hat\pi (i) {\gt} \hat\pi (j)] + (1-p_{ij})\, \mathbf{1}[\hat\pi (i) {\lt} \hat\pi (j)] \Big),  \]
-</div>
-<p> where \(p_{ij} = \mathbb {P}(\sigma (i) {\lt} \sigma (j))\). </p>
+  <div class="theorem_thmcontent">
+  <p>    The Ordering Recovery Problem is NP-hard under deterministic polynomial-time many-one reductions. </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000011">
+<div class="proof_wrapper" id="a0000000039">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -153,90 +246,7 @@
     <span class="expand-proof">▶</span>
   </div>
   <div class="proof_content">
-  <p>For each pair \(i{\lt}j\) let \(X_{ij}(\sigma ,\hat\pi ) = \mathbf{1}[\sigma (i){\lt}\sigma (j) \text{ and } \hat\pi (i){\gt}\hat\pi (j)] + \mathbf{1}[\sigma (i){\gt}\sigma (j) \text{ and } \hat\pi (i){\lt}\hat\pi (j)]\). Then \(X_{ij} = 1\) exactly when \(\sigma \) and \(\hat\pi \) disagree on the relative order of \(i\) and \(j\), so \(d_{\mathrm{KT}}(\hat\pi ,\sigma ) = \sum _{i{\lt}j} X_{ij}\). Taking the posterior expectation and using that \(\hat\pi \) is fixed (so the two indicator events on \(\hat\pi \) are constants pulled out of the expectation, and \(\mathbb {P}(\sigma (i){\gt}\sigma (j)) = 1 - p_{ij}\) since \(\sigma \) is a permutation) gives the formula. The normalization by \(Z \ne 0\) is what turns the weighted sums into the probabilities \(p_{ij}\). </p>
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:majority_form">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">8</span>
-    <span class="lemma_thmtitle">Majority form of a pairwise contribution</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="sect0003.html#lem:majority_form">#</a>
-    
-    <a class="icon proof" href="sect0003.html#a0000000013"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="sect0003.html#lem:pairwise_decomp">Lemma 7</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/MajorityForm.lean#L42" class="lean_decl">LeaFrontier.OrderingRecovery.majority_form</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  <p>    Write the contribution of pair \(\{ i,j\} \) to \(\mathrm{cost}(\hat\pi )\) as \(\ell _{ij}(\hat\pi ) = p_{ij}\, \mathbf{1}[\hat\pi (i){\gt}\hat\pi (j)] + (1-p_{ij})\, \mathbf{1}[\hat\pi (i){\lt}\hat\pi (j)]\). Calling the more likely relative order the <em>posterior majority order</em> (ties broken arbitrarily), </p>
-<div class="displaymath" id="a0000000014">
-  \[  \ell _{ij}(\hat\pi ) = |2p_{ij}-1|\, \mathbf{1}[\hat\pi \text{ disagrees with the majority order on } \{ i,j\} ] + \min (p_{ij}, 1-p_{ij}).  \]
-</div>
-<p> In particular, if \(p_{ij} = 1/2\) the contribution is always \(1/2\), independent of \(\hat\pi \). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000013">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  <p>If \(\hat\pi \) agrees with the posterior majority order, \(\ell _{ij}(\hat\pi ) = \min (p_{ij}, 1-p_{ij})\); if it disagrees, \(\ell _{ij}(\hat\pi ) = \max (p_{ij}, 1-p_{ij})\). Since \(\max (p,1-p) = \min (p,1-p) + |2p-1|\) for every \(p \in [0,1]\), the claimed expression follows. At \(p_{ij} = 1/2\) the coefficient \(|2p_{ij}-1|\) vanishes and the constant term is \(1/2\). </p>
+  <p> Instantiate the packaging axiom (Theorem&#160;<a href="sect0008.html#ax:reduction_packaging">32</a>) with the reduction \(f = \mathrm{orpOfTournament}\) and threshold map \(\mathrm{orpThresholdOf}\): NP-completeness of FAST is Theorem&#160;<a href="sect0008.html#ax:fast_np_complete">31</a>, the polynomial size bound \(L \le 16(n+1)^3\) is Lemma&#160;<a href="sect0007.html#lem:poly_size">30</a> (supplying the certificate \(\langle 16,3\rangle \)), and both-directional correctness is Lemma&#160;<a href="sect0007.html#lem:reduction_correct">29</a>. Hence ORP is NP-hard. <span class="ttfamily">#print axioms orp_np_hard</span> is exactly <span class="ttfamily">[propext, Classical.choice, Quot.sound, fast_np_complete, reduction_yields_np_hard, sum_perm_comp_embedding]</span>. </p>
 
   </div>
 </div>
@@ -251,11 +261,9 @@
 
   <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
 
-  <a href="sect0002.html" title="Layer 0 — Core definitions"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+  <a href="sect0007.html" title="Layer 5 — Objective identity and correctness"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
 </a>
   <a href="sect0001.html" title="Overview"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
-</a>
-  <a href="sect0004.html" title="Layer 2 — The McGarvey profile gadget"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
 </a>
 </nav>
 

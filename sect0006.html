@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Layer 4 — Independence and posterior margins</title>
+<link rel="next" href="sect0007.html" title="Layer 5 — Objective identity and correctness" />
+<link rel="prev" href="sect0005.html" title="Layer 3 — The constructed ORP instance" />
+<link rel="up" href="sect0001.html" title="Overview" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Blueprint: NP-Hardness of the Ordering Recovery Problem<br /><big class="large">A Corrected Reduction (FAST \(\le _p\) ORP)</big></a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Overview</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">0.1</span> <span class="toc_entry">Layer 0 — Core definitions</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">0.2</span> <span class="toc_entry">Layer 1 — Abstract pairwise decomposition</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">0.3</span> <span class="toc_entry">Layer 2 — The McGarvey profile gadget</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">0.4</span> <span class="toc_entry">Layer 3 — The constructed ORP instance</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0006.html"><span class="toc_ref">0.5</span> <span class="toc_entry">Layer 4 — Independence and posterior margins</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">0.6</span> <span class="toc_entry">Layer 5 — Objective identity and correctness</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">0.7</span> <span class="toc_entry">Layer 6 — Headline theorem (cited meta-inputs)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000007">0.5 Layer 4 — Independence and posterior margins</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="ax:fiber_count">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">17</span>
+    <span class="theorem_thmtitle">Permutation fiber-count <em>(axiom: generic, problem-independent)</em></span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#ax:fiber_count">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PermFiber.lean#L39" class="lean_decl">LeaFrontier.OrderingRecovery.sum_perm_comp_embedding</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   For any embedding \(e : \mathrm{Fin}\, n \hookrightarrow \mathrm{Fin}\, L\) and any \(F\), </p>
+<div class="displaymath" id="a0000000022">
+  \[  \sum _{\sigma : \mathrm{Perm}(\mathrm{Fin}\, L)} F(\lambda u.\, \sigma (e\, u)) = (L-n)!\,  \cdot \sum _{\varphi : \mathrm{Fin}\, n \hookrightarrow \mathrm{Fin}\, L} F(\lambda u.\, \varphi \, u):  \]
+</div>
+<p> each injective placement of \(n\) marked indices extends to a full permutation in exactly \((L-n)!\) ways. <em>Axiomatized</em> (<span class="ttfamily">PermFiber.lean</span>): true, elementary, and entirely independent of the ORP construction; isolated so the genuinely novel content is proved on top of it. (TODO: discharge / upstream to Mathlib.) </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:independence_fillers">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">18</span>
+    <span class="lemma_thmtitle">Exact independence via fillers</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:independence_fillers">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000023"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:orp_of_tournament">Definition 14</a></li>
+          
+          <li><a href="sect0005.html#lem:support_disjoint">Lemma 16</a></li>
+          
+          <li><a href="sect0005.html#lem:alpha_mem">Lemma 15</a></li>
+          
+          <li><a href="sect0006.html#ax:fiber_count">Theorem 17</a></li>
+          
+          <li><a href="sect0005.html#lem:support_disjoint">Lemma 16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/IndependenceFillers.lean#L585" class="lean_decl">LeaFrontier.OrderingRecovery.independence_fillers</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Conditioned on \(\hat t = 0\), the designated slots are mutually independent, with \(\mathbb {P}(X_u = a^-_{u,b}) = (1-\alpha _u)/R\) and \(\mathbb {P}(X_u = a^+_{u,b}) = \alpha _u/R\), where \(X_u\) is the slot of \(d_u\). The pairwise joint law factors: \(\mathbb {P}(X_u = s \wedge X_v = t) = \mathbb {P}(X_u=s)\, \mathbb {P}(X_v=t)\) for \(u \ne v\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000023">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Write \(g_u(s) = F_{d_u}(-s)\), supported on \(S_u\) with masses \((1-\alpha _u)/R\) and \(\alpha _u/R\). The argument has four steps. <em>(1) Weight factorizes.</em> Every filler has mass \(1/L\) at any actual slot, so \(w(\sigma ) = (1/L)^q \prod _{u} g_u\big((\sigma (d_u):\mathbb N)+1\big)\), with the filler factor \((1/L)^q\) a constant independent of \(\sigma \). <em>(2) Fiber-count.</em> By Theorem&#160;<a href="sect0006.html#ax:fiber_count">17</a> applied to the designated-index embedding, summing such a functional over all \(\sigma \in \mathrm{Perm}(\mathrm{Fin}\, L)\) equals \((L-n)! = q!\) times the sum over injective placements \(\varphi \) of the \(n\) designated events. The factor \(q!\) appears in numerator and denominator and cancels. <em>(3) Disjoint supports \(\Rightarrow \) product.</em> By Lemma&#160;<a href="sect0005.html#lem:support_disjoint">16</a> the supports \(S_u\) are disjoint, so an injective placement is unconstrained beyond \(\varphi _u \in S_u\) and \(\sum _{\varphi } \prod _u g_u(\varphi _u) = \prod _u \big(\sum _{s \in S_u} g_u(s)\big)\), each inner sum \(= \sum _b\big((1-\alpha _u)/R + \alpha _u/R\big) = R \cdot (1/R) = 1\). <em>(4) Conclude.</em> Hence \(Z = (1/L)^q q!\), the joint law of \((X_u)\) is \(\prod _u g_u\), and the single marginals are the designated weights as claimed. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:pair_count_lt">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">19</span>
+    <span class="lemma_thmtitle">Block pair count</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:pair_count_lt">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000024"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PairCountLt.lean#L29" class="lean_decl">LeaFrontier.OrderingRecovery.pairCount_lt</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Over \(\{ 0,\dots ,R-1\} ^2\), \(\sum _{b,b'} \mathbf{1}[b{\lt}b'] = R(R-1)/2\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000024">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>By symmetry \(\# \{ (b,b') : b{\lt}b'\}  = \# \{ (b,b') : b{\gt}b'\} \), and the diagonal has \(R\) elements, so \(2S + R = R^2\), giving \(S = R(R-1)/2\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:designated_margin_close">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">20</span>
+    <span class="lemma_thmtitle">Designated-margin closing algebra</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:designated_margin_close">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000025"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DesignatedMarginClose.lean#L30" class="lean_decl">LeaFrontier.OrderingRecovery.designated_margin_close</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   For even \(R \ge 1\) and \(c = \lfloor R/2\rfloor + \varepsilon \), \(\dfrac {R(R-1)/2 + c}{R^2} = \dfrac 12 + \dfrac {\varepsilon }{R^2}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000025">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>For even \(R\), \(R(R-1)/2 + R/2 = R^2/2\), so the numerator is \(R^2/2 + \varepsilon \) and dividing by \(R^2\) gives \(1/2 + \varepsilon /R^2\). (Evenness of \(R\) is essential: \(\lfloor R/2\rfloor = R/2\) exactly, which is why <span class="ttfamily">profile_gadget</span> threads <span class="ttfamily">Even R</span> to all consumers.) </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:designated_margin">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">21</span>
+    <span class="lemma_thmtitle">Designated–designated posterior margins</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:designated_margin">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000026"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0006.html#lem:independence_fillers">Lemma 18</a></li>
+          
+          <li><a href="sect0004.html#lem:profile_gadget">Lemma 13</a></li>
+          
+          <li><a href="sect0006.html#lem:pair_count_lt">Lemma 19</a></li>
+          
+          <li><a href="sect0006.html#lem:designated_margin_close">Lemma 20</a></li>
+          
+          <li><a href="sect0006.html#lem:independence_fillers">Lemma 18</a></li>
+          
+          <li><a href="sect0006.html#lem:pair_count_lt">Lemma 19</a></li>
+          
+          <li><a href="sect0006.html#lem:designated_margin_close">Lemma 20</a></li>
+          
+          <li><a href="sect0004.html#lem:profile_gadget">Lemma 13</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DesignatedMargin.lean#L38" class="lean_decl">LeaFrontier.OrderingRecovery.designated_margin</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(B_u\) be the block of \(X_u\); by independence the \(B_u\) are i.i.d. uniform on \(\{ 1,\dots ,R\} \). Then \(\mathbb {P}(X_u {\lt} X_v) = \frac{R(R-1)/2 + c_{uv}}{R^2}\), which equals \(\tfrac 12 + \tfrac 1{R^2}\) if \((u,v) \in A\) and \(\tfrac 12 - \tfrac 1{R^2}\) if \((v,u) \in A\). So each designated pair’s posterior majority direction is the tournament arc direction, with decision weight \(|2p-1| = 2/R^2\) and constant term \(\min (p,1-p) = \tfrac 12 - \tfrac 1{R^2}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000026">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> If \(B_u {\lt} B_v\) then \(X_u {\lt} X_v\) (earlier blocks hold smaller slots), and symmetrically for \(B_u {\gt} B_v\); if \(B_u = B_v = b\) the comparison is decided by \(\rho _b\) since within a block the consecutive slot pairs of distinct vertices do not interleave. By independence (Lemma&#160;<a href="sect0006.html#lem:independence_fillers">18</a>), </p>
+<div class="displaymath" id="a0000000027">
+  \[  \mathbb {P}(X_u{\lt}X_v) = \mathbb {P}(B_u{\lt}B_v) + \mathbb {P}(B_u=B_v \text{ and } \rho _{B_u}(u){\lt}\rho _{B_u}(v)) = \frac{R(R-1)/2 + c_{uv}}{R^2},  \]
+</div>
+<p> using Lemma&#160;<a href="sect0006.html#lem:pair_count_lt">19</a> for the off-diagonal count. Substituting the profile margins \(c_{uv} = R/2 \pm 1\) (Lemma&#160;<a href="sect0004.html#lem:profile_gadget">13</a>) into Lemma&#160;<a href="sect0006.html#lem:designated_margin_close">20</a> (with \(\varepsilon = \pm 1\)) gives \(\tfrac 12 \pm \tfrac 1{R^2}\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:expected_slot">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">22</span>
+    <span class="lemma_thmtitle">Expected designated slot</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:expected_slot">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000028"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0006.html#lem:independence_fillers">Lemma 18</a></li>
+          
+          <li><a href="sect0005.html#def:orp_of_tournament">Definition 14</a></li>
+          
+          <li><a href="sect0004.html#lem:profile_gadget">Lemma 13</a></li>
+          
+          <li><a href="sect0004.html#lem:profile_gadget">Lemma 13</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ExpectedSlot.lean#L18" class="lean_decl">LeaFrontier.OrderingRecovery.expected_slot</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    \(\mathbb {E}[X_u] = nR + \tfrac {2\delta _u}{R} + \alpha _u = nR + \tfrac 12 + \tfrac {\delta _u}{R^2}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000028">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Conditional on \(B_u = b\), the expected slot of \(d_u\) is \((b-1)2n + 2\rho _b(u) - 1 + \alpha _u\). Averaging over the uniform \(B_u\), </p>
+<div class="displaymath" id="a0000000029">
+  \[  \mathbb {E}[X_u] = \tfrac 1R\sum _b\big((b-1)2n + 2\rho _b(u) - 1 + \alpha _u\big) = n(R-1) + \tfrac 2R\textstyle \sum _b\rho _b(u) - 1 + \alpha _u.  \]
+</div>
+<p> The rank-sum identity (Lemma&#160;<a href="sect0004.html#lem:profile_gadget">13</a>) gives \(\tfrac 2R\sum _b\rho _b(u) = (n+1) + \tfrac {2\delta _u}{R}\), so \(\mathbb {E}[X_u] = nR + \tfrac {2\delta _u}{R} + \alpha _u\), and the definition of \(\alpha _u\) collapses this to \(nR + \tfrac 12 + \tfrac {\delta _u}{R^2}\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:rank_identity">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">23</span>
+    <span class="lemma_thmtitle">Rank identity</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:rank_identity">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000030"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/RankIdentity.lean#L17" class="lean_decl">LeaFrontier.OrderingRecovery.rank_identity</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   For a permutation \(\sigma \) of \(\mathrm{Fin}\, L\), \(\sigma (x) = \# \{ i : \sigma (i) {\lt} \sigma (x)\}  = \sum _i \mathbf{1}[\sigma (i) {\lt} \sigma (x)]\): a value is its own rank. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000030">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Since \(\sigma \) is a bijection, the values \(\{ \sigma (i)\} \) are exactly \(\{ 0,\dots ,L-1\} \), so the number of them strictly below \(\sigma (x)\) is \(\sigma (x)\) itself. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:degree_sum">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">24</span>
+    <span class="lemma_thmtitle">Signed degree sum</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:degree_sum">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000031"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:tournament">Definition 1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DegreeSum.lean#L18" class="lean_decl">LeaFrontier.OrderingRecovery.degree_sum</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    \(\sum _{v \ne u} (\mathbf{1}[(u,v)\in A] - \mathbf{1}[(v,u)\in A]) = \operatorname {outdeg}(u) - \operatorname {indeg}(u) = -\delta _u\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000031">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>For each \(v \ne u\) exactly one of \((u,v),(v,u)\) is an arc, so the summand is \(+1\) for out-neighbours and \(-1\) for in-neighbours; the total is \(\operatorname {outdeg}(u) - \operatorname {indeg}(u) = -\delta _u\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:filler_neutral">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">25</span>
+    <span class="lemma_thmtitle">Filler pairs are exactly neutral</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:filler_neutral">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000032"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0006.html#lem:expected_slot">Lemma 22</a></li>
+          
+          <li><a href="sect0006.html#lem:designated_margin">Lemma 21</a></li>
+          
+          <li><a href="sect0006.html#lem:independence_fillers">Lemma 18</a></li>
+          
+          <li><a href="sect0006.html#lem:rank_identity">Lemma 23</a></li>
+          
+          <li><a href="sect0006.html#lem:degree_sum">Lemma 24</a></li>
+          
+          <li><a href="sect0003.html#lem:majority_form">Lemma 8</a></li>
+          
+          <li><a href="sect0006.html#lem:expected_slot">Lemma 22</a></li>
+          
+          <li><a href="sect0006.html#lem:designated_margin">Lemma 21</a></li>
+          
+          <li><a href="sect0006.html#lem:rank_identity">Lemma 23</a></li>
+          
+          <li><a href="sect0006.html#lem:degree_sum">Lemma 24</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/FillerNeutral.lean#L286" class="lean_decl">LeaFrontier.OrderingRecovery.filler_neutral</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Every pair involving a filler has posterior probability \(1/2\) in each direction, hence (by Lemma&#160;<a href="sect0003.html#lem:majority_form">8</a>) contributes exactly \(1/2\) to the cost, independent of \(\hat\pi \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000032">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> <em>Filler–filler:</em> fillers are exchangeable (identical laws, posterior invariant under relabeling them), so \(\mathbb {P}(X_f{\lt}X_{f'}) = \mathbb {P}(X_{f'}{\lt}X_f) = \tfrac 12\), with no ties since \(\sigma \) is a permutation. <em>Designated–filler:</em> let \(\theta _u = \mathbb {P}(X_f {\lt} X_u)\), the same for every filler \(f\). The pointwise rank identity (Lemma&#160;<a href="sect0006.html#lem:rank_identity">23</a>) \(X_u = 1 + \sum _{v \ne u}\mathbf{1}[X_v{\lt}X_u] + \sum _{r}\mathbf{1}[X_{f_r}{\lt}X_u]\) gives, in expectation, \(\mathbb {E}[X_u] = 1 + \sum _{v\ne u}\mathbb {P}(X_v{\lt}X_u) + q\, \theta _u\). By the margins (Lemma&#160;<a href="sect0006.html#lem:designated_margin">21</a>) and the degree sum (Lemma&#160;<a href="sect0006.html#lem:degree_sum">24</a>), \(\sum _{v\ne u}\mathbb {P}(X_v{\lt}X_u) = \tfrac {n-1}{2} + \tfrac {\delta _u}{R^2}\). Substituting \(\mathbb {E}[X_u] = nR + \tfrac 12 + \tfrac {\delta _u}{R^2}\) (Lemma&#160;<a href="sect0006.html#lem:expected_slot">22</a>) and \(q = 2nR - n\) yields \(q\, \theta _u = nR - \tfrac n2 = q/2\), so \(\theta _u = \tfrac 12\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0005.html" title="Layer 3 — The constructed ORP instance"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0001.html" title="Overview"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0007.html" title="Layer 5 — Objective identity and correctness"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>
