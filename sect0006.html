@@ -76,7 +76,7 @@
     Theorem
     </span>
     <span class="theorem_thmlabel">17</span>
-    <span class="theorem_thmtitle">Permutation fiber-count <em>(axiom: generic, problem-independent)</em></span>
+    <span class="theorem_thmtitle">Permutation fiber-count</span>
     <div class="thm_header_extras">
 
     
@@ -85,6 +85,9 @@
     <div class="thm_header_hidden_extras">
 
     <a class="icon proof" href="sect0006.html#ax:fiber_count">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000022"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
     
     
     
@@ -99,7 +102,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PermFiber.lean#L39" class="lean_decl">LeaFrontier.OrderingRecovery.sum_perm_comp_embedding</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/PermFiber.lean#L130" class="lean_decl">LeaFrontier.OrderingRecovery.sum_perm_comp_embedding</a></li>
           
         </ul>
     
@@ -110,11 +113,24 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   For any embedding \(e : \mathrm{Fin}\, n \hookrightarrow \mathrm{Fin}\, L\) and any \(F\), </p>
-<div class="displaymath" id="a0000000022">
-  \[  \sum _{\sigma : \mathrm{Perm}(\mathrm{Fin}\, L)} F(\lambda u.\, \sigma (e\, u)) = (L-n)!\,  \cdot \sum _{\varphi : \mathrm{Fin}\, n \hookrightarrow \mathrm{Fin}\, L} F(\lambda u.\, \varphi \, u):  \]
+  <p>   For a finite type \(\alpha \), an embedding \(e : \mathrm{Fin}\, n \hookrightarrow \alpha \), and any \(F\), </p>
+<div class="displaymath" id="a0000000023">
+  \[  \sum _{\sigma : \mathrm{Perm}(\alpha )} F(\lambda i.\, \sigma (e\, i)) = (|\alpha |-n)!\,  \cdot \sum _{\varphi : \mathrm{Fin}\, n \hookrightarrow \alpha } F(\lambda i.\, \varphi \, i):  \]
 </div>
-<p> each injective placement of \(n\) marked indices extends to a full permutation in exactly \((L-n)!\) ways. <em>Axiomatized</em> (<span class="ttfamily">PermFiber.lean</span>): true, elementary, and entirely independent of the ORP construction; isolated so the genuinely novel content is proved on top of it. (TODO: discharge / upstream to Mathlib.) </p>
+<p> each injective placement of \(n\) marked indices extends to a full permutation in exactly \((|\alpha |-n)!\) ways, so the right-hand side does not depend on \(e\). (In Lean the coefficient is the \(\mathbb {N}\)-scalar action on the <span class="ttfamily">AddCommMonoid</span> \(M\); for the \(\mathbb {Q}\)-valued weights used downstream this is ordinary multiplication.) This is generic finite combinatorics, entirely independent of the ORP construction. </p>
+<p><em>Formerly axiomatized here; now fully proven</em> (<span class="ttfamily">PermFiber.lean</span>), so <span class="ttfamily">#print axioms sum_perm_comp_embedding</span> \(=\) <span class="ttfamily">[propext, Classical.choice, Quot.sound]</span>. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000022">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Group the permutation sum by the embedding each \(\sigma \) induces on the marked positions, \(\sigma \mapsto \sigma \circ e\) (<span class="ttfamily">Finset.sum_fiberwise_of_maps_to</span>). On the fiber over a fixed embedding \(\varphi \) — the permutations with \(\sigma \circ e = \varphi \) — the summand \(F(\sigma \circ e) = F(\varphi )\) is constant, so that fiber contributes \((\text{fiber size}) \cdot F(\varphi )\). To count a fiber: a permutation extending \(\varphi \) is determined by a bijection between the two range complements \(\{ x \notin \mathrm{range}\, e\} \) and \(\{ x \notin \mathrm{range}\, \varphi \} \), and conversely every such bijection extends \(\varphi \). This gives an explicit equivalence between the fiber and \(\{ x \notin \mathrm{range}\, e\}  \simeq \{ x \notin \mathrm{range}\, \varphi \} \) (built from <span class="ttfamily">Equiv.subtypeCongr</span> and <span class="ttfamily">Function.Embedding.toEquivRange</span>). Both complements have cardinality \(|\alpha |-n\), so by <span class="ttfamily">Fintype.card_equiv</span> the number of such bijections — hence each fiber’s size — is \((|\alpha |-n)!\), independent of \(\varphi \). Summing over \(\varphi \) gives the identity. </p>
 
   </div>
 </div>
@@ -134,7 +150,7 @@
 
     <a class="icon proof" href="sect0006.html#lem:independence_fillers">#</a>
     
-    <a class="icon proof" href="sect0006.html#a0000000023"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0006.html#a0000000024"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -178,7 +194,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/IndependenceFillers.lean#L585" class="lean_decl">LeaFrontier.OrderingRecovery.independence_fillers</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/IndependenceFillers.lean#L585" class="lean_decl">LeaFrontier.OrderingRecovery.independence_fillers</a></li>
           
         </ul>
     
@@ -193,7 +209,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000023">
+<div class="proof_wrapper" id="a0000000024">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -221,7 +237,7 @@
 
     <a class="icon proof" href="sect0006.html#lem:pair_count_lt">#</a>
     
-    <a class="icon proof" href="sect0006.html#a0000000024"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0006.html#a0000000025"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -237,7 +253,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PairCountLt.lean#L29" class="lean_decl">LeaFrontier.OrderingRecovery.pairCount_lt</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/PairCountLt.lean#L29" class="lean_decl">LeaFrontier.OrderingRecovery.pairCount_lt</a></li>
           
         </ul>
     
@@ -252,7 +268,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000024">
+<div class="proof_wrapper" id="a0000000025">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -280,7 +296,7 @@
 
     <a class="icon proof" href="sect0006.html#lem:designated_margin_close">#</a>
     
-    <a class="icon proof" href="sect0006.html#a0000000025"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0006.html#a0000000026"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -296,7 +312,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DesignatedMarginClose.lean#L30" class="lean_decl">LeaFrontier.OrderingRecovery.designated_margin_close</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/DesignatedMarginClose.lean#L30" class="lean_decl">LeaFrontier.OrderingRecovery.designated_margin_close</a></li>
           
         </ul>
     
@@ -311,7 +327,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000025">
+<div class="proof_wrapper" id="a0000000026">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -339,7 +355,7 @@
 
     <a class="icon proof" href="sect0006.html#lem:designated_margin">#</a>
     
-    <a class="icon proof" href="sect0006.html#a0000000026"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0006.html#a0000000027"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -389,7 +405,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DesignatedMargin.lean#L38" class="lean_decl">LeaFrontier.OrderingRecovery.designated_margin</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/DesignatedMargin.lean#L38" class="lean_decl">LeaFrontier.OrderingRecovery.designated_margin</a></li>
           
         </ul>
     
@@ -404,7 +420,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000026">
+<div class="proof_wrapper" id="a0000000027">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -413,7 +429,7 @@
   </div>
   <div class="proof_content">
   <p> If \(B_u {\lt} B_v\) then \(X_u {\lt} X_v\) (earlier blocks hold smaller slots), and symmetrically for \(B_u {\gt} B_v\); if \(B_u = B_v = b\) the comparison is decided by \(\rho _b\) since within a block the consecutive slot pairs of distinct vertices do not interleave. By independence (Lemma&#160;<a href="sect0006.html#lem:independence_fillers">18</a>), </p>
-<div class="displaymath" id="a0000000027">
+<div class="displaymath" id="a0000000028">
   \[  \mathbb {P}(X_u{\lt}X_v) = \mathbb {P}(B_u{\lt}B_v) + \mathbb {P}(B_u=B_v \text{ and } \rho _{B_u}(u){\lt}\rho _{B_u}(v)) = \frac{R(R-1)/2 + c_{uv}}{R^2},  \]
 </div>
 <p> using Lemma&#160;<a href="sect0006.html#lem:pair_count_lt">19</a> for the off-diagonal count. Substituting the profile margins \(c_{uv} = R/2 \pm 1\) (Lemma&#160;<a href="sect0004.html#lem:profile_gadget">13</a>) into Lemma&#160;<a href="sect0006.html#lem:designated_margin_close">20</a> (with \(\varepsilon = \pm 1\)) gives \(\tfrac 12 \pm \tfrac 1{R^2}\). </p>
@@ -436,7 +452,7 @@
 
     <a class="icon proof" href="sect0006.html#lem:expected_slot">#</a>
     
-    <a class="icon proof" href="sect0006.html#a0000000028"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0006.html#a0000000029"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -478,7 +494,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ExpectedSlot.lean#L18" class="lean_decl">LeaFrontier.OrderingRecovery.expected_slot</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ExpectedSlot.lean#L18" class="lean_decl">LeaFrontier.OrderingRecovery.expected_slot</a></li>
           
         </ul>
     
@@ -493,7 +509,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000028">
+<div class="proof_wrapper" id="a0000000029">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -502,7 +518,7 @@
   </div>
   <div class="proof_content">
   <p> Conditional on \(B_u = b\), the expected slot of \(d_u\) is \((b-1)2n + 2\rho _b(u) - 1 + \alpha _u\). Averaging over the uniform \(B_u\), </p>
-<div class="displaymath" id="a0000000029">
+<div class="displaymath" id="a0000000030">
   \[  \mathbb {E}[X_u] = \tfrac 1R\sum _b\big((b-1)2n + 2\rho _b(u) - 1 + \alpha _u\big) = n(R-1) + \tfrac 2R\textstyle \sum _b\rho _b(u) - 1 + \alpha _u.  \]
 </div>
 <p> The rank-sum identity (Lemma&#160;<a href="sect0004.html#lem:profile_gadget">13</a>) gives \(\tfrac 2R\sum _b\rho _b(u) = (n+1) + \tfrac {2\delta _u}{R}\), so \(\mathbb {E}[X_u] = nR + \tfrac {2\delta _u}{R} + \alpha _u\), and the definition of \(\alpha _u\) collapses this to \(nR + \tfrac 12 + \tfrac {\delta _u}{R^2}\). </p>
@@ -525,7 +541,7 @@
 
     <a class="icon proof" href="sect0006.html#lem:rank_identity">#</a>
     
-    <a class="icon proof" href="sect0006.html#a0000000030"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0006.html#a0000000031"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -541,7 +557,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/RankIdentity.lean#L17" class="lean_decl">LeaFrontier.OrderingRecovery.rank_identity</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/RankIdentity.lean#L17" class="lean_decl">LeaFrontier.OrderingRecovery.rank_identity</a></li>
           
         </ul>
     
@@ -556,7 +572,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000030">
+<div class="proof_wrapper" id="a0000000031">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -584,7 +600,7 @@
 
     <a class="icon proof" href="sect0006.html#lem:degree_sum">#</a>
     
-    <a class="icon proof" href="sect0006.html#a0000000031"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0006.html#a0000000032"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -620,7 +636,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DegreeSum.lean#L18" class="lean_decl">LeaFrontier.OrderingRecovery.degree_sum</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/DegreeSum.lean#L18" class="lean_decl">LeaFrontier.OrderingRecovery.degree_sum</a></li>
           
         </ul>
     
@@ -635,7 +651,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000031">
+<div class="proof_wrapper" id="a0000000032">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -663,7 +679,7 @@
 
     <a class="icon proof" href="sect0006.html#lem:filler_neutral">#</a>
     
-    <a class="icon proof" href="sect0006.html#a0000000032"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0006.html#a0000000033"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -717,7 +733,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/FillerNeutral.lean#L286" class="lean_decl">LeaFrontier.OrderingRecovery.filler_neutral</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/FillerNeutral.lean#L286" class="lean_decl">LeaFrontier.OrderingRecovery.filler_neutral</a></li>
           
         </ul>
     
@@ -732,7 +748,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000032">
+<div class="proof_wrapper" id="a0000000033">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof

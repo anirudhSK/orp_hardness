@@ -81,7 +81,7 @@
     <a class="latex_link" href="sect0008.html#ax:fast_np_complete">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Axioms.lean#L39">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Axioms.lean#L39">Lean</a>
     
     
   
@@ -104,18 +104,19 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">17</span><span class="theorem_thmtitle">Permutation fiber-count <em>(axiom: generic, problem-independent)</em></span></div>
-    <div class="thm_thmcontent"><p>   For any embedding \(e : \mathrm{Fin}\, n \hookrightarrow \mathrm{Fin}\, L\) and any \(F\), </p>
-<div class="displaymath" id="a0000000022">
-  \[  \sum _{\sigma : \mathrm{Perm}(\mathrm{Fin}\, L)} F(\lambda u.\, \sigma (e\, u)) = (L-n)!\,  \cdot \sum _{\varphi : \mathrm{Fin}\, n \hookrightarrow \mathrm{Fin}\, L} F(\lambda u.\, \varphi \, u):  \]
+      <span class="theorem_thmlabel">17</span><span class="theorem_thmtitle">Permutation fiber-count</span></div>
+    <div class="thm_thmcontent"><p>   For a finite type \(\alpha \), an embedding \(e : \mathrm{Fin}\, n \hookrightarrow \alpha \), and any \(F\), </p>
+<div class="displaymath" id="a0000000023">
+  \[  \sum _{\sigma : \mathrm{Perm}(\alpha )} F(\lambda i.\, \sigma (e\, i)) = (|\alpha |-n)!\,  \cdot \sum _{\varphi : \mathrm{Fin}\, n \hookrightarrow \alpha } F(\lambda i.\, \varphi \, i):  \]
 </div>
-<p> each injective placement of \(n\) marked indices extends to a full permutation in exactly \((L-n)!\) ways. <em>Axiomatized</em> (<span class="ttfamily">PermFiber.lean</span>): true, elementary, and entirely independent of the ORP construction; isolated so the genuinely novel content is proved on top of it. (TODO: discharge / upstream to Mathlib.) </p>
+<p> each injective placement of \(n\) marked indices extends to a full permutation in exactly \((|\alpha |-n)!\) ways, so the right-hand side does not depend on \(e\). (In Lean the coefficient is the \(\mathbb {N}\)-scalar action on the <span class="ttfamily">AddCommMonoid</span> \(M\); for the \(\mathbb {Q}\)-valued weights used downstream this is ordinary multiplication.) This is generic finite combinatorics, entirely independent of the ORP construction. </p>
+<p><em>Formerly axiomatized here; now fully proven</em> (<span class="ttfamily">PermFiber.lean</span>), so <span class="ttfamily">#print axioms sum_perm_comp_embedding</span> \(=\) <span class="ttfamily">[propext, Classical.choice, Quot.sound]</span>. </p>
 </div>
 
     <a class="latex_link" href="sect0006.html#ax:fiber_count">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PermFiber.lean#L39">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/PermFiber.lean#L130">Lean</a>
     
     
   
@@ -145,7 +146,7 @@
     <a class="latex_link" href="sect0008.html#ax:reduction_packaging">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Axioms.lean#L50">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Axioms.lean#L50">Lean</a>
     
     
   
@@ -175,7 +176,7 @@
     <a class="latex_link" href="sect0002.html#def:fast">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L65">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Defs.lean#L65">Lean</a>
     
     
   
@@ -205,7 +206,7 @@
     <a class="latex_link" href="sect0007.html#def:induced_order">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/InducedOrder.lean#L22">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/InducedOrder.lean#L22">Lean</a>
     
     
   
@@ -235,7 +236,7 @@
     <a class="latex_link" href="sect0002.html#def:kendall_tau">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L74">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Defs.lean#L74">Lean</a>
     
     
   
@@ -265,7 +266,7 @@
     <a class="latex_link" href="sect0002.html#def:orp">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L110">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Defs.lean#L110">Lean</a>
     
     
   
@@ -295,7 +296,7 @@
     <a class="latex_link" href="sect0005.html#def:orp_of_tournament">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L42">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L42">Lean</a>
     
     
   
@@ -325,7 +326,7 @@
     <a class="latex_link" href="sect0002.html#def:posterior">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L101">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Defs.lean#L101">Lean</a>
     
     
   
@@ -355,7 +356,7 @@
     <a class="latex_link" href="sect0004.html#def:profile">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Profile.lean#L121">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Profile.lean#L121">Lean</a>
     
     
   
@@ -385,7 +386,7 @@
     <a class="latex_link" href="sect0002.html#def:tournament">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/Defs.lean#L39">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Defs.lean#L39">Lean</a>
     
     
   
@@ -415,7 +416,7 @@
     <a class="latex_link" href="sect0005.html#lem:alpha_mem">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/AlphaMemUnitInterval.lean#L22">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/AlphaMemUnitInterval.lean#L22">Lean</a>
     
     
   
@@ -445,7 +446,7 @@
     <a class="latex_link" href="sect0007.html#lem:card_lt_pairs">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/CardLtPairs.lean#L32">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/CardLtPairs.lean#L32">Lean</a>
     
     
   
@@ -475,7 +476,7 @@
     <a class="latex_link" href="sect0002.html#lem:degdiff_bound">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DegDiffAbsLe.lean#L66">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/DegDiffAbsLe.lean#L66">Lean</a>
     
     
   
@@ -505,7 +506,7 @@
     <a class="latex_link" href="sect0006.html#lem:degree_sum">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DegreeSum.lean#L18">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/DegreeSum.lean#L18">Lean</a>
     
     
   
@@ -535,7 +536,7 @@
     <a class="latex_link" href="sect0006.html#lem:designated_margin">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DesignatedMargin.lean#L38">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/DesignatedMargin.lean#L38">Lean</a>
     
     
   
@@ -565,7 +566,7 @@
     <a class="latex_link" href="sect0006.html#lem:designated_margin_close">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/DesignatedMarginClose.lean#L30">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/DesignatedMarginClose.lean#L30">Lean</a>
     
     
   
@@ -595,7 +596,7 @@
     <a class="latex_link" href="sect0006.html#lem:expected_slot">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ExpectedSlot.lean#L18">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ExpectedSlot.lean#L18">Lean</a>
     
     
   
@@ -625,7 +626,7 @@
     <a class="latex_link" href="sect0006.html#lem:filler_neutral">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/FillerNeutral.lean#L286">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/FillerNeutral.lean#L286">Lean</a>
     
     
   
@@ -655,7 +656,7 @@
     <a class="latex_link" href="sect0004.html#lem:gadget_arc">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/GadgetArc.lean#L36">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/GadgetArc.lean#L36">Lean</a>
     
     
   
@@ -685,7 +686,7 @@
     <a class="latex_link" href="sect0006.html#lem:independence_fillers">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/IndependenceFillers.lean#L585">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/IndependenceFillers.lean#L585">Lean</a>
     
     
   
@@ -719,7 +720,7 @@
     <a class="latex_link" href="sect0003.html#lem:majority_form">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/MajorityForm.lean#L42">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/MajorityForm.lean#L42">Lean</a>
     
     
   
@@ -744,7 +745,7 @@
       </span>
       <span class="lemma_thmlabel">28</span><span class="lemma_thmtitle">Objective identity</span></div>
     <div class="thm_thmcontent"><p>    With \(C_0 = m(\tfrac 12 - \tfrac 1{R^2}) + (\binom L2 - m)\tfrac 12\) and \(\pi _{\hat\pi }\) the induced vertex order, </p>
-<div class="displaymath" id="a0000000035">
+<div class="displaymath" id="a0000000036">
   \[  \mathrm{cost}(\hat\pi ) = C_0 + \frac{2}{R^2}\, \operatorname {fas}(T, \pi _{\hat\pi }).  \]
 </div>
 </div>
@@ -752,7 +753,7 @@
     <a class="latex_link" href="sect0007.html#lem:objective_identity">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ObjectiveIdentity.lean#L61">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ObjectiveIdentity.lean#L61">Lean</a>
     
     
   
@@ -782,7 +783,7 @@
     <a class="latex_link" href="sect0006.html#lem:pair_count_lt">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PairCountLt.lean#L29">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/PairCountLt.lean#L29">Lean</a>
     
     
   
@@ -816,7 +817,7 @@
     <a class="latex_link" href="sect0003.html#lem:pairwise_decomp">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PairwiseDecomp.lean#L46">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/PairwiseDecomp.lean#L46">Lean</a>
     
     
   
@@ -846,7 +847,7 @@
     <a class="latex_link" href="sect0007.html#lem:poly_size">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/PolySizeBounds.lean#L23">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/PolySizeBounds.lean#L23">Lean</a>
     
     
   
@@ -876,7 +877,7 @@
     <a class="latex_link" href="sect0004.html#lem:profile_gadget">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ProfileGadget.lean#L28">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ProfileGadget.lean#L28">Lean</a>
     
     
   
@@ -906,7 +907,7 @@
     <a class="latex_link" href="sect0004.html#lem:profile_margins">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ProfileMargins.lean#L336">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ProfileMargins.lean#L336">Lean</a>
     
     
   
@@ -936,7 +937,7 @@
     <a class="latex_link" href="sect0004.html#lem:profile_ranksums">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ProfileRanksums.lean#L182">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ProfileRanksums.lean#L182">Lean</a>
     
     
   
@@ -966,7 +967,7 @@
     <a class="latex_link" href="sect0006.html#lem:rank_identity">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/RankIdentity.lean#L17">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/RankIdentity.lean#L17">Lean</a>
     
     
   
@@ -991,7 +992,7 @@
       </span>
       <span class="lemma_thmlabel">29</span><span class="lemma_thmtitle">Reduction correctness</span></div>
     <div class="thm_thmcontent"><p>    With threshold \(K = C_0 + 2k/R^2\), </p>
-<div class="displaymath" id="a0000000037">
+<div class="displaymath" id="a0000000038">
   \[  \mathrm{FAST}(T,k) \iff \mathrm{ORP}(f(T,k), K).  \]
 </div>
 </div>
@@ -999,7 +1000,7 @@
     <a class="latex_link" href="sect0007.html#lem:reduction_correct">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L50">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L50">Lean</a>
     
     
   
@@ -1029,7 +1030,7 @@
     <a class="latex_link" href="sect0005.html#lem:support_disjoint">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/SupportDisjoint.lean#L27">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/SupportDisjoint.lean#L27">Lean</a>
     
     
   
@@ -1059,7 +1060,7 @@
     <a class="latex_link" href="sect0008.html#thm:orp_np_hard">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/877949e74ed7f3d8ec00299c0c6ac7ab3bc4c43b/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L164">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L164">Lean</a>
     
     
   
@@ -1087,7 +1088,7 @@ graphContainer.graphviz({useWorker: true})
     .width(width)
     .height(height)
     .fit(true)
-    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"def:tournament"	[color=green,		fillcolor="#B0ECA3",		label=tournament,		shape=box,		style=filled];	"lem:degree_sum"	[color=green,		fillcolor="#1CAC78",		label=degree_sum,		shape=ellipse,		style=filled];	"def:tournament" -> "lem:degree_sum"	[style=dashed];	"lem:degdiff_bound"	[color=green,		fillcolor="#1CAC78",		label=degdiff_bound,		shape=ellipse,		style=filled];	"def:tournament" -> "lem:degdiff_bound"	[style=dashed];	"def:fast"	[color=green,		fillcolor="#B0ECA3",		label=fast,		shape=box,		style=filled];	"def:tournament" -> "def:fast"	[style=dashed];	"lem:gadget_arc"	[color=green,		fillcolor="#1CAC78",		label=gadget_arc,		shape=ellipse,		style=filled];	"def:tournament" -> "lem:gadget_arc"	[style=dashed];	"lem:filler_neutral"	[color=green,		fillcolor="#9CEC8B",		label=filler_neutral,		shape=ellipse,		style=filled];	"lem:degree_sum" -> "lem:filler_neutral"	[style=dashed];	"lem:profile_ranksums"	[color=green,		fillcolor="#1CAC78",		label=profile_ranksums,		shape=ellipse,		style=filled];	"lem:degdiff_bound" -> "lem:profile_ranksums"	[style=dashed];	"lem:reduction_correct"	[color=green,		fillcolor="#9CEC8B",		label=reduction_correct,		shape=ellipse,		style=filled];	"def:fast" -> "lem:reduction_correct"	[style=dashed];	"def:profile"	[color=green,		fillcolor="#B0ECA3",		label=profile,		shape=box,		style=filled];	"lem:gadget_arc" -> "def:profile"	[style=dashed];	"lem:objective_identity"	[color=green,		fillcolor="#9CEC8B",		label=objective_identity,		shape=ellipse,		style=filled];	"lem:filler_neutral" -> "lem:objective_identity"	[style=dashed];	"lem:profile_gadget"	[color=green,		fillcolor="#1CAC78",		label=profile_gadget,		shape=ellipse,		style=filled];	"lem:profile_ranksums" -> "lem:profile_gadget"	[style=dashed];	"thm:orp_np_hard"	[color=green,		fillcolor="#9CEC8B",		label=orp_np_hard,		shape=ellipse,		style=filled];	"lem:reduction_correct" -> "thm:orp_np_hard"	[style=dashed];	"def:profile" -> "lem:profile_ranksums"	[style=dashed];	"lem:profile_margins"	[color=green,		fillcolor="#1CAC78",		label=profile_margins,		shape=ellipse,		style=filled];	"def:profile" -> "lem:profile_margins"	[style=dashed];	"lem:profile_margins" -> "lem:profile_gadget"	[style=dashed];	"lem:independence_fillers"	[color=green,		fillcolor="#9CEC8B",		label=independence_fillers,		shape=ellipse,		style=filled];	"lem:designated_margin"	[color=green,		fillcolor="#9CEC8B",		label=designated_margin,		shape=ellipse,		style=filled];	"lem:independence_fillers" -> "lem:designated_margin"	[style=dashed];	"lem:expected_slot"	[color=green,		fillcolor="#9CEC8B",		label=expected_slot,		shape=ellipse,		style=filled];	"lem:independence_fillers" -> "lem:expected_slot"	[style=dashed];	"lem:designated_margin" -> "lem:filler_neutral"	[style=dashed];	"lem:expected_slot" -> "lem:filler_neutral"	[style=dashed];	"lem:objective_identity" -> "lem:reduction_correct"	[style=dashed];	"lem:designated_margin_close"	[color=green,		fillcolor="#1CAC78",		label=designated_margin_close,		shape=ellipse,		style=filled];	"lem:designated_margin_close" -> "lem:designated_margin"	[style=dashed];	"lem:pair_count_lt"	[color=green,		fillcolor="#1CAC78",		label=pair_count_lt,		shape=ellipse,		style=filled];	"lem:pair_count_lt" -> "lem:designated_margin"	[style=dashed];	"lem:alpha_mem"	[color=green,		fillcolor="#1CAC78",		label=alpha_mem,		shape=ellipse,		style=filled];	"lem:alpha_mem" -> "lem:independence_fillers"	[style=dashed];	"def:orp_of_tournament"	[color=green,		fillcolor="#B0ECA3",		label=orp_of_tournament,		shape=box,		style=filled];	"def:orp_of_tournament" -> "lem:alpha_mem"	[style=dashed];	"lem:poly_size"	[color=green,		fillcolor="#1CAC78",		label=poly_size,		shape=ellipse,		style=filled];	"def:orp_of_tournament" -> "lem:poly_size"	[style=dashed];	"lem:support_disjoint"	[color=green,		fillcolor="#1CAC78",		label=support_disjoint,		shape=ellipse,		style=filled];	"def:orp_of_tournament" -> "lem:support_disjoint"	[style=dashed];	"lem:poly_size" -> "thm:orp_np_hard"	[style=dashed];	"lem:support_disjoint" -> "lem:independence_fillers"	[style=dashed];	"lem:profile_gadget" -> "def:orp_of_tournament"	[style=dashed];	"ax:reduction_packaging"	[color=green,		label=reduction_packaging,		shape=ellipse];	"ax:reduction_packaging" -> "thm:orp_np_hard"	[style=dashed];	"def:induced_order"	[color=green,		fillcolor="#B0ECA3",		label=induced_order,		shape=box,		style=filled];	"def:induced_order" -> "lem:objective_identity"	[style=dashed];	"def:posterior"	[color=green,		fillcolor="#B0ECA3",		label=posterior,		shape=box,		style=filled];	"def:orp"	[color=green,		fillcolor="#B0ECA3",		label=orp,		shape=box,		style=filled];	"def:posterior" -> "def:orp"	[style=dashed];	"def:orp" -> "def:orp_of_tournament"	[style=dashed];	"lem:pairwise_decomp"	[color=green,		fillcolor="#1CAC78",		label=pairwise_decomp,		shape=ellipse,		style=filled];	"def:orp" -> "lem:pairwise_decomp"	[style=dashed];	"lem:majority_form"	[color=green,		fillcolor="#1CAC78",		label=majority_form,		shape=ellipse,		style=filled];	"lem:pairwise_decomp" -> "lem:majority_form"	[style=dashed];	"lem:majority_form" -> "lem:filler_neutral"	[style=dashed];	"def:kendall_tau"	[color=green,		fillcolor="#B0ECA3",		label=kendall_tau,		shape=box,		style=filled];	"def:kendall_tau" -> "def:orp"	[style=dashed];	"ax:fiber_count"	[color=green,		label=fiber_count,		shape=ellipse];	"ax:fiber_count" -> "lem:independence_fillers";	"lem:card_lt_pairs"	[color=green,		fillcolor="#1CAC78",		label=card_lt_pairs,		shape=ellipse,		style=filled];	"lem:card_lt_pairs" -> "lem:objective_identity"	[style=dashed];	"lem:rank_identity"	[color=green,		fillcolor="#1CAC78",		label=rank_identity,		shape=ellipse,		style=filled];	"lem:rank_identity" -> "lem:filler_neutral"	[style=dashed];	"ax:fast_np_complete"	[color=green,		label=fast_np_complete,		shape=ellipse];	"ax:fast_np_complete" -> "thm:orp_np_hard"	[style=dashed];}`)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"def:kendall_tau"	[color=green,		fillcolor="#B0ECA3",		label=kendall_tau,		shape=box,		style=filled];	"def:orp"	[color=green,		fillcolor="#B0ECA3",		label=orp,		shape=box,		style=filled];	"def:kendall_tau" -> "def:orp"	[style=dashed];	"lem:pairwise_decomp"	[color=green,		fillcolor="#1CAC78",		label=pairwise_decomp,		shape=ellipse,		style=filled];	"def:orp" -> "lem:pairwise_decomp"	[style=dashed];	"def:orp_of_tournament"	[color=green,		fillcolor="#B0ECA3",		label=orp_of_tournament,		shape=box,		style=filled];	"def:orp" -> "def:orp_of_tournament"	[style=dashed];	"lem:majority_form"	[color=green,		fillcolor="#1CAC78",		label=majority_form,		shape=ellipse,		style=filled];	"lem:pairwise_decomp" -> "lem:majority_form"	[style=dashed];	"lem:filler_neutral"	[color=green,		fillcolor="#1CAC78",		label=filler_neutral,		shape=ellipse,		style=filled];	"lem:majority_form" -> "lem:filler_neutral"	[style=dashed];	"lem:alpha_mem"	[color=green,		fillcolor="#1CAC78",		label=alpha_mem,		shape=ellipse,		style=filled];	"def:orp_of_tournament" -> "lem:alpha_mem"	[style=dashed];	"lem:support_disjoint"	[color=green,		fillcolor="#1CAC78",		label=support_disjoint,		shape=ellipse,		style=filled];	"def:orp_of_tournament" -> "lem:support_disjoint"	[style=dashed];	"lem:poly_size"	[color=green,		fillcolor="#1CAC78",		label=poly_size,		shape=ellipse,		style=filled];	"def:orp_of_tournament" -> "lem:poly_size"	[style=dashed];	"lem:objective_identity"	[color=green,		fillcolor="#1CAC78",		label=objective_identity,		shape=ellipse,		style=filled];	"lem:filler_neutral" -> "lem:objective_identity"	[style=dashed];	"lem:reduction_correct"	[color=green,		fillcolor="#1CAC78",		label=reduction_correct,		shape=ellipse,		style=filled];	"lem:objective_identity" -> "lem:reduction_correct"	[style=dashed];	"thm:orp_np_hard"	[color=green,		fillcolor="#9CEC8B",		label=orp_np_hard,		shape=ellipse,		style=filled];	"lem:reduction_correct" -> "thm:orp_np_hard"	[style=dashed];	"def:fast"	[color=green,		fillcolor="#B0ECA3",		label=fast,		shape=box,		style=filled];	"def:fast" -> "lem:reduction_correct"	[style=dashed];	"lem:independence_fillers"	[color=green,		fillcolor="#1CAC78",		label=independence_fillers,		shape=ellipse,		style=filled];	"lem:alpha_mem" -> "lem:independence_fillers"	[style=dashed];	"lem:support_disjoint" -> "lem:independence_fillers"	[style=dashed];	"lem:poly_size" -> "thm:orp_np_hard"	[style=dashed];	"lem:expected_slot"	[color=green,		fillcolor="#1CAC78",		label=expected_slot,		shape=ellipse,		style=filled];	"lem:independence_fillers" -> "lem:expected_slot"	[style=dashed];	"lem:designated_margin"	[color=green,		fillcolor="#1CAC78",		label=designated_margin,		shape=ellipse,		style=filled];	"lem:independence_fillers" -> "lem:designated_margin"	[style=dashed];	"lem:expected_slot" -> "lem:filler_neutral"	[style=dashed];	"lem:designated_margin" -> "lem:filler_neutral"	[style=dashed];	"ax:fast_np_complete"	[color=green,		label=fast_np_complete,		shape=ellipse];	"ax:fast_np_complete" -> "thm:orp_np_hard"	[style=dashed];	"lem:profile_ranksums"	[color=green,		fillcolor="#1CAC78",		label=profile_ranksums,		shape=ellipse,		style=filled];	"lem:profile_gadget"	[color=green,		fillcolor="#1CAC78",		label=profile_gadget,		shape=ellipse,		style=filled];	"lem:profile_ranksums" -> "lem:profile_gadget"	[style=dashed];	"lem:profile_gadget" -> "def:orp_of_tournament"	[style=dashed];	"def:tournament"	[color=green,		fillcolor="#B0ECA3",		label=tournament,		shape=box,		style=filled];	"def:tournament" -> "def:fast"	[style=dashed];	"lem:gadget_arc"	[color=green,		fillcolor="#1CAC78",		label=gadget_arc,		shape=ellipse,		style=filled];	"def:tournament" -> "lem:gadget_arc"	[style=dashed];	"lem:degdiff_bound"	[color=green,		fillcolor="#1CAC78",		label=degdiff_bound,		shape=ellipse,		style=filled];	"def:tournament" -> "lem:degdiff_bound"	[style=dashed];	"lem:degree_sum"	[color=green,		fillcolor="#1CAC78",		label=degree_sum,		shape=ellipse,		style=filled];	"def:tournament" -> "lem:degree_sum"	[style=dashed];	"def:profile"	[color=green,		fillcolor="#B0ECA3",		label=profile,		shape=box,		style=filled];	"lem:gadget_arc" -> "def:profile"	[style=dashed];	"lem:degdiff_bound" -> "lem:profile_ranksums"	[style=dashed];	"lem:degree_sum" -> "lem:filler_neutral"	[style=dashed];	"def:profile" -> "lem:profile_ranksums"	[style=dashed];	"lem:profile_margins"	[color=green,		fillcolor="#1CAC78",		label=profile_margins,		shape=ellipse,		style=filled];	"def:profile" -> "lem:profile_margins"	[style=dashed];	"lem:profile_margins" -> "lem:profile_gadget"	[style=dashed];	"def:posterior"	[color=green,		fillcolor="#B0ECA3",		label=posterior,		shape=box,		style=filled];	"def:posterior" -> "def:orp"	[style=dashed];	"lem:card_lt_pairs"	[color=green,		fillcolor="#1CAC78",		label=card_lt_pairs,		shape=ellipse,		style=filled];	"lem:card_lt_pairs" -> "lem:objective_identity"	[style=dashed];	"lem:pair_count_lt"	[color=green,		fillcolor="#1CAC78",		label=pair_count_lt,		shape=ellipse,		style=filled];	"lem:pair_count_lt" -> "lem:designated_margin"	[style=dashed];	"ax:fiber_count"	[color=green,		fillcolor="#1CAC78",		label=fiber_count,		shape=ellipse,		style=filled];	"ax:fiber_count" -> "lem:independence_fillers";	"def:induced_order"	[color=green,		fillcolor="#B0ECA3",		label=induced_order,		shape=box,		style=filled];	"def:induced_order" -> "lem:objective_identity"	[style=dashed];	"lem:rank_identity"	[color=green,		fillcolor="#1CAC78",		label=rank_identity,		shape=ellipse,		style=filled];	"lem:rank_identity" -> "lem:filler_neutral"	[style=dashed];	"lem:designated_margin_close"	[color=green,		fillcolor="#1CAC78",		label=designated_margin_close,		shape=ellipse,		style=filled];	"lem:designated_margin_close" -> "lem:designated_margin"	[style=dashed];	"ax:reduction_packaging"	[color=green,		label=reduction_packaging,		shape=ellipse];	"ax:reduction_packaging" -> "thm:orp_np_hard"	[style=dashed];}`)
     .on("end", interactive);
 
 latexLabelEscaper = function(label) {
