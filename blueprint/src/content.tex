@@ -8,7 +8,7 @@
 % Every node names its Lean declaration in LeaFrontier.OrderingRecovery via
 % \lean{...}.  \leanok on a statement means the statement is formalized; \leanok
 % in a proof means the Lean proof is complete (sorry-free).  The whole
-% development is sorry-free modulo the three cited/elementary axioms, which are
+% development is sorry-free modulo the two cited complexity-theory axioms, which are
 % marked explicitly below.
 
 \chapter*{Overview}
@@ -28,12 +28,13 @@ exact pairwise posterior marginals, the objective identity, and the
 two-directional correctness equivalence --- as fully \texttt{sorry}-free Lean
 theorems. We do \emph{not} build a formal model of polynomial-time computation
 (Mathlib has no usable poly-time / NP-completeness framework). The headline
-``ORP is NP-hard'' is assembled from the proven core together with three
-explicitly stated axioms: that FAST is NP-complete (textbook, cited), that a
+``ORP is NP-hard'' is assembled from the proven core together with two
+explicitly stated axioms: that FAST is NP-complete (textbook, cited), and that a
 correct polynomial-time many-one reduction from an NP-complete source yields
-NP-hardness of the target (a meta-fact), and one generic, problem-independent
-permutation fiber-count. \texttt{\#print axioms orp\_np\_hard} surfaces exactly
-these.
+NP-hardness of the target (a meta-fact). \texttt{\#print axioms orp\_np\_hard}
+surfaces exactly these. (A generic, problem-independent permutation fiber-count
+was previously assumed here as well; it has since been fully proven --- see
+Theorem~\ref{ax:fiber_count} --- so it no longer appears in the axiom footprint.)
 
 \textbf{Probability model.} The posterior over $\sigma \in S_L$ given
 $\hat t = 0$ is modeled by explicit finite counting: the unnormalized weight of a
@@ -353,23 +354,47 @@ $\rho_b$; \texttt{omega} closes the arithmetic.
 %=====================================================================
 \section{Layer 4 --- Independence and posterior margins}
 
-\begin{theorem}[Permutation fiber-count \emph{(axiom: generic, problem-independent)}]
+\begin{theorem}[Permutation fiber-count]
 \label{ax:fiber_count}
 \lean{LeaFrontier.OrderingRecovery.sum_perm_comp_embedding}
 \leanok
-For any embedding $e : \mathrm{Fin}\,n \hookrightarrow \mathrm{Fin}\,L$ and any
-$F$,
+For a finite type $\alpha$, an embedding $e : \mathrm{Fin}\,n \hookrightarrow \alpha$,
+and any $F$,
 \[
-  \sum_{\sigma : \mathrm{Perm}(\mathrm{Fin}\,L)} F(\lambda u.\,\sigma(e\,u))
-  = (L-n)!\, \cdot
-    \sum_{\varphi : \mathrm{Fin}\,n \hookrightarrow \mathrm{Fin}\,L} F(\lambda u.\,\varphi\,u):
+  \sum_{\sigma : \mathrm{Perm}(\alpha)} F(\lambda i.\,\sigma(e\,i))
+  = (|\alpha|-n)!\, \cdot
+    \sum_{\varphi : \mathrm{Fin}\,n \hookrightarrow \alpha} F(\lambda i.\,\varphi\,i):
 \]
 each injective placement of $n$ marked indices extends to a full permutation in
-exactly $(L-n)!$ ways. \emph{Axiomatized} (\texttt{PermFiber.lean}): true,
-elementary, and entirely independent of the ORP construction; isolated so the
-genuinely novel content is proved on top of it. (TODO: discharge / upstream to
-Mathlib.)
+exactly $(|\alpha|-n)!$ ways, so the right-hand side does not depend on $e$. (In
+Lean the coefficient is the $\mathbb{N}$-scalar action on the
+\texttt{AddCommMonoid} $M$; for the $\mathbb{Q}$-valued weights used downstream
+this is ordinary multiplication.) This is generic finite combinatorics, entirely
+independent of the ORP construction.
+
+\emph{Formerly axiomatized here; now fully proven} (\texttt{PermFiber.lean}), so
+\texttt{\#print axioms sum\_perm\_comp\_embedding} $=$
+\texttt{[propext, Classical.choice, Quot.sound]}.
 \end{theorem}
+\begin{proof}
+\leanok
+Group the permutation sum by the embedding each $\sigma$ induces on the marked
+positions, $\sigma \mapsto \sigma \circ e$
+(\texttt{Finset.sum\_fiberwise\_of\_maps\_to}). On the fiber over a fixed
+embedding $\varphi$ --- the permutations with $\sigma \circ e = \varphi$ --- the
+summand $F(\sigma \circ e) = F(\varphi)$ is constant, so that fiber contributes
+$(\text{fiber size}) \cdot F(\varphi)$. To count a fiber: a permutation extending
+$\varphi$ is determined by a bijection between the two range complements
+$\{x \notin \mathrm{range}\,e\}$ and $\{x \notin \mathrm{range}\,\varphi\}$, and
+conversely every such bijection extends $\varphi$. This gives an explicit
+equivalence between the fiber and
+$\{x \notin \mathrm{range}\,e\} \simeq \{x \notin \mathrm{range}\,\varphi\}$
+(built from \texttt{Equiv.subtypeCongr} and
+\texttt{Function.Embedding.toEquivRange}). Both complements have cardinality
+$|\alpha|-n$, so by \texttt{Fintype.card\_equiv} the number of such bijections ---
+hence each fiber's size --- is $(|\alpha|-n)!$, independent of $\varphi$. Summing
+over $\varphi$ gives the identity.
+\end{proof}
 
 \begin{lemma}[Exact independence via fillers]
 \label{lem:independence_fillers}
@@ -674,7 +699,11 @@ reduction $f = \mathrm{orpOfTournament}$ and threshold map $\mathrm{orpThreshold
 NP-completeness of FAST is Theorem~\ref{ax:fast_np_complete}, the polynomial
 size bound $L \le 16(n+1)^3$ is Lemma~\ref{lem:poly_size} (supplying the
 certificate $\langle 16,3\rangle$), and both-directional correctness is
-Lemma~\ref{lem:reduction_correct}. Hence ORP is NP-hard. \texttt{\#print axioms
+Lemma~\ref{lem:reduction_correct}. Hence ORP is NP-hard. Now that the fiber-count
+is discharged (Theorem~\ref{ax:fiber_count}), \texttt{\#print axioms
 orp\_np\_hard} is exactly \texttt{[propext, Classical.choice, Quot.sound,
-fast\_np\_complete, reduction\_yields\_np\_hard, sum\_perm\_comp\_embedding]}.
+fast\_np\_complete, reduction\_yields\_np\_hard]} --- only the two cited
+complexity-theory facts remain non-foundational, and the entire mathematical core
+(including \texttt{reduction\_correct}) is now proven from Lean's foundations
+alone.
 \end{proof}
