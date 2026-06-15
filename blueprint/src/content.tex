@@ -515,9 +515,14 @@ collapses this to $nR + \tfrac12 + \tfrac{\delta_u}{R^2}$.
 \label{lem:rank_identity}
 \lean{LeaFrontier.OrderingRecovery.rank_identity}
 \leanok
-For a permutation $\sigma$ of $\mathrm{Fin}\,L$,
+For a
+\href{https://leanprover-community.github.io/mathlib4_docs/Mathlib/Logic/Equiv/Defs.html#Equiv.Perm}{permutation}
+$\sigma$ of $\mathrm{Fin}\,L$,
 $\sigma(x) = \#\{i : \sigma(i) < \sigma(x)\} = \sum_i \ind[\sigma(i) < \sigma(x)]$:
-a value is its own rank.
+a value is its own rank. This holds precisely because $\sigma$ is a bijection,
+so its values are exactly $\{0,\dots,L-1\}$ with no gaps; the count of values
+below $\sigma(x)$ is then $\sigma(x)$ itself. (It counts values
+$\sigma(i)<\sigma(x)$, not positions $i<x$.)
 \end{lemma}
 \begin{proof}
 \leanok
