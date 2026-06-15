@@ -550,9 +550,13 @@ $\outdeg(u) - \indeg(u) = -\delta_u$.
 \lean{LeaFrontier.OrderingRecovery.filler_neutral}
 \leanok
 \uses{lem:expected_slot, lem:designated_margin, lem:independence_fillers, lem:rank_identity, lem:degree_sum, lem:majority_form}
-Every pair involving a filler has posterior probability $1/2$ in each direction,
-hence (by Lemma~\ref{lem:majority_form}) contributes exactly $1/2$ to the cost,
-independent of $\hat\pi$.
+Every pair involving a filler has posterior probability
+(\href{https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Defs.lean#L101}{\texttt{pairLess}})
+$1/2$ in each direction, hence (by Lemma~\ref{lem:majority_form}) contributes
+exactly $1/2$ to the cost, independent of $\hat\pi$. In Lean a filler is any event
+index $\ge n$ (designated events are the first $n$ indices of
+$\mathrm{Fin}\,(2nR)$), so the hypothesis ``involves a filler'' is
+$n \le i \vee n \le j$.
 \end{lemma}
 \begin{proof}
 \leanok
