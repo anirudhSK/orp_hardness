@@ -568,7 +568,7 @@
         </div>
   </div>
   <div class="lemma_thmcontent">
-  <p>   For a permutation \(\sigma \) of \(\mathrm{Fin}\, L\), \(\sigma (x) = \# \{ i : \sigma (i) {\lt} \sigma (x)\}  = \sum _i \mathbf{1}[\sigma (i) {\lt} \sigma (x)]\): a value is its own rank. </p>
+  <p>   For a <a href ="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Logic/Equiv/Defs.html#Equiv.Perm">permutation</a> \(\sigma \) of \(\mathrm{Fin}\, L\), \(\sigma (x) = \# \{ i : \sigma (i) {\lt} \sigma (x)\}  = \sum _i \mathbf{1}[\sigma (i) {\lt} \sigma (x)]\): a value is its own rank. This holds precisely because \(\sigma \) is a bijection, so its values are exactly \(\{ 0,\dots ,L-1\} \) with no gaps; the count of values below \(\sigma (x)\) is then \(\sigma (x)\) itself. (It counts values \(\sigma (i){\lt}\sigma (x)\), not positions \(i{\lt}x\).) </p>
 
   </div>
 </div>
