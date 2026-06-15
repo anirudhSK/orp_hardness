@@ -679,12 +679,24 @@ feedback arc set problem is NP-hard for tournaments}, Combin. Probab. Comput.
 \lean{LeaFrontier.OrderingRecovery.reduction_yields_np_hard}
 \leanok
 A deterministic polynomial-time many-one reduction that is correct in both
-directions from an NP-complete source problem, and whose output has polynomially
-bounded size, witnesses NP-hardness of the target. \emph{Axiomatized meta-fact}:
-stands in for the complexity-theoretic framework (poly-time many-one reductions,
-the NP hierarchy) that Mathlib does not provide. The explicit polynomial
-size-bound hypothesis is what makes the poly-time character load-bearing in the
-type.
+directions from an NP-complete
+\href{https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Axioms.lean#L32}{source
+problem}, and whose output has polynomially bounded size, witnesses NP-hardness
+of the
+\href{https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Axioms.lean#L35}{target}.
+The reduction is inherently \emph{directional}, and the signature shows where:
+the transformation \texttt{red} has type \texttt{Tournament n $\to$ ORPInstance}
+--- source instances to target instances, never the reverse; the source's
+NP-completeness is a \emph{hypothesis} while the target's NP-hardness is the
+\emph{conclusion}; and the size bound $(\mathtt{red}\,T\,k).\mathtt{L} \le
+c\,(n+1)^d$ constrains the \emph{output} size in terms of the \emph{input}. The
+two-directional correctness $\mathrm{FAST}(T,k) \iff \mathrm{ORP}(\dots)$ is the
+one symmetric-looking ingredient, but it is quantified over source instances and
+their forward images, so it too is anchored to the FAST $\to$ ORP direction.
+\emph{Axiomatized meta-fact}: stands in for the complexity-theoretic framework
+(poly-time many-one reductions, the NP hierarchy) that Mathlib does not provide.
+The explicit polynomial size-bound hypothesis is what makes the poly-time
+character load-bearing in the type.
 \end{theorem}
 
 \begin{theorem}[ORP is NP-hard]
