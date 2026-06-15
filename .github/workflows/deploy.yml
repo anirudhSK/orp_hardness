@@ -29,9 +29,16 @@ jobs:
           # (a shallow clone can cause "shallow update not allowed" on push).
           fetch-depth: 0
 
-      # graphviz + headers are needed to build pygraphviz (used by plastex).
-      - name: Install graphviz
-        run: sudo apt-get update && sudo apt-get install -y graphviz libgraphviz-dev
+      # Build deps:
+      #  - graphviz + headers: build pygraphviz (plastex dep-graph rendering).
+      #  - texlive-latex-base: provides `kpsewhich`, which plastex shells out to
+      #    in order to resolve \input{macros/...}. Without it, the macros that
+      #    define the theorem environments don't load and the build crashes.
+      #  - dvisvgm: the SVG imager plastex expects (a normal TeX install has it).
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz libgraphviz-dev texlive-latex-base dvisvgm
 
       - name: Set up Python
         uses: actions/setup-python@v5
