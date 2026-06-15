@@ -51,7 +51,9 @@ conditional-expectation machinery is used.
 \label{def:tournament}
 \lean{LeaFrontier.OrderingRecovery.Tournament}
 \leanok
-A \emph{tournament} on $V = \{1,\dots,n\}$ ($= \mathrm{Fin}\,n$) is a relation
+A \emph{tournament} on $V = \{1,\dots,n\}$ (the Lean index type
+\href{https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Fin}{\texttt{Fin n}},
+i.e.\ $\{0,\dots,n-1\}$) is a relation
 $\mathrm{beats} : V \to V \to \mathrm{Bool}$ that is irreflexive
 ($\mathrm{beats}(u,u) = \mathrm{false}$) and exactly one-directional on each
 unordered pair ($u \ne v \Rightarrow \mathrm{beats}(u,v) =
