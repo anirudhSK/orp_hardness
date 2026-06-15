@@ -1,0 +1,57 @@
+name: Deploy Blueprint
+
+# Auto-deploy the blueprint to GitHub Pages on every push to main.
+# This reuses blueprint/deploy.sh — the exact same script used for manual
+# deploys — so CI and local deploys follow one code path. deploy.sh builds the
+# static site (blueprint/make.sh) and pushes it to the gh-pages branch.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow the workflow to push to the gh-pages branch via the default token.
+permissions:
+  contents: write
+
+# Never run two deploys at once (they'd race to push gh-pages).
+concurrency:
+  group: deploy-blueprint
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so deploy.sh can fetch and fast-forward gh-pages
+          # (a shallow clone can cause "shallow update not allowed" on push).
+          fetch-depth: 0
+
+      # graphviz + headers are needed to build pygraphviz (used by plastex).
+      - name: Install graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz libgraphviz-dev
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      # make.sh expects a venv at <repo root>/.blueprint-venv with leanblueprint
+      # (which pulls plastex + plugins) and pygraphviz.
+      - name: Create blueprint venv
+        run: |
+          python3 -m venv .blueprint-venv
+          . .blueprint-venv/bin/activate
+          pip install --upgrade pip
+          pip install pygraphviz leanblueprint
+
+      # deploy.sh commits to gh-pages, so it needs a git identity.
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Build and deploy
+        run: ./blueprint/deploy.sh
