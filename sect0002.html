@@ -110,7 +110,7 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>   A <em>tournament</em> on \(V = \{ 1,\dots ,n\} \) (\(= \mathrm{Fin}\, n\)) is a relation \(\mathrm{beats} : V \to V \to \mathrm{Bool}\) that is irreflexive (\(\mathrm{beats}(u,u) = \mathrm{false}\)) and exactly one-directional on each unordered pair (\(u \ne v \Rightarrow \mathrm{beats}(u,v) = \neg \, \mathrm{beats}(v,u)\)). Arc \((u,v) \in A\) means \(\mathrm{beats}(u,v) = \mathrm{true}\). For \(u \in V\) the degree difference is \(\delta _u := \operatorname {indeg}(u) - \operatorname {outdeg}(u)\) (<span class="ttfamily">Tournament.degDiff</span>). </p>
+  <p>   A <em>tournament</em> on \(V = \{ 1,\dots ,n\} \) (the Lean index type <a href ="https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Fin"><span class="ttfamily">Fin n</span></a>, i.e. \(\{ 0,\dots ,n-1\} \)) is a relation \(\mathrm{beats} : V \to V \to \mathrm{Bool}\) that is irreflexive (\(\mathrm{beats}(u,u) = \mathrm{false}\)) and exactly one-directional on each unordered pair (\(u \ne v \Rightarrow \mathrm{beats}(u,v) = \neg \, \mathrm{beats}(v,u)\)). Arc \((u,v) \in A\) means \(\mathrm{beats}(u,v) = \mathrm{true}\). For \(u \in V\) the degree difference is \(\delta _u := \operatorname {indeg}(u) - \operatorname {outdeg}(u)\) (<span class="ttfamily">Tournament.degDiff</span>). </p>
 
   </div>
 </div>
