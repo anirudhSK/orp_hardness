@@ -74,7 +74,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">31</span>
+    <span class="theorem_thmlabel">33</span>
     <span class="theorem_thmtitle">FAST is NP-complete <em>(axiom: cited)</em></span>
     <div class="thm_header_extras">
 
@@ -98,7 +98,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Axioms.lean#L39" class="lean_decl">LeaFrontier.OrderingRecovery.fast_np_complete</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/93d37a15db4cbca0a10870f977b5f223cf04c91f/LeaFrontier/OrderingRecovery/Axioms.lean#L39" class="lean_decl">LeaFrontier.OrderingRecovery.fast_np_complete</a></li>
           
         </ul>
     
@@ -118,7 +118,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">32</span>
+    <span class="theorem_thmlabel">34</span>
     <span class="theorem_thmtitle">Reduction packaging <em>(axiom: meta-fact)</em></span>
     <div class="thm_header_extras">
 
@@ -142,7 +142,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Axioms.lean#L50" class="lean_decl">LeaFrontier.OrderingRecovery.reduction_yields_np_hard</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/93d37a15db4cbca0a10870f977b5f223cf04c91f/LeaFrontier/OrderingRecovery/Axioms.lean#L50" class="lean_decl">LeaFrontier.OrderingRecovery.reduction_yields_np_hard</a></li>
           
         </ul>
     
@@ -153,7 +153,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   A deterministic polynomial-time many-one reduction that is correct in both directions from an NP-complete <a href ="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Axioms.lean#L32">source problem</a>, and whose output has polynomially bounded size, witnesses NP-hardness of the <a href ="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Axioms.lean#L35">target</a>. The reduction is inherently <em>directional</em>, and the signature shows where: the transformation <span class="ttfamily">red</span> has type <span class="ttfamily">Tournament n \(\to \) ORPInstance</span> — source instances to target instances, never the reverse; the source’s NP-completeness is a <em>hypothesis</em> while the target’s NP-hardness is the <em>conclusion</em>; and the size bound \((\mathtt{red}\, T\, k).\mathtt{L} \le c\, (n+1)^d\) constrains the <em>output</em> size in terms of the <em>input</em>. The two-directional correctness \(\mathrm{FAST}(T,k) \iff \mathrm{ORP}(\dots )\) is the one symmetric-looking ingredient, but it is quantified over source instances and their forward images, so it too is anchored to the FAST \(\to \) ORP direction. <em>Axiomatized meta-fact</em>: stands in for the complexity-theoretic framework (poly-time many-one reductions, the NP hierarchy) that Mathlib does not provide. The explicit polynomial size-bound hypothesis is what makes the poly-time character load-bearing in the type. </p>
+  <p>   A deterministic polynomial-time many-one reduction that is correct in both directions from an NP-complete <a href ="https://github.com/chinmayhegde/lea-frontier/blob/93d37a15db4cbca0a10870f977b5f223cf04c91f/LeaFrontier/OrderingRecovery/Axioms.lean#L32">source problem</a>, and whose output has polynomially bounded size, witnesses NP-hardness of the <a href ="https://github.com/chinmayhegde/lea-frontier/blob/93d37a15db4cbca0a10870f977b5f223cf04c91f/LeaFrontier/OrderingRecovery/Axioms.lean#L35">target</a>. The reduction is inherently <em>directional</em>, and the signature shows where: the transformation <span class="ttfamily">red</span> has type <span class="ttfamily">Tournament n \(\to \) ORPInstance</span> — source instances to target instances, never the reverse; the source’s NP-completeness is a <em>hypothesis</em> while the target’s NP-hardness is the <em>conclusion</em>; and the size bound \((\mathtt{red}\, T\, k).\mathtt{L} \le c\, (n+1)^d\) constrains the <em>output</em> size in terms of the <em>input</em>. The two-directional correctness \(\mathrm{FAST}(T,k) \iff \mathrm{ORP}(\dots )\) is the one symmetric-looking ingredient, but it is quantified over source instances and their forward images, so it too is anchored to the FAST \(\to \) ORP direction. <em>Axiomatized meta-fact</em>: stands in for the complexity-theoretic framework (poly-time many-one reductions, the NP hierarchy) that Mathlib does not provide. The explicit polynomial size-bound hypothesis is what makes the poly-time character load-bearing in the type. </p>
 
   </div>
 </div>
@@ -162,7 +162,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">33</span>
+    <span class="theorem_thmlabel">35</span>
     <span class="theorem_thmtitle">ORP is NP-hard</span>
     <div class="thm_header_extras">
 
@@ -173,7 +173,7 @@
 
     <a class="icon proof" href="sect0008.html#thm:orp_np_hard">#</a>
     
-    <a class="icon proof" href="sect0008.html#a0000000040"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0008.html#a0000000042"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -189,21 +189,21 @@
         
         <ul class="uses">
           
-          <li><a href="sect0007.html#lem:reduction_correct">Lemma 29</a></li>
+          <li><a href="sect0007.html#lem:reduction_correct">Lemma 31</a></li>
           
-          <li><a href="sect0007.html#lem:poly_size">Lemma 30</a></li>
+          <li><a href="sect0007.html#lem:poly_size">Lemma 32</a></li>
           
-          <li><a href="sect0008.html#ax:fast_np_complete">Theorem 31</a></li>
+          <li><a href="sect0008.html#ax:fast_np_complete">Theorem 33</a></li>
           
-          <li><a href="sect0008.html#ax:reduction_packaging">Theorem 32</a></li>
+          <li><a href="sect0008.html#ax:reduction_packaging">Theorem 34</a></li>
           
-          <li><a href="sect0007.html#lem:reduction_correct">Lemma 29</a></li>
+          <li><a href="sect0007.html#lem:reduction_correct">Lemma 31</a></li>
           
-          <li><a href="sect0007.html#lem:poly_size">Lemma 30</a></li>
+          <li><a href="sect0007.html#lem:poly_size">Lemma 32</a></li>
           
-          <li><a href="sect0008.html#ax:fast_np_complete">Theorem 31</a></li>
+          <li><a href="sect0008.html#ax:fast_np_complete">Theorem 33</a></li>
           
-          <li><a href="sect0008.html#ax:reduction_packaging">Theorem 32</a></li>
+          <li><a href="sect0008.html#ax:reduction_packaging">Theorem 34</a></li>
           
         </ul>
     
@@ -223,7 +223,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L164" class="lean_decl">LeaFrontier.OrderingRecovery.orp_np_hard</a></li>
+          <li><a href="https://github.com/chinmayhegde/lea-frontier/blob/93d37a15db4cbca0a10870f977b5f223cf04c91f/LeaFrontier/OrderingRecovery/ReductionCorrect.lean#L164" class="lean_decl">LeaFrontier.OrderingRecovery.orp_np_hard</a></li>
           
         </ul>
     
@@ -238,7 +238,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000040">
+<div class="proof_wrapper" id="a0000000042">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -246,7 +246,7 @@
     <span class="expand-proof">▶</span>
   </div>
   <div class="proof_content">
-  <p> Instantiate the packaging axiom (Theorem&#160;<a href="sect0008.html#ax:reduction_packaging">32</a>) with the reduction \(f = \mathrm{orpOfTournament}\) and threshold map \(\mathrm{orpThresholdOf}\): NP-completeness of FAST is Theorem&#160;<a href="sect0008.html#ax:fast_np_complete">31</a>, the polynomial size bound \(L \le 16(n+1)^3\) is Lemma&#160;<a href="sect0007.html#lem:poly_size">30</a> (supplying the certificate \(\langle 16,3\rangle \)), and both-directional correctness is Lemma&#160;<a href="sect0007.html#lem:reduction_correct">29</a>. Hence ORP is NP-hard. Now that the fiber-count is discharged (Theorem&#160;<a href="sect0006.html#ax:fiber_count">17</a>), <span class="ttfamily">#print axioms orp_np_hard</span> is exactly <span class="ttfamily">[propext, Classical.choice, Quot.sound, fast_np_complete, reduction_yields_np_hard]</span> — only the two cited complexity-theory facts remain non-foundational, and the entire mathematical core (including <span class="ttfamily">reduction_correct</span>) is now proven from Lean’s foundations alone. </p>
+  <p> Instantiate the packaging axiom (Theorem&#160;<a href="sect0008.html#ax:reduction_packaging">34</a>) with the reduction \(f = \mathrm{orpOfTournament}\) and threshold map \(\mathrm{orpThresholdOf}\): NP-completeness of FAST is Theorem&#160;<a href="sect0008.html#ax:fast_np_complete">33</a>, the polynomial size bound \(L \le 16(n+1)^3\) is Lemma&#160;<a href="sect0007.html#lem:poly_size">32</a> (supplying the certificate \(\langle 16,3\rangle \)), and both-directional correctness is Lemma&#160;<a href="sect0007.html#lem:reduction_correct">31</a>. Hence ORP is NP-hard. Now that the fiber-count is discharged (Theorem&#160;<a href="sect0006.html#ax:fiber_count">17</a>), <span class="ttfamily">#print axioms orp_np_hard</span> is exactly <span class="ttfamily">[propext, Classical.choice, Quot.sound, fast_np_complete, reduction_yields_np_hard]</span> — only the two cited complexity-theory facts remain non-foundational, and the entire mathematical core (including <span class="ttfamily">reduction_correct</span>) is now proven from Lean’s foundations alone. </p>
 
   </div>
 </div>
