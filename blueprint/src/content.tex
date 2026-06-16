@@ -192,7 +192,7 @@ For an arc $(u,v)$ pick any order $\omega$ of $V \setminus \{u,v\}$ and form the
 two orders $O_1 = (u,v,\omega)$ and $O_2 = (\omega^{\rev}, u, v)$. Then: (i) both
 rank $u$ before $v$; (ii) every ordered pair \emph{other than the arc itself} (in
 either orientation) is reversed between $O_1$ and $O_2$ (net
-\href{https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/ProfileMargins.lean#L336}{margin}
+\href{https://github.com/chinmayhegde/lea-frontier/blob/93d37a15db4cbca0a10870f977b5f223cf04c91f/LeaFrontier/OrderingRecovery/ProfileMargins.lean#L336}{margin}
 $0$); (iii)
 the two orders give $u$ the 0-indexed rank sum $n-2$ (ranks $0$ and $n-2$), $v$
 the rank sum $n$ (ranks $1$ and $n-1$), and every $x \notin \{u,v\}$ the rank sum
@@ -545,35 +545,81 @@ $+1$ for out-neighbours and $-1$ for in-neighbours; the total is
 $\outdeg(u) - \indeg(u) = -\delta_u$.
 \end{proof}
 
-\begin{lemma}[Filler pairs are exactly neutral]
-\label{lem:filler_neutral}
-\lean{LeaFrontier.OrderingRecovery.filler_neutral}
+% Filler-involving pairs are neutral for two genuinely different reasons, split
+% into two lemmas (mirroring the Lean) feeding the umbrella lem:filler_neutral.
+\begin{lemma}[Filler--filler neutral, by symmetry]
+\label{lem:filler_filler_neutral_by_symmetry}
+\lean{LeaFrontier.OrderingRecovery.filler_filler_neutral_by_symmetry}
 \leanok
-\uses{lem:expected_slot, lem:designated_margin, lem:independence_fillers, lem:rank_identity, lem:degree_sum, lem:majority_form}
-Every pair involving a filler has posterior probability
-(\href{https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Defs.lean#L101}{\texttt{pairLess}})
-$1/2$ in each direction, hence (by Lemma~\ref{lem:majority_form}) contributes
-exactly $1/2$ to the cost, independent of $\hat\pi$. In Lean a filler is any event
-index $\ge n$ (designated events are the first $n$ indices of
-$\mathrm{Fin}\,(2nR)$), so the hypothesis ``involves a filler'' is
-$n \le i \vee n \le j$.
+\uses{lem:independence_fillers}
+For two distinct fillers $f \ne f'$, the posterior pair marginal is
+$\Prb(X_f < X_{f'}) = \tfrac12$.
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:independence_fillers}
+Pure \emph{symmetry}. Fillers are exchangeable: the posterior weight depends only
+on the designated images, so swapping two filler slots
+($\sigma \mapsto \sigma\circ(f\,f')$) is weight-preserving. Hence
+$\Prb(X_f<X_{f'}) = \Prb(X_{f'}<X_f)$, and with no ties (as $\sigma$ is a
+permutation) each equals $\tfrac12$. This uses \emph{nothing} about the
+tournament $T$ or the margins --- it would hold for any construction in which the
+fillers are exchangeable.
+\end{proof}
+
+\begin{lemma}[Designated--filler neutral, by cancellation]
+\label{lem:designated_filler_neutral_by_cancellation}
+\lean{LeaFrontier.OrderingRecovery.designated_filler_neutral_by_cancellation}
+\leanok
+\uses{lem:expected_slot, lem:designated_margin, lem:rank_identity, lem:degree_sum}
+For a designated vertex $u$ and any filler $f$, the marginal
+$\theta_u = \Prb(X_f < X_u) = \tfrac12$ --- the same value for every filler, and
+\emph{independent of $u$} even though $\delta_u$ varies.
 \end{lemma}
 \begin{proof}
 \leanok
 \uses{lem:expected_slot, lem:designated_margin, lem:rank_identity, lem:degree_sum}
-\emph{Filler--filler:} fillers are exchangeable (identical laws, posterior
-invariant under relabeling them), so $\Prb(X_f<X_{f'}) = \Prb(X_{f'}<X_f) =
-\tfrac12$, with no ties since $\sigma$ is a permutation.
-\emph{Designated--filler:} let $\theta_u = \Prb(X_f < X_u)$, the same for every
-filler $f$. The pointwise rank identity (Lemma~\ref{lem:rank_identity})
+\emph{Not} symmetry: a designated vertex and a filler are not exchangeable ($u$
+carries the graph signal $\delta_u$), so $\theta_u$ must be \emph{computed}. The
+pointwise rank identity (Lemma~\ref{lem:rank_identity})
 $X_u = 1 + \sum_{v \ne u}\ind[X_v<X_u] + \sum_{r}\ind[X_{f_r}<X_u]$ gives, in
 expectation, $\E[X_u] = 1 + \sum_{v\ne u}\Prb(X_v<X_u) + q\,\theta_u$. By the
 margins (Lemma~\ref{lem:designated_margin}) and the degree sum
 (Lemma~\ref{lem:degree_sum}),
 $\sum_{v\ne u}\Prb(X_v<X_u) = \tfrac{n-1}{2} + \tfrac{\delta_u}{R^2}$.
 Substituting $\E[X_u] = nR + \tfrac12 + \tfrac{\delta_u}{R^2}$
-(Lemma~\ref{lem:expected_slot}) and $q = 2nR - n$ yields
-$q\,\theta_u = nR - \tfrac n2 = q/2$, so $\theta_u = \tfrac12$.
+(Lemma~\ref{lem:expected_slot}) and $q = 2nR - n$, the $\delta_u/R^2$ terms
+\emph{cancel}, yielding $q\,\theta_u = nR - \tfrac n2 = q/2$, so
+$\theta_u = \tfrac12$. The neutrality here is an arithmetic consequence of the
+calibration (slot offsets tuned against the margins): the per-vertex signal
+$\delta_u$ is invisible to the designated--filler comparison precisely because it
+cancels.
+\end{proof}
+
+\begin{lemma}[Filler pairs are exactly neutral]
+\label{lem:filler_neutral}
+\lean{LeaFrontier.OrderingRecovery.filler_neutral_with_filler_and_designated}
+\leanok
+\uses{lem:filler_filler_neutral_by_symmetry, lem:designated_filler_neutral_by_cancellation, lem:majority_form}
+Every pair involving a filler has posterior probability
+(\href{https://github.com/chinmayhegde/lea-frontier/blob/93d37a15db4cbca0a10870f977b5f223cf04c91f/LeaFrontier/OrderingRecovery/Defs.lean#L101}{\texttt{pairLess}})
+$1/2$ in each direction, hence (by Lemma~\ref{lem:majority_form}) contributes
+exactly $1/2$ to the cost, independent of $\hat\pi$. In Lean a filler is any event
+index $\ge n$ (designated events are the first $n$ indices of
+$\mathrm{Fin}\,(2nR)$), so the hypothesis ``involves a filler'' is
+$n \le i \vee n \le j$. The neutrality holds for \emph{two distinct reasons},
+separated above: filler--filler by symmetry
+(Lemma~\ref{lem:filler_filler_neutral_by_symmetry}) and designated--filler by
+cancellation (Lemma~\ref{lem:designated_filler_neutral_by_cancellation}).
+\end{lemma}
+\begin{proof}
+\leanok
+\uses{lem:filler_filler_neutral_by_symmetry, lem:designated_filler_neutral_by_cancellation}
+A filler-involving pair $\{i,j\}$ is either filler--filler or designated--filler.
+The filler--filler case is Lemma~\ref{lem:filler_filler_neutral_by_symmetry}; the
+designated--filler case is Lemma~\ref{lem:designated_filler_neutral_by_cancellation}
+(using complementarity of \texttt{pairLess} to reduce either order of the pair to
+the marginal $\theta_u = \tfrac12$).
 \end{proof}
 
 %=====================================================================
@@ -689,10 +735,10 @@ feedback arc set problem is NP-hard for tournaments}, Combin. Probab. Comput.
 \leanok
 A deterministic polynomial-time many-one reduction that is correct in both
 directions from an NP-complete
-\href{https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Axioms.lean#L32}{source
+\href{https://github.com/chinmayhegde/lea-frontier/blob/93d37a15db4cbca0a10870f977b5f223cf04c91f/LeaFrontier/OrderingRecovery/Axioms.lean#L32}{source
 problem}, and whose output has polynomially bounded size, witnesses NP-hardness
 of the
-\href{https://github.com/chinmayhegde/lea-frontier/blob/7afc549fe0769f9733e2b0ff3b7613a716d9fc16/LeaFrontier/OrderingRecovery/Axioms.lean#L35}{target}.
+\href{https://github.com/chinmayhegde/lea-frontier/blob/93d37a15db4cbca0a10870f977b5f223cf04c91f/LeaFrontier/OrderingRecovery/Axioms.lean#L35}{target}.
 The reduction is inherently \emph{directional}, and the signature shows where:
 the transformation \texttt{red} has type \texttt{Tournament n $\to$ ORPInstance}
 --- source instances to target instances, never the reverse; the source's
