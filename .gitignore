@@ -13,5 +13,9 @@ blueprint/src/print.paux
 *.toc
 *.fls
 *.fdb_latexmk
+*.pdf
 
 .DS_Store
+
+# personal Claude Code settings (not shared)
+.claude/settings.local.json
