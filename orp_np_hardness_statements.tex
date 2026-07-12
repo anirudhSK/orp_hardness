@@ -33,11 +33,11 @@
 \maketitle
 
 \noindent
-This document accompanies the main note \emph{NP-Hardness of the Ordering Recovery Problem: A Corrected and Simplified Reduction} and its companion appendix \emph{Auxiliary Lemmas} (\texttt{orp\_algebra\_appendix.pdf}).  It contains all definition, lemma, and theorem statements of the main note, with no proofs; the numbering of every statement matches the main note.  Statements are preceded only by the definitional setting they require.  The diagram below records which statement is used in the proof of which other statement.
+This document accompanies the main note \emph{NP-Hardness of the Ordering Recovery Problem: A Corrected and Simplified Reduction} and its companion appendix \emph{Auxiliary Lemmas} (\texttt{orp\_np\_hardness\_appendix.pdf}).  It contains all definition, lemma, and theorem statements of the main note, with no proofs; the numbering of every statement matches the main note.  Statements are preceded only by the definitional setting they require.  The diagram below records which statement is used in the proof of which other statement.
 
 \section{Dependency diagram}
 
-Solid arrows are dependencies proved in the main note.  Dashed arrows are uses of the auxiliary lemmas A.1--A.15 from the companion appendix, labelled with the specific lemmas invoked.  Lemma~3 (profile construction) is stated entirely in terms of the arc gadgets of Definition~3, so the diagram shows the statement-level dependency Definition~3 $\to$ Lemma~3; the bijectivity and combinatorial properties of the gadget position maps are stated and proved in the companion appendix as Lemma~A.15.  The objective identity, previously derived inline in Section~3.6 of the main note, is now stated as Theorem~1 (equation~\eqref{eq:objective-identity} below).  ``FAST is NP-complete'' is an external input cited from the literature.
+Solid arrows are dependencies proved in the main note.  Dashed arrows are uses of the auxiliary lemmas A.1--A.15 from the companion appendix, labelled with the specific lemmas invoked.  Lemma~3 (profile construction) is stated entirely in terms of the arc gadgets of Definition~3, so the diagram shows the statement-level dependency Definition~3 $\to$ Lemma~3; the bijectivity and combinatorial properties of the gadget position maps are stated and proved in the companion appendix as Lemma~A.15.  The objective identity, previously derived inline in Section~3.6 of the main note, is now stated as Theorem~1 (equation~\eqref{eq:objective-identity} below).  Likewise, the pairwise posterior probabilities, previously derived inline in Sections~3.4 and~3.5 of the main note, are now stated as Lemma~5 (designated-designated pairs), Lemma~6 (filler-filler pairs), and Lemma~7 (filler-designated pairs).  ``FAST is NP-complete'' is an external input cited from the literature.
 
 \begin{center}
 \begin{tikzpicture}[
@@ -52,43 +52,59 @@ Solid arrows are dependencies proved in the main note.  Dashed arrows are uses o
   lab/.style={font=\scriptsize, fill=white, inner sep=1pt, text=gray!60!black}
 ]
   % Row 1
-  \node[stmt] (L1) at (1.0,7.6)  {Lemma 1\\ Pairwise decomposition};
-  \node[stmt] (D3) at (10.6,7.6) {Definition 3\\ Arc gadget};
+  \node[stmt] (L1) at (1.0,10.2)  {Lemma 1\\ Pairwise decomposition};
+  \node[stmt] (D3) at (10.6,10.2) {Definition 3\\ Arc gadget};
   % Row 2
-  \node[stmt] (L2) at (1.0,5.5)  {Lemma 2\\ Majority form};
-  \node[stmt] (L5) at (5.6,5.5)  {Lemma 4\\ Independence via fillers};
-  \node[stmt] (L4) at (10.6,5.5) {Lemma 3\\ Profile construction};
-  % Row 3
-  \node[stmt] (OI) at (5.6,3.2)
+  \node[stmt] (L2) at (1.0,8.0)   {Lemma 2\\ Majority form};
+  \node[stmt] (IND) at (5.6,8.0)  {Lemma 4\\ Independence via fillers};
+  \node[stmt] (PR) at (10.6,8.0)  {Lemma 3\\ Profile construction};
+  % Row 3 -- pairwise posterior probabilities
+  \node[stmt] (FF) at (1.2,5.5)   {Lemma 6\\ Filler-filler\\ neutrality};
+  \node[stmt] (DD) at (5.6,5.5)   {Lemma 5\\ Designated-designated\\ probabilities};
+  \node[stmt] (FD) at (10.0,5.5)  {Lemma 7\\ Filler-designated\\ neutrality};
+  % Row 4
+  \node[stmt] (OI) at (5.6,3.0)
     {Theorem 1 (Objective identity)\\
      $\E[d_{\KT}(\hat\pi,\sigma)\mid\hat t]=C_0+\frac{2}{R^2}\fas(T,\pi_{\hat\pi})$};
-  % Row 4
-  \node[stmt] (TH) at (5.6,0.9)  {Theorem 2\\ $f$ is a poly-time many-one\\ reduction; ORP is NP-hard};
-  \node[ext]  (FA) at (11.0,0.9) {FAST is NP-complete\\ (Alon; Charbit--Thomass\'e--Yeo)};
+  % Row 5
+  \node[stmt] (TH) at (5.6,0.7)  {Theorem 2\\ $f$ is a poly-time many-one\\ reduction; ORP is NP-hard};
+  \node[ext]  (FA) at (11.0,0.7) {FAST is NP-complete\\ (Alon; Charbit--Thomass\'e--Yeo)};
   % Appendix node
-  \node[app]  (AP) at (0.4,1.9)  {Appendix A\\ auxiliary lemmas\\ A.1--A.15};
+  \node[app]  (AP) at (0.6,1.7)  {Appendix A\\ auxiliary lemmas\\ A.1--A.15};
 
   % Main-note dependencies
   \draw[dep] (L1) -- (L2);
-  \draw[dep] (D3) -- (L4);
-  \draw[dep] (L1.east) to[out=0,in=125] (OI.130);
-  \draw[dep] (L2) to[out=-60,in=160] (OI.170);
-  \draw[dep] (L5) -- (OI);
-  \draw[dep] (L4) to[out=-120,in=20] (OI.10);
+  \draw[dep] (D3) -- (PR);
+  \draw[dep] (L2) -- (DD.north west);
+  \draw[dep] (IND) -- (DD);
+  \draw[dep] (PR) -- (DD.north east);
+  \draw[dep] (IND.south east) -- (FD.north west);
+  \draw[dep] (PR) -- (FD);
+  \draw[dep] (DD) -- (FD);
+  \draw[dep] (L1.south east) .. controls (3.2,8.4) and (3.4,5.2) .. (OI.north west);
+  \draw[dep] (FF) -- (OI.west);
+  \draw[dep] (DD) -- (OI);
+  \draw[dep] (FD) -- (OI.north east);
+  \draw[dep] (L2.south) .. controls (-0.4,6.2) and (-0.5,3.6) .. (OI.170);
   \draw[dep] (OI) -- (TH);
   \draw[dep] (FA) -- (TH);
 
   % Appendix dependencies (dashed, labelled)
-  \draw[adep] (AP.north) to[out=90,in=-135] node[lab, pos=0.5, left=1pt] {A.3} (L2.south west);
-  \draw[adep] (AP.east) .. controls (6.2,1.35) and (10.6,1.9) .. (L4.south)
-      node[lab, pos=0.78, right=3pt] {A.1--A.2, A.15};
-  \draw[adep] (AP.55)    to[out=55,in=-170] node[lab, pos=0.55, above=1pt] {A.4, A.6--A.13} (OI.west);
-  \draw[adep] (AP.south east) to[out=-25,in=170] node[lab, pos=0.5, below=1pt] {A.5, A.14} (TH.west);
+  \draw[adep] (AP.north west) to[out=115,in=-160] node[lab, pos=0.45, left=1pt] {A.3} (L2.west);
+  \draw[adep] (AP.south) .. controls (0.6,-0.8) and (10.5,-1.1) .. (13.3,-0.3)
+      .. controls (14.1,1.3) and (13.9,6.2) .. (PR.east)
+      node[lab, pos=0.5, left=2pt] {A.1--A.2, A.15};
+  \draw[adep] (AP.north) to[out=80,in=-100] node[lab, pos=0.5, right=1pt] {A.12} (FF.south);
+  \draw[adep] (AP.north east) to[out=50,in=-140] node[lab, pos=0.7, left=2pt] {A.4, A.6--A.7} (DD.south west);
+  \draw[adep] (AP.east) .. controls (6.4,1.6) and (9.6,2.2) .. (FD.south)
+      node[lab, pos=0.78, below=4pt] {A.8--A.12};
+  \draw[adep] (AP.20) to[out=15,in=-165] node[lab, pos=0.55, below=1pt] {A.6, A.13} (OI.190);
+  \draw[adep] (AP.south east) to[out=-30,in=170] node[lab, pos=0.5, below=2pt] {A.5, A.14} (TH.west);
 \end{tikzpicture}
 \end{center}
 
 \noindent
-Reading guide: Lemma~2's proof uses Lemma~1 and the max--min decomposition A.3.  Lemma~3's proof combines the gadget position properties A.15 with the summation identities A.1--A.2.  Theorem~1 (the objective identity) combines the pairwise decomposition (Lemma~1), the majority form (Lemma~2), the profile counts and rank sums (Lemma~3), and posterior independence (Lemma~4), with the algebra A.4 and A.6--A.13 carrying the intermediate computations.  Theorem~2 states the reduction $f$ explicitly (its statement references the profile of Lemma~3 and the instance construction) and follows from Theorem~1 via the threshold equivalence A.14, with instance well-formedness supplied by A.5 ($\alpha_u\in(0,1)$) and NP-completeness of FAST supplied by the literature.  Internally to the appendix, A.4 uses A.3 and A.9 uses A.6; A.15 stands alone.
+Reading guide: Lemma~2's proof uses Lemma~1 and the max--min decomposition A.3.  Lemma~3's proof combines the gadget position properties A.15 with the summation identities A.1--A.2.  Lemma~5 (designated-designated posterior probabilities) combines posterior independence (Lemma~4) with the profile pairwise counts (Lemma~3(i)), the algebra A.4 and A.6--A.7 carrying the computation; its statement reads the result off as a decision weight and constant term in the sense of Lemma~2.  Lemma~6 (filler-filler neutrality) is a pure symmetry argument, using only A.12.  Lemma~7 (filler-designated neutrality) is instead an exact cancellation: it computes the filler-designated marginal from the pointwise rank identity, combining independence (Lemma~4), the profile rank sums (Lemma~3(ii)), and the designated-designated probabilities (Lemma~5), with A.8--A.12 carrying the intermediate computations.  Theorem~1 (the objective identity) combines the pairwise decomposition (Lemma~1), the majority form (Lemma~2), and the pairwise posterior probabilities (Lemmas~5--7), with A.6 counting the pairs and A.13 summing the designated contributions.  Theorem~2 states the reduction $f$ explicitly (its statement references the profile of Lemma~3 and the instance construction) and follows from Theorem~1 via the threshold equivalence A.14, with instance well-formedness supplied by A.5 ($\alpha_u\in(0,1)$) and NP-completeness of FAST supplied by the literature.  Internally to the appendix, A.4 uses A.3 and A.9 uses A.6; A.15 stands alone.
 
 \section{Preliminaries}
 
@@ -206,9 +222,9 @@ With
 \begin{equation}
   \alpha_u=\frac12-\frac{2\delta_u}{R}+\frac{\delta_u}{R^2}\;\in(0,1),
 \end{equation}
-the designated noise distribution puts mass $(1-\alpha_u)/R$ on $-a^-_{u,b}$ and $\alpha_u/R$ on $-a^+_{u,b}$ for each block $b$, and each filler has the uniform noise distribution with mass $1/L$ on $-s$ for $s=1,\ldots,L$.  We write $X_u$ for the slot occupied by $d_u$ under the posterior given $\hat t$.
+the designated noise distribution puts mass $(1-\alpha_u)/R$ on $-a^-_{u,b}$ and $\alpha_u/R$ on $-a^+_{u,b}$ for each block $b$, and each filler has the uniform noise distribution with mass $1/L$ on $-s$ for $s=1,\ldots,L$.  We write $X_u$ for the slot occupied by $d_u$ under the posterior given $\hat t$, and likewise $X_f$ for the slot occupied by a filler event $f$.
 
-\begin{lemma}[Independence via fillers]
+\begin{lemma}[Independence via fillers]\label{lem:independence}
 Conditioned on the observation vector, the slots of the designated events are mutually independent.  More precisely,
 \begin{equation}
   \Prb(X_u=a_{u,b}^-\mid \hat t)=\frac{1-\alpha_u}{R},
@@ -216,6 +232,43 @@ Conditioned on the observation vector, the slots of the designated events are mu
   \Prb(X_u=a_{u,b}^+\mid \hat t)=\frac{\alpha_u}{R},
 \end{equation}
 where $X_u$ is the slot occupied by $d_u$.
+\end{lemma}
+
+\subsection*{Pairwise posterior probabilities}
+
+\begin{lemma}[Designated-designated posterior probabilities]\label{lem:designated}
+For all distinct $u,v\in V$,
+\begin{equation}
+  \Prb(X_u<X_v\mid \hat t)
+  =
+  \begin{cases}
+    \displaystyle \frac12+\frac1{R^2}, & (u,v)\in A,\\[6pt]
+    \displaystyle \frac12-\frac1{R^2}, & (v,u)\in A.
+  \end{cases}
+\end{equation}
+In particular, each designated pair has posterior majority direction equal to the tournament arc direction, its decision weight in Lemma~\ref{lem:majority} is
+\begin{equation}
+  \left|2\Prb(X_u<X_v\mid \hat t)-1\right|=\frac2{R^2},
+\end{equation}
+and its constant term is
+\begin{equation}
+  \min\left(\Prb(X_u<X_v\mid \hat t),1-\Prb(X_u<X_v\mid \hat t)\right)
+  =\frac12-\frac1{R^2}.
+\end{equation}
+\end{lemma}
+
+\begin{lemma}[Filler-filler neutrality]\label{lem:fillerfiller}
+For all distinct fillers $f$ and $f'$,
+\begin{equation}
+  \Prb(X_f<X_{f'}\mid \hat t)=\Prb(X_{f'}<X_f\mid \hat t)=\frac12 .
+\end{equation}
+\end{lemma}
+
+\begin{lemma}[Filler-designated neutrality]\label{lem:fillerdesignated}
+For every vertex $u\in V$ and every filler $f$,
+\begin{equation}
+  \Prb(X_f<X_u\mid \hat t)=\Prb(X_u<X_f\mid \hat t)=\frac12 .
+\end{equation}
 \end{lemma}
 
 \subsection*{The objective identity}
@@ -244,5 +297,19 @@ Let $(T,k)$ be a FAST instance on vertex set $V=\{1,\ldots,n\}$ with $n\ge 4$, a
 \end{equation}
 In particular, the Ordering Recovery Problem is NP-hard under deterministic polynomial-time many-one reductions.
 \end{theorem}
+
+\begin{thebibliography}{9}
+
+\bibitem{Alon2006}
+N. Alon.
+\newblock Ranking tournaments.
+\newblock \emph{SIAM Journal on Discrete Mathematics}, 20(1):137--142, 2006.
+
+\bibitem{Charbit2007}
+P. Charbit, S. Thomass\'e, and A. Yeo.
+\newblock The minimum feedback arc set problem is NP-hard for tournaments.
+\newblock \emph{Combinatorics, Probability and Computing}, 16(1):1--4, 2007.
+
+\end{thebibliography}
 
 \end{document}

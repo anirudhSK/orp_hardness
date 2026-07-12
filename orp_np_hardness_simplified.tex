@@ -310,7 +310,7 @@ The construction is therefore exactly a finite-support rational ORP instance.
 
 Although the events compete for slots (no two events may occupy the same slot), the uniform fillers make the slots of the designated events mutually independent under the posterior.
 
-\begin{lemma}[Independence via fillers]
+\begin{lemma}[Independence via fillers]\label{lem:independence}
 Conditioned on the observation vector, the slots of the designated events are mutually independent.  More precisely,
 \begin{equation}
   \Prb(X_u=a_{u,b}^-\mid \hat t)=\frac{1-\alpha_u}{R},
@@ -339,15 +339,10 @@ Normalizing over the Cartesian product $\prod_u S_u$ shows that the joint poster
 
 \subsection{Designated-designated posterior probabilities}
 
-Let $B_u$ be the block containing $X_u$.  By the previous lemma, the random variables $B_u$ are mutually independent and uniform on $\{1,\ldots,R\}$.
+The pairwise posterior probabilities of the designated events encode the tournament exactly.
 
-Fix distinct vertices $u,v$.  If $B_u<B_v$, then $X_u<X_v$ because every slot in an earlier block is smaller than every slot in a later block.  If $B_u>B_v$, then $X_u>X_v$.  If $B_u=B_v=b$, then the comparison is decided by the profile order $\rho_b$: the two slots assigned to a vertex are consecutive, and the pairs for distinct vertices do not interleave.  Since $B_u$ and $B_v$ are independent and uniform on $\{1,\ldots,R\}$, every outcome $(B_u,B_v)=(b,b')$ has probability $1/R^2$; the event $B_u<B_v$ comprises $R(R-1)/2$ such outcomes by Lemma~\ref{alem:triangular}, and the event $\{B_u=B_v=b:\rho_b(u)<\rho_b(v)\}$ comprises $c_{uv}$ outcomes by the definition of $c_{uv}$.  Hence
-\begin{align}
-  \Prb(X_u<X_v\mid \hat t)
-  &=\Prb(B_u<B_v)+\Prb(B_u=B_v\text{ and }\rho_{B_u}(u)<\rho_{B_u}(v)) \notag\\
-  &=\frac{R(R-1)/2+c_{uv}}{R^2}.
-\end{align}
-Substituting $c_{uv}=R/2+1$ when $(u,v)\in A$ and $c_{uv}=R/2-1$ when $(v,u)\in A$ (Lemma~\ref{lem:profile}(i)), and applying Lemma~\ref{alem:normalized} with $\varepsilon=+1$ and $\varepsilon=-1$ respectively,
+\begin{lemma}[Designated-designated posterior probabilities]\label{lem:designated}
+For all distinct $u,v\in V$,
 \begin{equation}
   \Prb(X_u<X_v\mid \hat t)
   =
@@ -356,26 +351,59 @@ Substituting $c_{uv}=R/2+1$ when $(u,v)\in A$ and $c_{uv}=R/2-1$ when $(v,u)\in 
     \displaystyle \frac12-\frac1{R^2}, & (v,u)\in A.
   \end{cases}
 \end{equation}
-Therefore each designated pair has posterior majority direction equal to the tournament arc direction.  Writing $\Prb(X_u<X_v\mid\hat t)=\tfrac12+s_{uv}$ with $s_{uv}=\pm 1/R^2$, Lemma~\ref{alem:centered} gives its decision weight in Lemma~\ref{lem:majority} as
+In particular, each designated pair has posterior majority direction equal to the tournament arc direction, its decision weight in Lemma~\ref{lem:majority} is
 \begin{equation}
-  \left|2\Prb(X_u<X_v\mid \hat t)-1\right|=2|s_{uv}|=\frac2{R^2},
+  \left|2\Prb(X_u<X_v\mid \hat t)-1\right|=\frac2{R^2},
 \end{equation}
-and its constant term as
+and its constant term is
 \begin{equation}
   \min\left(\Prb(X_u<X_v\mid \hat t),1-\Prb(X_u<X_v\mid \hat t)\right)
-  =\frac12-|s_{uv}|
   =\frac12-\frac1{R^2}.
 \end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $B_u$ be the block containing $X_u$.  By Lemma~\ref{lem:independence}, the random variables $B_u$ are mutually independent and uniform on $\{1,\ldots,R\}$.
+
+Fix distinct vertices $u,v$.  If $B_u<B_v$, then $X_u<X_v$ because every slot in an earlier block is smaller than every slot in a later block.  If $B_u>B_v$, then $X_u>X_v$.  If $B_u=B_v=b$, then the comparison is decided by the profile order $\rho_b$: the two slots assigned to a vertex are consecutive, and the pairs for distinct vertices do not interleave.  Since $B_u$ and $B_v$ are independent and uniform on $\{1,\ldots,R\}$, every outcome $(B_u,B_v)=(b,b')$ has probability $1/R^2$; the event $B_u<B_v$ comprises $R(R-1)/2$ such outcomes by Lemma~\ref{alem:triangular}, and the event $\{B_u=B_v=b:\rho_b(u)<\rho_b(v)\}$ comprises $c_{uv}$ outcomes by the definition of $c_{uv}$.  Hence
+\begin{align}
+  \Prb(X_u<X_v\mid \hat t)
+  &=\Prb(B_u<B_v)+\Prb(B_u=B_v\text{ and }\rho_{B_u}(u)<\rho_{B_u}(v)) \notag\\
+  &=\frac{R(R-1)/2+c_{uv}}{R^2}.
+\end{align}
+Substituting $c_{uv}=R/2+1$ when $(u,v)\in A$ and $c_{uv}=R/2-1$ when $(v,u)\in A$ (Lemma~\ref{lem:profile}(i)), and applying Lemma~\ref{alem:normalized} with $\varepsilon=+1$ and $\varepsilon=-1$ respectively, yields the two cases of the statement.  Since $R\ge 2$, the probability exceeds $1/2$ exactly when $(u,v)\in A$, so the posterior majority direction is the arc direction.  Finally, writing $\Prb(X_u<X_v\mid\hat t)=\tfrac12+s_{uv}$ with $s_{uv}=\pm 1/R^2$, Lemma~\ref{alem:centered} gives the decision weight $2|s_{uv}|=2/R^2$ and the constant term $\tfrac12-|s_{uv}|=\tfrac12-\tfrac1{R^2}$.
+\end{proof}
 
 \subsection{Filler pairs are exactly neutral}
 
-The remaining task is to show that every pair involving a filler has posterior probability $1/2$ in each direction.  Filler-filler neutrality follows from symmetry: fillers have identical distributions and the posterior is invariant under relabeling them, so for distinct fillers $f$ and $f'$,
+The remaining task is to show that every pair involving a filler has posterior probability $1/2$ in each direction.  This holds for two genuinely different reasons: filler-filler pairs are neutral by a symmetry argument, while filler-designated pairs are neutral by an exact cancellation.  We record the two mechanisms as separate lemmas.
+
+\begin{lemma}[Filler-filler neutrality]\label{lem:fillerfiller}
+For all distinct fillers $f$ and $f'$,
+\begin{equation}
+  \Prb(X_f<X_{f'}\mid \hat t)=\Prb(X_{f'}<X_f\mid \hat t)=\frac12 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Fillers have identical noise distributions and the posterior is invariant under relabeling them, so
 \begin{equation}
   \Prb(X_f<X_{f'}\mid \hat t)=\Prb(X_{f'}<X_f\mid \hat t).
 \end{equation}
-Because $\sigma$ is a permutation there are no ties, so these two probabilities sum to one; being equal and summing to one, each equals $1/2$ by Lemma~\ref{alem:common}(iii).
+Because $\sigma$ is a permutation there are no ties, so these two probabilities sum to one; being equal and summing to one, each equals $1/2$ by Lemma~\ref{alem:common}(iii).  Note that this argument uses nothing about the tournament: it holds for any construction in which the fillers are exchangeable.
+\end{proof}
 
-Now fix a designated event $d_u$ and a filler $f$.  All fillers have the same noise distribution, so relabeling them leaves the posterior unchanged; hence
+\begin{lemma}[Filler-designated neutrality]\label{lem:fillerdesignated}
+For every vertex $u\in V$ and every filler $f$,
+\begin{equation}
+  \Prb(X_f<X_u\mid \hat t)=\Prb(X_u<X_f\mid \hat t)=\frac12 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Unlike the filler-filler case, this is not a symmetry: a designated event and a filler are not exchangeable, since $d_u$ carries the graph signal $\delta_u$.  The probability must instead be computed, and neutrality emerges from a cancellation.
+
+Fix a designated event $d_u$ and a filler $f$.  All fillers have the same noise distribution, so relabeling them leaves the posterior unchanged; hence
 \begin{equation}
   \theta_u:=\Prb(X_f<X_u\mid \hat t)
 \end{equation}
@@ -408,11 +436,11 @@ Substituting the definition $\alpha_u=\tfrac12-\tfrac{2\delta_u}{R}+\tfrac{\delt
   \E[X_u\mid \hat t]=nR+\frac12+\frac{\delta_u}{R^2}.
 \end{equation}
 
-Next compute the designated-designated terms.  If $(v,u)\in A$, then $v$ is an in-neighbor of $u$ and
+Next compute the designated-designated terms.  By Lemma~\ref{lem:designated} applied to the ordered pair $(v,u)$: if $(v,u)\in A$, then $v$ is an in-neighbor of $u$ and
 \begin{equation}
-  \Prb(X_v<X_u\mid \hat t)=\frac12+\frac1{R^2}.
+  \Prb(X_v<X_u\mid \hat t)=\frac12+\frac1{R^2},
 \end{equation}
-If $(u,v)\in A$, then
+while if $(u,v)\in A$, then
 \begin{equation}
   \Prb(X_v<X_u\mid \hat t)=\frac12-\frac1{R^2}.
 \end{equation}
@@ -430,11 +458,10 @@ Substituting both computations into the rank identity,
   =\left(nR+\frac12+\frac{\delta_u}{R^2}\right)-1
     -\left(\frac{n-1}{2}+\frac{\delta_u}{R^2}\right).
 \end{equation}
-By Lemma~\ref{alem:common}(i) with $z=\delta_u/R^2$, the right-hand side equals $(2nR-n)/2=q/2$, using $q=2nR-n$.  Since $q=n(2R-1)>0$ (as $n\ge 4$ and $R\ge 1$), Lemma~\ref{alem:common}(ii) gives $\theta_u=1/2$.  Hence every filler-designated pair is exactly neutral:
-\begin{equation}
-  \Prb(X_f<X_u\mid \hat t)=\Prb(X_u<X_f\mid \hat t)=\frac12.
-\end{equation}
-By Lemma~\ref{lem:majority}, every pair involving a filler contributes exactly $1/2$ to the posterior expected Kendall-tau distance, independent of the candidate order $\hat\pi$.
+By Lemma~\ref{alem:common}(i) with $z=\delta_u/R^2$, the right-hand side equals $(2nR-n)/2=q/2$, using $q=2nR-n$.  Since $q=n(2R-1)>0$ (as $n\ge 4$ and $R\ge 1$), Lemma~\ref{alem:common}(ii) gives $\theta_u=1/2$.  Finally, since there are no ties, $\Prb(X_u<X_f\mid \hat t)=1-\theta_u=1/2$ as well.  The neutrality is an arithmetic consequence of the calibration of $\alpha_u$ against the profile rank sums: the per-vertex signal $\delta_u$ appears in both $\E[X_u\mid\hat t]$ and the designated-designated sum, and cancels.
+\end{proof}
+
+Combining Lemmas~\ref{lem:fillerfiller} and~\ref{lem:fillerdesignated}, every pair involving a filler has posterior probability exactly $1/2$ in each direction, so by the final clause of Lemma~\ref{lem:majority} it contributes exactly $1/2$ to the posterior expected Kendall-tau distance, independent of the candidate order $\hat\pi$.
 
 \subsection{The objective identity}
 
@@ -465,14 +492,14 @@ For every $\hat\pi\in S_L$,
 \begin{proof}
 By Lemma~\ref{lem:pairwise} and Lemma~\ref{lem:majority}, the posterior expected Kendall-tau distance is the sum over all $\binom L2$ pairs of a per-pair contribution of the form (decision weight)${}\times{}$(disagreement indicator) plus a constant.  The contributions are as follows.
 \begin{itemize}
-\item Each filler-involved pair has posterior probability exactly $1/2$ in each direction (Section~3.5), so by the final clause of Lemma~\ref{lem:majority} it contributes exactly $\tfrac12$, independent of $\hat\pi$.  The total over these pairs is $\left(\binom L2-m\right)\tfrac12$.
+\item Each filler-involved pair has posterior probability exactly $1/2$ in each direction (Lemmas~\ref{lem:fillerfiller} and~\ref{lem:fillerdesignated}), so by the final clause of Lemma~\ref{lem:majority} it contributes exactly $\tfrac12$, independent of $\hat\pi$.  The total over these pairs is $\left(\binom L2-m\right)\tfrac12$.
 \item Each designated-designated pair $\{d_u,d_v\}$ contributes
 \begin{equation}
   \left(\frac12-\frac1{R^2}\right)+\frac2{R^2}\,z_{uv},
   \qquad
   z_{uv}=\ind[\hat\pi\text{ disagrees with the posterior majority order on }\{d_u,d_v\}],
 \end{equation}
-by the designated-pair calculation of Section~3.4.  The posterior majority direction for $\{d_u,d_v\}$ is $d_u$ before $d_v$ exactly when $(u,v)\in A$, so $z_{uv}=1$ exactly when the corresponding tournament arc is backward under $\pi_{\hat\pi}$; hence
+by Lemma~\ref{lem:designated}.  The posterior majority direction for $\{d_u,d_v\}$ is $d_u$ before $d_v$ exactly when $(u,v)\in A$ (Lemma~\ref{lem:designated}), so $z_{uv}=1$ exactly when the corresponding tournament arc is backward under $\pi_{\hat\pi}$; hence
 \begin{equation}
   \sum_{\{u,v\}} z_{uv}=\fas(T,\pi_{\hat\pi}),
 \end{equation}
