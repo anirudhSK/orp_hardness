@@ -13,3 +13,5 @@ blueprint/src/print.paux
 *.toc
 *.fls
 *.fdb_latexmk
+
+.DS_Store

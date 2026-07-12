@@ -1,0 +1,347 @@
+\documentclass[11pt]{article}
+
+% ------------------------------------------------------------------
+% Standalone companion document: Appendix A of
+% "NP-Hardness of the Ordering Recovery Problem".
+% Contains the auxiliary facts used by the main note: elementary
+% identities and inequalities about real numbers and finite
+% sequences/sets of real numbers, plus one combinatorial lemma
+% about explicitly defined position maps (A.15).  No tournaments,
+% linear orders, events, probabilities, or other problem-specific
+% objects appear.  Each lemma can be verified in isolation.
+%
+% The main document references these lemmas as Lemma A.1--A.14 via
+% the xr-hyper mechanism (it reads this document's .aux file), so
+% compile this file BEFORE compiling the main document.
+% ------------------------------------------------------------------
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=black
+}
+
+\newcommand{\ind}{\mathbf{1}}
+
+\newtheorem{alemma}{Lemma}[section] % numbers as A.1, A.2, ... after \appendix
+
+\title{NP-Hardness of the Ordering Recovery Problem\\
+\large Appendix A: Auxiliary Lemmas\\[2pt]
+\normalsize (companion to the main note; lemma numbering A.1--A.15 is shared)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\appendix
+\setcounter{section}{0}
+
+\section{Auxiliary lemmas}\label{app:algebra}
+
+This appendix contains the auxiliary facts used by the main note: elementary arithmetic identities about real numbers and finite sequences of real numbers (Lemmas~\ref{alem:onesum}--\ref{alem:threshold}), together with one combinatorial lemma about two explicitly defined position maps (Lemma~\ref{alem:gadget}).  No tournaments, events, probabilities, or other problem-specific objects appear.  Each lemma can be verified in isolation.
+
+\begin{alemma}[Sum with one exceptional term]\label{alem:onesum}
+Let $m\ge 1$ be an integer, let $c\in\mathbb{R}$, and let $x_1,\ldots,x_m\in\mathbb{R}$ be such that $x_{b_0}=c$ for exactly one index $b_0\in\{1,\ldots,m\}$ and $x_b=1$ for every $b\ne b_0$.  Then
+\begin{equation}
+  \sum_{b=1}^m x_b=(m-1)+c.
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+Splitting the sum at the index $b_0$,
+\begin{equation}
+  \sum_{b=1}^m x_b
+  = x_{b_0}+\sum_{\substack{b=1\\ b\ne b_0}}^m x_b
+  = c+\sum_{\substack{b=1\\ b\ne b_0}}^m 1
+  = c+(m-1)\cdot 1
+  = (m-1)+c,
+\end{equation}
+where the third equality uses that the index set $\{1,\ldots,m\}\setminus\{b_0\}$ has exactly $m-1$ elements.
+\end{proof}
+
+\begin{alemma}[Three-valued sum]\label{alem:threesum}
+Let $m\ge 1$ be an integer, let $a\in\mathbb{R}$, and let $d^+,d^-\ge 0$ be integers with $d^++d^-\le m$.  Let $y_1,\ldots,y_m\in\mathbb{R}$ be such that $y_b=a$ for exactly $d^+$ indices, $y_b=a+2$ for exactly $d^-$ indices, and $y_b=a+1$ for the remaining $m-d^+-d^-$ indices.  Then
+\begin{equation}
+  \sum_{b=1}^m y_b=m(a+1)+(d^--d^+).
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+Grouping the terms of the sum by their value,
+\begin{equation}
+  \sum_{b=1}^m y_b
+  = d^+\cdot a + d^-\cdot(a+2) + (m-d^+-d^-)\cdot(a+1).
+\end{equation}
+Expanding each product,
+\begin{align}
+  d^+\cdot a &= d^+a,\\
+  d^-\cdot(a+2) &= d^-a+2d^-,\\
+  (m-d^+-d^-)\cdot(a+1) &= m(a+1)-d^+(a+1)-d^-(a+1)\notag\\
+  &= m(a+1)-d^+a-d^+-d^-a-d^-.
+\end{align}
+Adding the three lines, the terms $d^+a$ and $-d^+a$ cancel, and the terms $d^-a$ and $-d^-a$ cancel:
+\begin{equation}
+  \sum_{b=1}^m y_b
+  = m(a+1)+2d^--d^+-d^-
+  = m(a+1)+(d^--d^+).
+\end{equation}
+\end{proof}
+
+\begin{alemma}[Max--min decomposition]\label{alem:maxmin}
+For all $a,b\in\mathbb{R}$,
+\begin{equation}
+  \max(a,b)=\min(a,b)+|a-b|
+  \qquad\text{and}\qquad
+  \min(a,b)=\frac{a+b-|a-b|}{2}.
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+Case $a\ge b$: then $\max(a,b)=a$, $\min(a,b)=b$, and $|a-b|=a-b$.  The first identity reads $a=b+(a-b)$, and the second reads $b=\bigl(a+b-(a-b)\bigr)/2=2b/2$.  Case $a<b$: then $\max(a,b)=b$, $\min(a,b)=a$, and $|a-b|=b-a$.  The first identity reads $b=a+(b-a)$, and the second reads $a=\bigl(a+b-(b-a)\bigr)/2=2a/2$.
+\end{proof}
+
+\begin{alemma}[Centered pair]\label{alem:centered}
+For all $s\in\mathbb{R}$,
+\begin{equation}
+  \left|2\left(\tfrac12+s\right)-1\right|=2|s|
+  \qquad\text{and}\qquad
+  \min\left(\tfrac12+s,\;1-\left(\tfrac12+s\right)\right)=\tfrac12-|s|.
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+For the first identity, $2(\tfrac12+s)-1=1+2s-1=2s$, so its absolute value is $|2s|=2|s|$.  For the second, note $1-(\tfrac12+s)=\tfrac12-s$.  By Lemma~\ref{alem:maxmin},
+\begin{equation}
+  \min\left(\tfrac12+s,\tfrac12-s\right)
+  =\frac{\left(\tfrac12+s\right)+\left(\tfrac12-s\right)-\left|\left(\tfrac12+s\right)-\left(\tfrac12-s\right)\right|}{2}
+  =\frac{1-|2s|}{2}
+  =\tfrac12-|s|.
+\end{equation}
+\end{proof}
+
+\begin{alemma}[Perturbation bounds]\label{alem:perturb}
+Let $R\ge 1$ and $M>0$ be real numbers, and let $x\in\mathbb{R}$ with $|x|\le M$.
+\begin{enumerate}[label=(\roman*)]
+\item $\dfrac2R-\dfrac1{R^2}>0$.
+\item $\left|\dfrac{2x}{R}-\dfrac{x}{R^2}\right|
+  =|x|\left(\dfrac2R-\dfrac1{R^2}\right)
+  \le M\left(\dfrac2R-\dfrac1{R^2}\right)
+  <\dfrac{2M}{R}$.
+\item If $t\in\mathbb{R}$ satisfies $|t|<\tfrac12$, then $\tfrac12-t\in(0,1)$.
+\end{enumerate}
+\end{alemma}
+
+\begin{proof}
+(i) $\dfrac2R-\dfrac1{R^2}=\dfrac{2R-1}{R^2}$; the numerator satisfies $2R-1\ge 2\cdot 1-1=1>0$ and the denominator satisfies $R^2>0$.
+
+(ii) Factoring, $\dfrac{2x}{R}-\dfrac{x}{R^2}=x\left(\dfrac2R-\dfrac1{R^2}\right)$.  The second factor is positive by (i), so
+\begin{equation}
+  \left|x\left(\frac2R-\frac1{R^2}\right)\right|
+  =|x|\left(\frac2R-\frac1{R^2}\right)
+  \le M\left(\frac2R-\frac1{R^2}\right)
+  =\frac{2M}{R}-\frac{M}{R^2}
+  <\frac{2M}{R},
+\end{equation}
+where the middle inequality multiplies $|x|\le M$ by the positive factor, and the last inequality holds because $M/R^2>0$.
+
+(iii) From $-\tfrac12<t<\tfrac12$, subtracting each side from $\tfrac12$ (which reverses the inequalities) gives $\tfrac12-\tfrac12<\tfrac12-t<\tfrac12+\tfrac12$, i.e.\ $0<\tfrac12-t<1$.
+\end{proof}
+
+\begin{alemma}[Triangular sums]\label{alem:triangular}
+For every integer $R\ge 1$,
+\begin{equation}
+  \sum_{b=1}^R (b-1)=\frac{R(R-1)}{2}
+  \qquad\text{and}\qquad
+  \bigl|\{(b,b')\in\{1,\ldots,R\}^2 : b<b'\}\bigr|=\frac{R(R-1)}{2}.
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+Let $S=\sum_{b=1}^R(b-1)$.  The change of index $b\mapsto R+1-b$ is a bijection of $\{1,\ldots,R\}$, so $S=\sum_{b=1}^R\bigl((R+1-b)-1\bigr)=\sum_{b=1}^R(R-b)$.  Adding the two expressions termwise,
+\begin{equation}
+  2S=\sum_{b=1}^R\bigl((b-1)+(R-b)\bigr)=\sum_{b=1}^R(R-1)=R(R-1),
+\end{equation}
+so $S=R(R-1)/2$.  For the second identity, partition the set $\{(b,b'):b<b'\}$ according to the value of $b'$: for each $b'\in\{1,\ldots,R\}$ there are exactly $b'-1$ values of $b$ with $b<b'$, so the cardinality is $\sum_{b'=1}^R(b'-1)=R(R-1)/2$ by the first identity.
+\end{proof}
+
+\begin{alemma}[Normalized shifted count]\label{alem:normalized}
+For every real $R>0$ and every $\varepsilon\in\mathbb{R}$,
+\begin{equation}
+  \frac{\dfrac{R(R-1)}{2}+\dfrac R2+\varepsilon}{R^2}
+  =\frac12+\frac{\varepsilon}{R^2}.
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+The first two terms of the numerator combine as
+\begin{equation}
+  \frac{R(R-1)}{2}+\frac R2=\frac{R^2-R+R}{2}=\frac{R^2}{2}.
+\end{equation}
+Dividing the numerator $R^2/2+\varepsilon$ by $R^2$ term by term gives $\tfrac12+\varepsilon/R^2$.
+\end{proof}
+
+\begin{alemma}[Two-point mean]\label{alem:twopoint}
+For all $a,\alpha\in\mathbb{R}$,
+\begin{equation}
+  (1-\alpha)\,a+\alpha\,(a+1)=a+\alpha.
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+Expanding, $(1-\alpha)a+\alpha(a+1)=a-\alpha a+\alpha a+\alpha=a+\alpha$.
+\end{proof}
+
+\begin{alemma}[Averaged block positions]\label{alem:blockavg}
+Let $R\ge 1$ be an integer and let $n,\delta,\alpha\in\mathbb{R}$.  If $r_1,\ldots,r_R\in\mathbb{R}$ satisfy
+\begin{equation}
+  \sum_{b=1}^R r_b=\frac{R(n+1)}{2}+\delta,
+\end{equation}
+then
+\begin{equation}
+  \frac1R\sum_{b=1}^R\Bigl((b-1)\,2n+2r_b-1+\alpha\Bigr)
+  =nR+\frac{2\delta}{R}+\alpha.
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+Splitting the sum into its three parts and using Lemma~\ref{alem:triangular} for the first,
+\begin{align}
+  \sum_{b=1}^R\Bigl((b-1)\,2n+2r_b-1+\alpha\Bigr)
+  &=2n\sum_{b=1}^R(b-1)+2\sum_{b=1}^R r_b+\sum_{b=1}^R(\alpha-1)\notag\\
+  &=2n\cdot\frac{R(R-1)}{2}+2\left(\frac{R(n+1)}{2}+\delta\right)+R(\alpha-1)\notag\\
+  &=nR(R-1)+R(n+1)+2\delta+R(\alpha-1).
+\end{align}
+Dividing by $R$,
+\begin{equation}
+  \frac1R\sum_{b=1}^R\Bigl((b-1)\,2n+2r_b-1+\alpha\Bigr)
+  =n(R-1)+(n+1)+\frac{2\delta}{R}+\alpha-1.
+\end{equation}
+Collecting the terms free of $\delta$ and $\alpha$: $n(R-1)+(n+1)-1=nR-n+n+1-1=nR$.  The stated identity follows.
+\end{proof}
+
+\begin{alemma}[Cancellation of the linear term]\label{alem:cancel}
+For all real $\delta$ and all real $R\ne 0$,
+\begin{equation}
+  \frac{2\delta}{R}+\left(\frac12-\frac{2\delta}{R}+\frac{\delta}{R^2}\right)
+  =\frac12+\frac{\delta}{R^2}.
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+The terms $\dfrac{2\delta}{R}$ and $-\dfrac{2\delta}{R}$ cancel, leaving $\dfrac12+\dfrac{\delta}{R^2}$.
+\end{proof}
+
+\begin{alemma}[Weighted half-split]\label{alem:halfsplit}
+For all $p,q,s\in\mathbb{R}$,
+\begin{equation}
+  p\left(\frac12+s\right)+q\left(\frac12-s\right)
+  =\frac{p+q}{2}+(p-q)\,s.
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+Expanding, $p\left(\tfrac12+s\right)+q\left(\tfrac12-s\right)=\tfrac p2+ps+\tfrac q2-qs=\tfrac{p+q}2+(p-q)s$.
+\end{proof}
+
+\begin{alemma}[Solving for the common value]\label{alem:common}
+Let $n,R,z,q,\theta,x,y\in\mathbb{R}$.
+\begin{enumerate}[label=(\roman*)]
+\item $\left(nR+\dfrac12+z\right)-1-\left(\dfrac{n-1}{2}+z\right)=nR-\dfrac n2=\dfrac{2nR-n}{2}$.
+\item If $q\ne 0$ and $q\theta=q/2$, then $\theta=1/2$.
+\item If $x+y=1$ and $x=y$, then $x=y=1/2$.
+\end{enumerate}
+\end{alemma}
+
+\begin{proof}
+(i) The terms $z$ and $-z$ cancel, leaving
+\begin{equation}
+  nR+\frac12-1-\frac{n-1}{2}
+  =nR-\frac12-\frac{n-1}{2}
+  =nR-\frac{1+(n-1)}{2}
+  =nR-\frac n2 ,
+\end{equation}
+and $nR-\dfrac n2=\dfrac{2nR-n}{2}$ by putting both terms over the common denominator $2$.
+
+(ii) Multiplying both sides of $q\theta=q/2$ by $1/q$ (legitimate since $q\ne 0$) gives $\theta=1/2$.
+
+(iii) Substituting $y=x$ into $x+y=1$ gives $2x=1$, so $x=1/2$ and hence $y=1/2$.
+\end{proof}
+
+\begin{alemma}[Affine sum over a finite index set]\label{alem:affinesum}
+Let $I$ be a finite set, let $\kappa,w\in\mathbb{R}$, and let $(z_i)_{i\in I}$ be real numbers.  Then
+\begin{equation}
+  \sum_{i\in I}\bigl(\kappa+w\,z_i\bigr)
+  =|I|\,\kappa+w\sum_{i\in I}z_i .
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+Splitting the sum termwise, $\sum_{i\in I}(\kappa+wz_i)=\sum_{i\in I}\kappa+\sum_{i\in I}wz_i=|I|\kappa+w\sum_{i\in I}z_i$, using that the constant $\kappa$ is summed $|I|$ times and that the constant $w$ factors out of the second sum.
+\end{proof}
+
+\begin{alemma}[Threshold monotonicity]\label{alem:threshold}
+Let $C,x,k\in\mathbb{R}$ and let $w>0$.  Then
+\begin{equation}
+  C+wx\le C+wk
+  \quad\Longleftrightarrow\quad
+  x\le k.
+\end{equation}
+\end{alemma}
+
+\begin{proof}
+Subtracting $C$ from both sides, $C+wx\le C+wk$ is equivalent to $wx\le wk$.  Multiplying both sides by $1/w>0$ preserves the inequality and gives $x\le k$; multiplying $x\le k$ by $w>0$ preserves the inequality and gives $wx\le wk$.  Hence the two statements are equivalent.
+\end{proof}
+
+\begin{alemma}[Gadget position maps]\label{alem:gadget}
+Let $n\ge 2$ be an integer and let $u,v,x_1,\ldots,x_{n-2}$ be $n$ distinct symbols; write $W=\{u,v,x_1,\ldots,x_{n-2}\}$.  Define two maps $P_1,P_2\colon W\to\{1,\ldots,n\}$ by
+\begin{equation}\label{eq:abstract-positions}
+\begin{aligned}
+  P_1(u)&=1, & P_1(v)&=2, & P_1(x_j)&=2+j &&(1\le j\le n-2),\\
+  P_2(u)&=n-1, & P_2(v)&=n, & P_2(x_j)&=n-1-j &&(1\le j\le n-2).
+\end{aligned}
+\end{equation}
+Then $P_1$ and $P_2$ are bijections onto $\{1,\ldots,n\}$, and:
+\begin{enumerate}[label=(G\arabic*)]
+\item\label{g:own} $P_1(u)<P_1(v)$ and $P_2(u)<P_2(v)$;
+\item\label{g:split} for every unordered pair $\{w,w'\}\subseteq W$ with $\{w,w'\}\ne\{u,v\}$,
+\begin{equation}
+  \ind[P_1(w)<P_1(w')]+\ind[P_2(w)<P_2(w')]=1;
+\end{equation}
+\item\label{g:ranksum} the two-map position sums are
+\begin{equation}
+  P_1(u)+P_2(u)=n,\qquad
+  P_1(v)+P_2(v)=n+2,\qquad
+  P_1(x_j)+P_2(x_j)=n+1
+\end{equation}
+for every $j$ with $1\le j\le n-2$.
+\end{enumerate}
+\end{alemma}
+
+\begin{proof}
+\emph{Bijectivity.}  The image of $P_1$ is $\{1,2\}\cup\{2+j:1\le j\le n-2\}=\{1,2\}\cup\{3,\ldots,n\}=\{1,\ldots,n\}$, and $P_1$ is injective because the three defining clauses have pairwise disjoint images and $j\mapsto 2+j$ is injective.  The image of $P_2$ is $\{n-1,n\}\cup\{n-1-j:1\le j\le n-2\}=\{n-1,n\}\cup\{1,\ldots,n-2\}=\{1,\ldots,n\}$, and injectivity holds for the same reasons.  A map between finite sets of equal cardinality that is injective and has full image is a bijection.
+
+The three enumerated claims are verified directly from \eqref{eq:abstract-positions}.
+
+\ref{g:own}: $1<2$ and $n-1<n$.
+
+\ref{g:split}: a pair $\{w,w'\}\ne\{u,v\}$ is of one of three types.
+\begin{itemize}
+\item $\{x_j,x_{j'}\}$ with $1\le j<j'\le n-2$: under $P_1$, $2+j<2+j'$; under $P_2$, $n-1-j>n-1-j'$.  So exactly $P_1$ places $x_j$ before $x_{j'}$, and the two indicators for the pair sum to $1$ in either orientation of $(w,w')$.
+\item $\{u,x_j\}$: under $P_1$, $1<2+j$; under $P_2$, $n-1>n-1-j$ since $j\ge 1$.  Exactly $P_1$ places $u$ before $x_j$.
+\item $\{v,x_j\}$: under $P_1$, $2<2+j$ since $j\ge 1$; under $P_2$, $n>n-1-j$.  Exactly $P_1$ places $v$ before $x_j$.
+\end{itemize}
+In each case exactly one of the two maps places $w$ before $w'$, which is the claim.
+
+\ref{g:ranksum}: $1+(n-1)=n$; $\;2+n=n+2$; $\;(2+j)+(n-1-j)=n+1$.
+\end{proof}
+
+\end{document}
