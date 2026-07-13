@@ -33,11 +33,9 @@
 \maketitle
 
 \noindent
-This document accompanies the main note \emph{NP-Hardness of the Ordering Recovery Problem: A Corrected and Simplified Reduction} and its companion appendix \emph{Auxiliary Lemmas} (\texttt{orp\_np\_hardness\_appendix.pdf}).  It contains all definition, lemma, and theorem statements of the main note, with no proofs; the numbering of every statement matches the main note.  Statements are preceded only by the definitional setting they require.  The diagram below records which statement is used in the proof of which other statement.
+This document accompanies the main note \emph{NP-Hardness of the Ordering Recovery Problem: A Corrected and Simplified Reduction} and its companion appendix \emph{Auxiliary Lemmas} (\path{orp_np_hardness_appendix.pdf}).  It contains all definition, lemma, and theorem statements of the main note, with no proofs; the numbering of every statement matches the main note.  Statements are preceded only by the definitional setting they require.  The diagram below records which statement is used in the proof of which other statement.
 
 \section{Dependency diagram}
-
-Solid arrows are dependencies proved in the main note.  Dashed arrows are uses of the auxiliary lemmas A.1--A.15 from the companion appendix, labelled with the specific lemmas invoked.  Lemma~3 (profile construction) is stated entirely in terms of the arc gadgets of Definition~3, so the diagram shows the statement-level dependency Definition~3 $\to$ Lemma~3; the bijectivity and combinatorial properties of the gadget position maps are stated and proved in the companion appendix as Lemma~A.15.  The objective identity, previously derived inline in Section~3.6 of the main note, is now stated as Theorem~1 (equation~\eqref{eq:objective-identity} below).  Likewise, the pairwise posterior probabilities, previously derived inline in Sections~3.4 and~3.5 of the main note, are now stated as Lemma~5 (designated-designated pairs), Lemma~6 (filler-filler pairs), and Lemma~7 (filler-designated pairs).  ``FAST is NP-complete'' is an external input cited from the literature.
 
 \begin{center}
 \begin{tikzpicture}[
@@ -102,9 +100,6 @@ Solid arrows are dependencies proved in the main note.  Dashed arrows are uses o
   \draw[adep] (AP.south east) to[out=-30,in=170] node[lab, pos=0.5, below=2pt] {A.5, A.14} (TH.west);
 \end{tikzpicture}
 \end{center}
-
-\noindent
-Reading guide: Lemma~2's proof uses Lemma~1 and the max--min decomposition A.3.  Lemma~3's proof combines the gadget position properties A.15 with the summation identities A.1--A.2.  Lemma~5 (designated-designated posterior probabilities) combines posterior independence (Lemma~4) with the profile pairwise counts (Lemma~3(i)), the algebra A.4 and A.6--A.7 carrying the computation; its statement reads the result off as a decision weight and constant term in the sense of Lemma~2.  Lemma~6 (filler-filler neutrality) is a pure symmetry argument, using only A.12.  Lemma~7 (filler-designated neutrality) is instead an exact cancellation: it computes the filler-designated marginal from the pointwise rank identity, combining independence (Lemma~4), the profile rank sums (Lemma~3(ii)), and the designated-designated probabilities (Lemma~5), with A.8--A.12 carrying the intermediate computations.  Theorem~1 (the objective identity) combines the pairwise decomposition (Lemma~1), the majority form (Lemma~2), and the pairwise posterior probabilities (Lemmas~5--7), with A.6 counting the pairs and A.13 summing the designated contributions.  Theorem~2 states the reduction $f$ explicitly (its statement references the profile of Lemma~3 and the instance construction) and follows from Theorem~1 via the threshold equivalence A.14, with instance well-formedness supplied by A.5 ($\alpha_u\in(0,1)$) and NP-completeness of FAST supplied by the literature.  Internally to the appendix, A.4 uses A.3 and A.9 uses A.6; A.15 stands alone.
 
 \section{Preliminaries}
 
