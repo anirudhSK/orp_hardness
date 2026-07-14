@@ -167,7 +167,11 @@ In particular, if $p_{ij}=1/2$, the contribution is always $1/2$, independent of
 
 \section{The reduction: statements}
 
-Throughout, $(T,k)$ is a FAST instance with $T=(V,A)$ a tournament on $V=\{1,\ldots,n\}$, $m=\binom n2$, and $\delta_u=\indeg(u)-\outdeg(u)$ for $u\in V$; instances with $n\le 3$ are decided by brute force, so $n\ge 4$ is assumed.  For linear orders $\rho_1,\ldots,\rho_R$ of $V$ and an ordered pair $u\ne v$, $c_{uv}=|\{b:\rho_b(u)<\rho_b(v)\}|$ denotes the number of orders ranking $u$ before $v$.
+Throughout, $(T,k)$ is a FAST instance with $T=(V,A)$ a tournament on $V=\{1,\ldots,n\}$ and $m=\binom n2$.  For $u\in V$, write $\indeg(u)=|\{v:(v,u)\in A\}|$ and $\outdeg(u)=|\{v:(u,v)\in A\}|$ for the in-degree and out-degree of $u$ in $T$, and set
+\begin{equation}
+  \delta_u=\indeg(u)-\outdeg(u),
+\end{equation}
+so that $|\delta_u|\le n-1$.  Instances with $n\le 3$ are decided by brute force, so $n\ge 4$ is assumed.  For linear orders $\rho_1,\ldots,\rho_R$ of $V$ and an ordered pair $u\ne v$, $c_{uv}=|\{b:\rho_b(u)<\rho_b(v)\}|$ denotes the number of orders ranking $u$ before $v$.
 
 \begin{definition}[Arc gadget]\label{def:gadget}
 For a linear order $O$ of $V$ and $w\in V$, write $\pos_O(w)\in\{1,\ldots,n\}$ for the position of $w$ in $O$.  Let $(u,v)\in A$ and fix an arbitrary enumeration $x_1,\ldots,x_{n-2}$ of $V\setminus\{u,v\}$.  The \emph{gadget pair} of the arc $(u,v)$ is the pair of linear orders
