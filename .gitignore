@@ -14,6 +14,7 @@ blueprint/src/print.paux
 *.fls
 *.fdb_latexmk
 *.pdf
+*.synctex.gz
 
 .DS_Store
 
