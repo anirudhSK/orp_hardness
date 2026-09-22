@@ -1,0 +1,108 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{parskip}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+\title{Transitivity of the Likely-Precedes Relation\\ for Symmetric Random Variables}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Setup}
+
+Let $N \geq 3$ and let $\theta_1, \ldots, \theta_N$ be independent, real-valued random variables.
+Suppose each $\theta_i$ is symmetric about some center $\mu_i \in \mathbb{R}$, meaning its density $f_i$ satisfies
+\[
+f_i(\mu_i + t) = f_i(\mu_i - t) \quad \text{for all } t \in \mathbb{R}.
+\]
+No assumption is made on the shape of $f_i$ beyond this symmetry: $f_i$ may be unimodal, multimodal, light- or heavy-tailed. We additionally assume $f_i$ is positive on an interval around $\mu_i$ with no internal gaps (this holds for Gaussian, Laplace, Student-$t$, triangular, and uniform distributions, and any mixture of these; see Remark 1 for why this is needed).
+
+Define the \emph{likely-precedes} relation on $\{\theta_1, \ldots, \theta_N\}$ by
+\[
+\theta_i \prec \theta_j \iff P(\theta_i < \theta_j) > \frac{1}{2}.
+\]
+We show $\prec$ is transitive on any such collection, for any $N \geq 3$.
+
+\section{Pairwise Reduction Lemma}
+
+Showing $\theta_i \prec \theta_j \iff \mu_i < \mu_j$ will help because comparison of means is transitive.
+
+\begin{lemma}[Pairwise reduction]
+For any $i \neq j$,
+\[
+P(\theta_i < \theta_j) > \frac{1}{2} \iff \mu_i < \mu_j.
+\]
+\end{lemma}
+
+\begin{proof}
+Center the variables: let $X := \theta_i - \mu_i$ and $Y := \theta_j - \mu_j$, with densities
+\[
+g_i(x) := f_i(\mu_i + x), \qquad g_j(y) := f_j(\mu_j + y).
+\]
+The symmetry of $f_i$ about $\mu_i$ translates directly into $g_i$ being an even function: $g_i(x) = g_i(-x)$ for all $x$ (and likewise $g_j(y) = g_j(-y)$). This is now a statement purely about the shape of a function, with no reference to $\mu_i, \mu_j$.
+
+Since $X, Y$ are independent, $W := X - Y$ has density given by the cross-correlation
+\[
+p(w) = \int_{-\infty}^{\infty} g_i(x)\, g_j(x - w)\, dx.
+\]
+
+\textbf{Claim: $p$ is even.} Substitute $x = -u$ in $p(-w)$:
+\[
+p(-w) = \int g_i(x)\, g_j(x + w)\, dx = \int g_i(-u)\, g_j(w - u)\, du = \int g_i(u)\, g_j(u - w)\, du = p(w),
+\]
+using $g_i(-u) = g_i(u)$ in the third expression and $g_j(w - u) = g_j(u - w)$ in the fourth -- both are just the evenness of $g_i, g_j$ applied pointwise. So $W$ is symmetric about $0$.
+
+\textbf{From evenness of $p$ to a probability statement.} For $t > 0$,
+\[
+P(W < t) = P(W \leq 0) + \int_0^t p(w)\, dw = \frac{1}{2} + \int_0^t p(w)\, dw,
+\]
+using $P(W \leq 0) = \frac{1}{2}$, which follows from evenness of $p$ (the area under $p$ to the left of $0$ equals the area to the right, and the two together make $1$). This is $> \frac{1}{2}$ exactly when $p > 0$ somewhere on $(0, t)$, which the no-gap hypothesis guarantees. By the same argument with $t < 0$, $P(W < t) < \frac{1}{2}$.
+
+\textbf{Finishing.} Write $c := \mu_i - \mu_j$, so $\theta_i - \theta_j = W + c$, and
+\[
+P(\theta_i < \theta_j) = P(W < -c).
+\]
+Hence
+\begin{align*}
+\mu_i < \mu_j &\implies c < 0 \implies -c > 0 \implies P(W < -c) > \tfrac{1}{2}, \\
+\mu_i > \mu_j &\implies c > 0 \implies -c < 0 \implies P(W < -c) < \tfrac{1}{2}, \\
+\mu_i = \mu_j &\implies P(W < 0) = \tfrac{1}{2},
+\end{align*}
+which together give $P(\theta_i < \theta_j) > \frac{1}{2} \iff \mu_i < \mu_j$.
+\end{proof}
+
+\textbf{Remark 1.} The support hypothesis is what makes the last step strict rather than just $P(W < -c) \geq \frac{1}{2}$. If $W$'s density has a gap straddling $0$, it is possible to have $\mu_i \neq \mu_j$ yet $P(\theta_i < \theta_j) = \frac{1}{2}$ exactly -- a tie rather than a strict preference. This does not create a cycle (the one-directional implication $\theta_i \prec \theta_j \implies \mu_i < \mu_j$ holds regardless of support), but it can break totality: it is possible to construct $\theta_1, \theta_2, \theta_3$, each individually symmetric about its own center, with $\theta_1 \prec \theta_2$, $\theta_2 \prec \theta_3$, and $\theta_1$ tied with $\theta_3$. Common distributions such as Gaussian, Laplace, and their mixtures have no such gaps, so this does not arise for them.
+
+\section{Transitivity for Any $N \geq 3$}
+
+\begin{theorem}[Transitivity]
+The relation $\prec$ is transitive on $\{\theta_1, \ldots, \theta_N\}$ for every $N \geq 3$.
+\end{theorem}
+
+\begin{proof}
+Let $i, j, k$ be any three indices in $\{1, \ldots, N\}$ -- arbitrary, which is what makes the argument work for any $N$, since transitivity is by definition a statement about one triple at a time. Suppose $\theta_i \prec \theta_j$ and $\theta_j \prec \theta_k$.
+
+By Lemma 1 applied to the pair $(i, j)$: $\mu_i < \mu_j$.
+
+By Lemma 1 applied to the pair $(j, k)$: $\mu_j < \mu_k$.
+
+By transitivity of the standard total order on $\mathbb{R}$: $\mu_i < \mu_k$.
+
+By Lemma 1 applied once more, to the pair $(i, k)$: $\mu_i < \mu_k \implies \theta_i \prec \theta_k$.
+
+Since $i, j, k$ were an arbitrary triple drawn from $\{1, \ldots, N\}$, this holds for every triple in the population, for any $N \geq 3$.
+\end{proof}
+
+\begin{corollary}
+If $\theta_1, \ldots, \theta_N$ are independent random variables, each symmetric about its own center and with no gap in its support around that center (Remark 1), the likely-precedes relation $\prec$ induces a total order on $\{\theta_1, \ldots, \theta_N\}$ for any $N \geq 3$, and no Condorcet-style cycle can occur.
+\end{corollary}
+
+\textbf{Remark 2.} By a classical fact from tournament theory, a tournament (a complete relation with exactly one direction between every pair) is transitive if and only if it contains no 3-cycle. Theorem 1 establishes exactly this: no triple $(i, j, k)$ can cycle. Hence this result, though proved via an arbitrary triple, guarantees transitivity of the entire $N$-variable relation for any $N$. Completeness of the tournament (i.e. no ties, so that every pair is comparable) relies on the no-gap hypothesis, as noted in Remark 1.
+
+\end{document}
